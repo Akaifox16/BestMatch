@@ -1,0 +1,21 @@
+version: '3'
+
+tasks:
+  plan-apply:
+    cmds:
+      - terraform init
+      - terraform plan -var-file="host.tfvars" -var-file="config.tfvars"
+    silent: true
+  apply:
+    cmds:
+      - terraform init
+      - terraform apply -var-file="host.tfvars" -var-file="config.tfvars" --auto-approve
+  plan-destroy:
+    cmds:
+      - terraform init
+      - terraform plan -destroy -var-file="host.tfvars" -var-file="config.tfvars"
+    silent: true
+  destroy:
+    cmds:
+      - terraform init
+      - terraform destroy -var-file="host.tfvars" -var-file="config.tfvars" --auto-approve

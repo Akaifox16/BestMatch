@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  backend-db:
+    image: postgres:15
+    ports:
+      - 5433:5432
+    networks:
+      - backend-network
+    volumes:
+      - backend-db:/var/lib/postgresql/data
+    env_file:
+      - ./db.env
+  next-app:
+    container_name: next-server
+    build:
+      context: .
+    ports:
+      - 3000:3000
+    networks:
+      - backend-network
+networks:
+  backend-network: 
+volumes:
+  backend-db:

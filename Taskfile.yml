@@ -1,0 +1,24 @@
+version: '3'
+
+includes:
+  postgres-manager: ./terraform/postgres-manager
+
+tasks:
+  run-dev:
+    cmds:
+      - docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+      - echo -e '\e[32mrunning...\e[0m'
+    silent: true
+  stop-dev:
+    cmds:
+      - echo -e '\e[33mshutting down...\e[0m'
+      - docker-compose down -v
+  build:
+    cmds:
+      - echo -e '\e[33mbuilding...\e[0m'
+    silent: true
+  serve:
+    cmds:
+      - echo -e '\e[32mserving...\e[0m'
+    silent: true
+  
