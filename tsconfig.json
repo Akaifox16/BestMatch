@@ -18,6 +18,7 @@
     "paths": {
       "@theme/*": ["styles/theme/*"],
       "@utility/*": ["utilities/*"],
+      "@server/*": ["server/*"],
       "@component/*": ["components/*"]
     }
   },

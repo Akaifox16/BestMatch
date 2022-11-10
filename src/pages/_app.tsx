@@ -5,6 +5,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import lightTheme from '@theme/lightTheme'
 import { AppProps } from 'next/app'
 import Layout from '@component/Layout'
+import { trpc } from '@utility/trpc'
 
 interface MUIAppProps extends AppProps {
   emotionCache?: EmotionCache
@@ -12,7 +13,7 @@ interface MUIAppProps extends AppProps {
 
 const clientSideEmotionCache = createEmotionCache()
 
-export default function App({ Component, emotionCache = clientSideEmotionCache, pageProps }: MUIAppProps) {
+const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: MUIAppProps) => {
   return (
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={lightTheme}>
@@ -24,3 +25,5 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
       </CacheProvider>
     )
 }
+
+export default trpc.withTRPC(App)

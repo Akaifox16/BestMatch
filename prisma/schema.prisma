@@ -9,3 +9,112 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Sex {
+  MALE
+  FEMALE
+}
+
+enum YesNo {
+  YES
+  NO
+}
+
+enum Activity {
+  CAFE
+  PLAY
+  REST
+  DRINK
+}
+
+model User {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  firstname String
+  lastname String
+  email String @unique
+  password String
+
+  // personal information
+  date_of_birth DateTime
+  personal_id Int @unique
+  sex Sex
+
+  // have only 1 profile
+  profile Profile? @relation("belongToUser")
+  // have only 1 preference
+  mate_preference Profile? @relation("isPreferenceOf")
+  // lived in
+  roomId String?
+  room Room? @relation(name: "livedInRoom", fields: [roomId], references: [id])  
+}
+
+model Profile {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // belongs to user
+  userId String @unique
+  user User @relation(name: "belongToUser",fields: [userId], references: [id])
+  // is preference of user
+  preference_ownerId String @unique
+  preference_owner User @relation(name: "isPreferenceOf", fields: [preference_ownerId], references: [id])
+
+  loud_player YesNo
+  // weekend_lifestyle
+  sleep_period_lo DateTime
+  sleep_period_hi DateTime
+  keep_clean Int
+}
+
+// ################################
+// ##          Dormitory         ##
+// ################################
+model Dorm {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String
+  sex Sex
+  
+  // has many floors
+  floors Floor[] @relation("haveFloor")
+}
+
+model Floor {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // belong to dorm
+  dormId String
+  dorm Dorm @relation(name: "haveFloor", fields: [dormId], references: [id])
+  // have many rooms
+  rooms Room[]
+
+}
+
+enum Zone {
+  DESERT
+  JUNGLE
+}
+
+model Room {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // belong to floor
+  floorId String
+  floor Floor @relation(fields: [floorId], references: [id])
+
+  room_number Int
+  zone Zone
+
+  // have many residents
+  residents User[] @relation("livedInRoom")
+}
