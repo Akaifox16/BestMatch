@@ -5,5 +5,5 @@ resource "postgresql_grant" "grant_schema" {
   database = each.value.database
   schema = each.value.schema
   object_type = "schema"
-  privs = each.value.privs
+  privileges = each.value.privs
 }

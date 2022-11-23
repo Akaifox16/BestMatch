@@ -4,5 +4,5 @@ resource "postgresql_grant" "grant_database" {
   role = each.value.role
   database = each.value.database
   object_type = "database"
-  privs = each.value.privs
+  privileges = each.value.privs
 }

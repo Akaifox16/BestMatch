@@ -6,7 +6,7 @@ resource "postgresql_grant" "grant_all_table" {
   schema = each.value.schema
   object_type = "table"
   objects = []
-  privs = each.value.privs
+  privileges  = each.value.privs
 }
 
 resource "postgresql_grant" "grant_table" {
@@ -17,7 +17,7 @@ resource "postgresql_grant" "grant_table" {
   schema = each.value.schema
   object_type = "table"
   objects = each.value.tables
-  privs = each.value.privs
+  privileges  = each.value.privs
 
   depends_on = [
     postgresql_grant.grant_all_table

@@ -2,6 +2,7 @@ version: '3'
 
 includes:
   postgres-manager: ./terraform/postgres-manager
+  prisma: ./prisma
 
 tasks:
   run-dev:
@@ -12,6 +13,10 @@ tasks:
   stop-dev:
     cmds:
       - echo -e '\e[33mshutting down...\e[0m'
+      - docker-compose down
+  purge-dev:
+    cmds:
+      - echo -e '\e[33mpurge...\e[0m'
       - docker-compose down -v
   build:
     cmds:

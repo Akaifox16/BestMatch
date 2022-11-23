@@ -4,18 +4,18 @@ tasks:
   plan-apply:
     cmds:
       - terraform init
-      - terraform plan -var-file="host.tfvars" -var-file="config.tfvars" 
+      - terraform plan -var-file="./configs/host.tfvars" -var-file="./configs/config.tfvars" 
     silent: true
   apply:
     cmds:
       - terraform init
-      - terraform apply -var-file="host.tfvars" -var-file="config.tfvars" --auto-approve --parallelism=1
+      - terraform apply -var-file="./configs/host.tfvars" -var-file="./configs/config.tfvars" --auto-approve --parallelism=1
   plan-destroy:
     cmds:
       - terraform init
-      - terraform plan -destroy -var-file="host.tfvars" -var-file="config.tfvars"
+      - terraform plan -destroy -var-file="./configs/host.tfvars" -var-file="./configs/config.tfvars"
     silent: true
   destroy:
     cmds:
       - terraform init
-      - terraform destroy -var-file="host.tfvars" -var-file="config.tfvars" --auto-approve --parallelism=1
+      - terraform destroy -var-file="./configs/host.tfvars" -var-file="./configs/config.tfvars" --auto-approve --parallelism=1

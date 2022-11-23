@@ -15,6 +15,16 @@ resource "postgresql_database" "databases" {
   lc_ctype   = each.value.ctype
 }
 
+# resource "postgresql_schema" "schemas" {
+#   for_each = ""
+
+#   name = each.key
+#   owner = "postgres"
+#   drop_cascade = true
+
+  
+# }
+
 ##########################################################################################
 # Create Groups
 ##########################################################################################
@@ -50,7 +60,7 @@ resource "postgresql_role" "users" {
   login    = true
   password = random_string.passwords[each.key].result
   roles    = contains(keys(local.users_granted_groups), each.key) ? local.users_granted_groups[each.key] : []
-  connection_limit = each.value.conn_limit
+  connection_limit = -1
 
   depends_on = [
     postgresql_role.groups,

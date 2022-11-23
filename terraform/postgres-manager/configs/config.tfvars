@@ -1,4 +1,4 @@
-database = {
+databases= {
   autoroommate = {
     encoding = "UTF8",
     collate = "en_US.utf8",
@@ -16,7 +16,7 @@ groups = {
   autoroommate-app = {
     db_privs = [
       {
-        dbname = autoroommate
+        dbname = "autoroommate"
         schema_privs = [
           {
             schema = "roommate"

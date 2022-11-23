@@ -10,14 +10,142 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Sex {
-  MALE
-  FEMALE
+model User {
+  id        String    @id @default(cuid())
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  first_name String
+  last_name  String
+  email      String @unique
+  password   String
+
+  date_of_birth DateTime
+  personal_id   Int      @unique
+  sex           Sex
+
+  has_profile         Profile?        @relation("belong_to_user")
+  has_mate_preference Profile?        @relation("preference_of")
+  has_room_preference DormPreference? @relation("has_dorm_preference")
+
+  roomId   String?
+  lived_in Room?   @relation("lived_in", fields: [roomId], references: [id])
+}
+
+model Profile {
+  id        String    @id @default(cuid())
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  userId         String @unique
+  belong_to_user User   @relation("belong_to_user", fields: [userId], references: [id])
+
+  preference_ownerId String @unique
+  preference_of      User   @relation("preference_of", fields: [preference_ownerId], references: [id])
+
+  loud_player ThreeChoice
+  bed_time_lo DateTime
+  bed_time_hi DateTime
+  keep_clean  Int
+}
+
+model DormPreference {
+  id        String    @id @default(cuid())
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  userId         String @unique
+  belong_to_user User   @relation("has_dorm_preference", fields: [userId], references: [id])
+
+  has_canteen      ThreeChoice
+  has_minimart     ThreeChoice
+  has_laundry      ThreeChoice
+  close_to_transit ThreeChoice
+  dorm_type DormTypePrefer
+
+  about_room_preference RoomPreference? @relation("belong_to_dorm_preference")
+}
+
+model RoomPreference {
+  id        String    @id @default(cuid())
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  preferenceId              String         @unique
+  belong_to_dorm_preference DormPreference @relation("belong_to_dorm_preference", fields: [preferenceId], references: [id])
+
+  zone            Zone
+  floor_number    Int
+  residents_limit Int
+
+  close_to_computer_room ThreeChoice
+  close_to_shower_room   ThreeChoice
+  close_to_stair         ThreeChoice
+}
+
+model Dorm {
+  id        String    @id @default(cuid())
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  name String
+  sex  Sex
+  dorm_type DormType
+
+  floors Floor[] @relation("belong_to_dorm")
+}
+
+model Floor {
+  id        String    @id @default(cuid())
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  dormId         String
+  belong_to_dorm Dorm   @relation("belong_to_dorm", fields: [dormId], references: [id])
+
+  floor_number Int
+  has_computer_room YesNo
+
+  rooms        Room[]
+}
+
+model Room {
+  id        String    @id @default(cuid())
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  floorId         String?
+  belong_to_floor Floor?  @relation(fields: [floorId], references: [id])
+
+  room_number    Int
+  resident_limit Int
+  zone           Zone
+
+  residents User[] @relation("lived_in")
+}
+
+enum DormType {
+  BUFFET
+  PREMIUM_BUFFET
+  MONTHLY
+}
+
+enum DormTypePrefer {
+  BUFFET
+  PREMIUM_BUFFET
+  MONTHLY
+  IGNORE
 }
 
 enum YesNo {
   YES
   NO
+}
+
+enum ThreeChoice {
+  YES
+  NO
+  IGNORE
 }
 
 enum Activity {
@@ -27,94 +155,12 @@ enum Activity {
   DRINK
 }
 
-model User {
-  id String @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  firstname String
-  lastname String
-  email String @unique
-  password String
-
-  // personal information
-  date_of_birth DateTime
-  personal_id Int @unique
-  sex Sex
-
-  // have only 1 profile
-  profile Profile? @relation("belongToUser")
-  // have only 1 preference
-  mate_preference Profile? @relation("isPreferenceOf")
-  // lived in
-  roomId String?
-  room Room? @relation(name: "livedInRoom", fields: [roomId], references: [id])  
-}
-
-model Profile {
-  id String @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // belongs to user
-  userId String @unique
-  user User @relation(name: "belongToUser",fields: [userId], references: [id])
-  // is preference of user
-  preference_ownerId String @unique
-  preference_owner User @relation(name: "isPreferenceOf", fields: [preference_ownerId], references: [id])
-
-  loud_player YesNo
-  // weekend_lifestyle
-  sleep_period_lo DateTime
-  sleep_period_hi DateTime
-  keep_clean Int
-}
-
-// ################################
-// ##          Dormitory         ##
-// ################################
-model Dorm {
-  id String @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  name String
-  sex Sex
-  
-  // has many floors
-  floors Floor[] @relation("haveFloor")
-}
-
-model Floor {
-  id String @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // belong to dorm
-  dormId String
-  dorm Dorm @relation(name: "haveFloor", fields: [dormId], references: [id])
-  // have many rooms
-  rooms Room[]
-
-}
-
 enum Zone {
   DESERT
   JUNGLE
 }
 
-model Room {
-  id String @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // belong to floor
-  floorId String
-  floor Floor @relation(fields: [floorId], references: [id])
-
-  room_number Int
-  zone Zone
-
-  // have many residents
-  residents User[] @relation("livedInRoom")
+enum Sex {
+  MALE
+  FEMALE
 }
