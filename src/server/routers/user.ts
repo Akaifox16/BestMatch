@@ -3,6 +3,8 @@ import { publicProcedure, router } from '@server/trpc'
 
 import {
 	addPrefDto,
+	addProfileDto,
+	bookRoomDto,
 	createUserDto,
 	editPrefDto,
 	editProfileDto,
@@ -13,7 +15,7 @@ import { userIdResponse, userResponse } from '@server/types/user'
 export const userRouter = router({
 	// get user profile
 	getProfile: publicProcedure
-	 	.output(userResponse.nullable())
+		.output(userResponse.nullable())
 		.query(async () => {
 			const userId = 'this-is-user-cuid'
 
@@ -24,11 +26,11 @@ export const userRouter = router({
 					email: true,
 					date_of_birth: true,
 					personal_id: true,
-					sex: true
+					sex: true,
 				},
 				where: {
-					id: userId
-				}
+					id: userId,
+				},
 			})
 
 			return user
@@ -46,54 +48,98 @@ export const userRouter = router({
 
 			return userId
 		}),
+	
+	// add user profile
+	addProfile: publicProcedure
+		.input(addProfileDto)
+		.mutation(async ({ input }) => {
 
+		}),
+	
 	// edit user profile
 	editProfile: publicProcedure
 		.input(editProfileDto)
-		.mutation(({ input }) => {
-			return {
-				message: 'need implementation',
-			}
+		.mutation(async ({ input }) => {
+			const userId = 'this-should-be-user-cuid'
+
+			const profile = await prisma.user.update({
+				data: input,
+				where: { id: userId },
+			})
+
+			return profile
 		}),
 
 	// add user's roommate preference
 	addPreference: publicProcedure
 		.input(addPrefDto)
-		.mutation(({ input }) => {
-			return {
-				message: 'need implemetation',
-			}
+		.mutation(async ({ input }) => {
+			const ownerId = 'this-should-be-user-cuid'
+
+			const preference = await prisma.user
+				.update({
+					include: {
+						has_mate_preference: true,
+					},
+					data: {
+						has_mate_preference: {
+							create: input,
+						},
+					},
+					where: {
+						id: ownerId,
+					},
+				})
+				.has_mate_preference()
+
+			return preference
 		}),
-	
+
 	// edit user's roommate preference
-	editPreference: publicProcedure.input(editPrefDto).mutation(() => {
-		return {
-			message: 'need implementation',
-		}
-	}),
-	
-	// book room for user
-	bookRoom: publicProcedure
-		.input(
-			z.object({
-				room_id: z.string().cuid(),
-			})
-		)
+	editPreference: publicProcedure
+		.input(editPrefDto)
 		.mutation(async ({ input }) => {
 			const userId = 'this-should-be-user-cuid'
 
-			const room = await prisma.user.update({
-				data: {
-					roomId: input.room_id
-				},
-				where: {
-					id: userId
-				}
-			}).lived_in()
+			const preference = await prisma.user
+				.update({
+					include: {
+						has_mate_preference: true,
+					},
+					data: {
+						has_mate_preference: {
+							update: input,
+						},
+					},
+					where: {
+						id: userId,
+					},
+				})
+				.has_mate_preference()
+
+			return preference
+		}),
+
+	// book room for user
+	bookRoom: publicProcedure
+		.input(bookRoomDto)
+		.mutation(async ({ input }) => {
+			const userId = 'this-should-be-user-cuid'
+
+			const room = await prisma.user
+				.update({
+					data: {
+						roomId: input.room_id,
+					},
+					where: {
+						id: userId,
+					},
+				})
+				.lived_in()
 
 			return {
 				message: `user booked room ${room.room_number} successfully!!`,
-				room_no: room.room_number
+				room_no: room.room_number,
 			}
 		}),
 })

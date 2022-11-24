@@ -24,9 +24,12 @@ model User {
   personal_id   Int      @unique
   sex           Sex
 
-  has_profile         Profile?        @relation("belong_to_user")
-  has_mate_preference Profile?        @relation("preference_of")
-  has_room_preference DormPreference? @relation("has_dorm_preference")
+  profile_id          String?         @unique
+  has_profile         Profile?        @relation("belong_to_user", fields: [profile_id], references: [id])
+  mate_pref_id        String?         @unique
+  has_mate_preference Profile?        @relation("preference_of", fields: [mate_pref_id], references: [id])
+  dorm_preference_id  String?         @unique
+  has_dorm_preference DormPreference? @relation("dorm_preference_of", fields: [dorm_preference_id], references: [id])
 
   roomId   String?
   lived_in Room?   @relation("lived_in", fields: [roomId], references: [id])
@@ -37,11 +40,8 @@ model Profile {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
-  userId         String @unique
-  belong_to_user User   @relation("belong_to_user", fields: [userId], references: [id])
-
-  preference_ownerId String @unique
-  preference_of      User   @relation("preference_of", fields: [preference_ownerId], references: [id])
+  belong_to_user User? @relation("belong_to_user")
+  preference_of  User? @relation("preference_of")
 
   loud_player ThreeChoice
   bed_time_lo DateTime
@@ -54,16 +54,17 @@ model DormPreference {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
-  userId         String @unique
-  belong_to_user User   @relation("has_dorm_preference", fields: [userId], references: [id])
+  owner User? @relation("dorm_preference_of")
 
   has_canteen      ThreeChoice
   has_minimart     ThreeChoice
   has_laundry      ThreeChoice
   close_to_transit ThreeChoice
-  dorm_type DormTypePrefer
+  dorm_type        DormTypePrefer
 
-  about_room_preference RoomPreference? @relation("belong_to_dorm_preference")
+  room_pref_id          String         @unique
+  about_room_preference RoomPreference @relation("belong_to_dorm_preference", fields: [room_pref_id], references: [id])
+  userId                String
 }
 
 model RoomPreference {
@@ -71,8 +72,7 @@ model RoomPreference {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
-  preferenceId              String         @unique
-  belong_to_dorm_preference DormPreference @relation("belong_to_dorm_preference", fields: [preferenceId], references: [id])
+  belong_to_dorm_preference DormPreference? @relation("belong_to_dorm_preference")
 
   zone            Zone
   floor_number    Int
@@ -88,9 +88,14 @@ model Dorm {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
-  name String
-  sex  Sex
+  name      String
+  sex       Sex
   dorm_type DormType
+
+  has_canteen      YesNo
+  has_minimart     YesNo
+  has_laundry      YesNo
+  close_to_transit YesNo
 
   floors Floor[] @relation("belong_to_dorm")
 }
@@ -103,10 +108,10 @@ model Floor {
   dormId         String
   belong_to_dorm Dorm   @relation("belong_to_dorm", fields: [dormId], references: [id])
 
-  floor_number Int
+  floor_number      Int
   has_computer_room YesNo
 
-  rooms        Room[]
+  rooms Room[]
 }
 
 model Room {
@@ -120,6 +125,9 @@ model Room {
   room_number    Int
   resident_limit Int
   zone           Zone
+
+  close_to_shower_room YesNo
+  close_to_stair       YesNo
 
   residents User[] @relation("lived_in")
 }

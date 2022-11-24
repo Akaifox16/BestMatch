@@ -19,6 +19,7 @@ variable "databases" {
     encoding = string
     collate = string
     ctype   = string
+    schemas = list(string)
   }))
 }
 

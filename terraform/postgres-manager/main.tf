@@ -1,5 +1,14 @@
 locals {
   users_granted_groups = transpose({ for group, attr in var.groups: group => attr.users})
+  schema_in_db = flatten([ for schema, dbs in transpose({for db, attr in var.databases: db => attr.schemas}): [
+      for db in dbs: 
+        {
+          database = db
+          schema = schema
+        } 
+  ]])
+
+  schema_in_db_map = { for it in local.schema_in_db: "${it.database}-${it.schema}" => it }
 }
 
 ##########################################################################################
@@ -15,15 +24,14 @@ resource "postgresql_database" "databases" {
   lc_ctype   = each.value.ctype
 }
 
-# resource "postgresql_schema" "schemas" {
-#   for_each = ""
+resource "postgresql_schema" "schemas" {
+  for_each = local.schema_in_db_map
 
-#   name = each.key
-#   owner = "postgres"
-#   drop_cascade = true
-
-  
-# }
+  name = each.value.schema
+  owner = "postgres"
+  database = each.value.database
+  drop_cascade = true
+}
 
 ##########################################################################################
 # Create Groups
