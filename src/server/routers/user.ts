@@ -1,4 +1,3 @@
-import { z } from 'zod'
 import { publicProcedure, router } from '@server/trpc'
 
 import {
@@ -36,6 +35,14 @@ export const userRouter = router({
 			return user
 		}),
 
+	// get user role
+	getRole: publicProcedure
+		.query(async () => {
+			return {
+				message: 'need implementation'
+			}
+		}),
+	
 	// create user
 	createUser: publicProcedure
 		.input(createUserDto)
@@ -120,6 +127,24 @@ export const userRouter = router({
 			return preference
 		}),
 
+	// add dorm preference
+	addDormPref: publicProcedure
+		// .input()
+		.mutation(async () => {
+			return {
+				message: 'need implementation'
+			}
+		}),
+	
+	// edit dorm preference
+	editDormPref: publicProcedure
+		// .input()
+		.mutation(async () => {
+			return {
+				message: 'need implementation'
+			}
+		}),
+	
 	// book room for user
 	bookRoom: publicProcedure
 		.input(bookRoomDto)

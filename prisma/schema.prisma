@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -43,7 +40,7 @@ model Profile {
   belong_to_user User? @relation("belong_to_user")
   preference_of  User? @relation("preference_of")
 
-  loud_player ThreeChoice
+  loud_player YesNoPrefer
   bed_time_lo DateTime
   bed_time_hi DateTime
   keep_clean  Int
@@ -56,10 +53,10 @@ model DormPreference {
 
   owner User? @relation("dorm_preference_of")
 
-  has_canteen      ThreeChoice
-  has_minimart     ThreeChoice
-  has_laundry      ThreeChoice
-  close_to_transit ThreeChoice
+  has_canteen      YesNoPrefer
+  has_minimart     YesNoPrefer
+  has_laundry      YesNoPrefer
+  close_to_transit YesNoPrefer
   dorm_type        DormTypePrefer
 
   room_pref_id          String         @unique
@@ -78,9 +75,9 @@ model RoomPreference {
   floor_number    Int
   residents_limit Int
 
-  close_to_computer_room ThreeChoice
-  close_to_shower_room   ThreeChoice
-  close_to_stair         ThreeChoice
+  close_to_computer_room YesNoPrefer
+  close_to_shower_room   YesNoPrefer
+  close_to_stair         YesNoPrefer
 }
 
 model Dorm {
@@ -150,7 +147,7 @@ enum YesNo {
   NO
 }
 
-enum ThreeChoice {
+enum YesNoPrefer {
   YES
   NO
   IGNORE
