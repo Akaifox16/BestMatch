@@ -1,0 +1,9 @@
+version: '3'
+
+tasks:
+  migrate:
+    desc: Prisma migrate db & generate @prisma/client
+    cmds:
+      - npx prisma migrate dev
+      - npx prisma generate
+    silent: true
