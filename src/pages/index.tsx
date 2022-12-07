@@ -1,8 +1,9 @@
-import StartApp from '@component/StartApp'
-import { TimelineWithDate } from '@component/SystemTimeline'
-import { Button, Container, Grid, Typography } from '@mui/material'
 import Head from 'next/head'
 import Link from 'next/link'
+
+import { Button, Container, Grid, Typography } from '@mui/material'
+
+import { TimelineWithDate } from '@component/SystemTimeline'
 
 const evtNames = ['register', 'open', 'close', 'annouce']
 const dates: { year: number; month: number; day: number }[] = [

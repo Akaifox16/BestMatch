@@ -1,3 +1,7 @@
+import { useState } from 'react'
+import type { MouseEvent } from 'react'
+import Link from 'next/link'
+
 import { AccountCircle, Logout } from '@mui/icons-material'
 import {
 	Avatar,
@@ -11,9 +15,6 @@ import {
 	Tooltip,
 	Typography,
 } from '@mui/material'
-import { useState } from 'react'
-import type { MouseEvent } from 'react'
-import Link from 'next/link'
 
 const settings = ['Profile']
 

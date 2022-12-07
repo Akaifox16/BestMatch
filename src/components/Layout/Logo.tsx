@@ -1,8 +1,10 @@
 import type { ReactNode } from "react"
-import { display } from '@theme/lightTheme'
+import Link from "next/link"
+
 import { SystemStyleObject, Theme } from "@mui/system"
 import { Typography } from "@mui/material"
-import Link from "next/link"
+
+import { display } from '@theme/lightTheme'
 
 interface LogoProps {
 	name: string

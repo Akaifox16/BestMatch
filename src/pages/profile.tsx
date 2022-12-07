@@ -1,6 +1,6 @@
-import ProfileCard from '@component/ProfileCard'
-import { Button, Grid, Paper, Typography } from '@mui/material'
 import Head from 'next/head'
+
+import ProfileCard from '@component/ProfileCard'
 
 const Profile = () => {
 	return (

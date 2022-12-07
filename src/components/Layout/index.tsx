@@ -1,6 +1,7 @@
-import { Container } from "@mui/material";
-import { AppProps } from "next/app";
 import React from "react";
+
+import { Container } from "@mui/material";
+
 import Header from "./Header";
 
 interface LayoutProps {
