@@ -1,4 +1,12 @@
-import { Button, Grid, Paper, Slider, TextField, Typography } from '@mui/material'
+import {
+	Button,
+	Grid,
+	Paper,
+	Slider,
+	TextField,
+	Typography,
+} from '@mui/material'
+import { display } from '@theme/lightTheme'
 import DotSlider from './Input/DotSlider'
 
 const ProfileCard = () => {
@@ -11,9 +19,7 @@ const ProfileCard = () => {
 					xs={8}
 					sx={{ justifyContent: 'left', display: 'flex' }}
 				>
-					<Typography variant='h4'>
-						Profile
-					</Typography>
+					<Typography variant='h4'>Profile</Typography>
 				</Grid>
 				<Grid
 					item
@@ -22,21 +28,39 @@ const ProfileCard = () => {
 				>
 					{/* configuration icon here */}
 					<Button color='success' variant='contained'>
-						edit
+						แก้ไข
 					</Button>
 				</Grid>
 
 				{/* 2nd row */}
-				<Grid item xs={12} md={6}>
-					<TextField label='First name' variant='outlined' />
+				<Grid item xs={12} md={8}>
+					<TextField
+						label='ชื่อ'
+						variant='outlined'
+						sx={{ display: { xs: 'none', md: 'inline-flex' }, mr: 4 }}
+					/>
+					<TextField
+						label='สกุล'
+						variant='outlined'
+						sx={{ display: { xs: 'none', md: 'inline-flex' }, ml: 4 }}
+					/>
+					<TextField
+						label='ชื่อ'
+						variant='outlined'
+						sx={{ display: display.mobile.main }}
+					/>
 				</Grid>
 				<Grid item xs={12} md={6}>
-					<TextField label='Last name' variant='outlined' />
+					<TextField
+						label='สกุล'
+						variant='outlined'
+						sx={{ display: display.mobile.main }}
+					/>
 				</Grid>
 
 				{/* scale group */}
 				<Grid item xs={12} md={8}>
-					<DotSlider 
+					<DotSlider
 						fieldName='การรักษาความสะอาด'
 						defaultValue={4}
 						step={1}
@@ -46,7 +70,7 @@ const ProfileCard = () => {
 				</Grid>
 				<Grid item xs={0} md={4}></Grid>
 				<Grid item xs={12} md={8}>
-					<DotSlider 
+					<DotSlider
 						fieldName='ทนทานต่อเสียงรบกวน'
 						defaultValue={4}
 						step={1}
