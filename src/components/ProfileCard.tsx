@@ -8,6 +8,7 @@ import {
 } from '@mui/material'
 import { display } from '@theme/lightTheme'
 import DotSlider from './Input/DotSlider'
+import RangeSlider from './Input/RangeSlider'
 
 const ProfileCard = () => {
 	return (
@@ -50,7 +51,7 @@ const ProfileCard = () => {
 						sx={{ display: display.mobile.main }}
 					/>
 				</Grid>
-				<Grid item xs={12} md={6}>
+				<Grid item xs={12}>
 					<TextField
 						label='สกุล'
 						variant='outlined'
@@ -59,7 +60,7 @@ const ProfileCard = () => {
 				</Grid>
 
 				{/* scale group */}
-				<Grid item xs={12} md={8}>
+				<Grid item xs={12} md={4}>
 					<DotSlider
 						fieldName='การรักษาความสะอาด'
 						defaultValue={4}
@@ -67,9 +68,6 @@ const ProfileCard = () => {
 						min={1}
 						max={9}
 					/>
-				</Grid>
-				<Grid item xs={0} md={4}></Grid>
-				<Grid item xs={12} md={8}>
 					<DotSlider
 						fieldName='ทนทานต่อเสียงรบกวน'
 						defaultValue={4}
@@ -78,7 +76,20 @@ const ProfileCard = () => {
 						max={9}
 					/>
 				</Grid>
-				<Grid item xs={0} md={4}></Grid>
+				<Grid
+					item
+					xs={12}
+					md={8}
+					sx={{ backgroundColor: 'green' }}
+				></Grid>
+
+				<Grid item xs={12} md={6}>
+					<RangeSlider
+						fieldName='เวลานอน'
+						min={1}
+						max={9}
+					/>
+				</Grid>
 			</Grid>
 		</Paper>
 	)

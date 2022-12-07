@@ -1,6 +1,6 @@
 import { Slider, Typography } from "@mui/material"
 
-type DotSliderProps = {
+export type DotSliderProps = {
   fieldName: string
   defaultValue: number
   step: number
