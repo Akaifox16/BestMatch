@@ -1,5 +1,3 @@
-import Head from 'next/head'
-
 import ProfileCard from '@component/ProfileCard'
 import CustomHeader from '@component/CustomHeader'
 

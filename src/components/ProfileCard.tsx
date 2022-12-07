@@ -1,16 +1,17 @@
-import { Button, Grid, Paper, TextField, Typography } from '@mui/material'
+import { Button, Grid, Paper, Slider, TextField, Typography } from '@mui/material'
+import DotSlider from './Input/DotSlider'
 
 const ProfileCard = () => {
 	return (
 		<Paper elevation={1} variant='outlined' sx={{ m: 8 }}>
-			<Grid container spacing={2} sx={{ my: 2 }}>
+			<Grid container spacing={2} sx={{ my: 2, p: 4 }}>
 				{/* 1st row */}
 				<Grid
 					item
 					xs={8}
 					sx={{ justifyContent: 'left', display: 'flex' }}
 				>
-					<Typography variant='h4' sx={{ ml: 4 }}>
+					<Typography variant='h4'>
 						Profile
 					</Typography>
 				</Grid>
@@ -20,7 +21,7 @@ const ProfileCard = () => {
 					sx={{ justifyContent: 'right', display: 'flex' }}
 				>
 					{/* configuration icon here */}
-					<Button color='success' variant='contained' sx={{ mr: 8 }}>
+					<Button color='success' variant='contained'>
 						edit
 					</Button>
 				</Grid>
@@ -34,9 +35,25 @@ const ProfileCard = () => {
 				</Grid>
 
 				{/* scale group */}
-				<Grid item xs={12} md={8}></Grid>
+				<Grid item xs={12} md={8}>
+					<DotSlider 
+						fieldName='การรักษาความสะอาด'
+						defaultValue={4}
+						step={1}
+						min={1}
+						max={9}
+					/>
+				</Grid>
 				<Grid item xs={0} md={4}></Grid>
-				<Grid item xs={12} md={8}></Grid>
+				<Grid item xs={12} md={8}>
+					<DotSlider 
+						fieldName='ทนทานต่อเสียงรบกวน'
+						defaultValue={4}
+						step={1}
+						min={1}
+						max={9}
+					/>
+				</Grid>
 				<Grid item xs={0} md={4}></Grid>
 			</Grid>
 		</Paper>
