@@ -1,7 +1,13 @@
+import CustomHeader from "@component/CustomHeader";
+
 const summary = () => {
   return (
     <div>
-      Enter Summary page
+      <CustomHeader pageName='summary' />
+
+      <main>
+        Welcome to summary page
+      </main>
     </div>
   );
 }

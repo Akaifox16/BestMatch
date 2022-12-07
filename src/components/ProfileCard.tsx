@@ -1,4 +1,4 @@
-import { Button, Grid, Paper, Typography } from '@mui/material'
+import { Button, Grid, Paper, TextField, Typography } from '@mui/material'
 
 const ProfileCard = () => {
 	return (
@@ -26,8 +26,12 @@ const ProfileCard = () => {
 				</Grid>
 
 				{/* 2nd row */}
-				<Grid item xs={12} md={6}></Grid>
-				<Grid item xs={12} md={6}></Grid>
+				<Grid item xs={12} md={6}>
+					<TextField label='First name' variant='outlined' />
+				</Grid>
+				<Grid item xs={12} md={6}>
+					<TextField label='Last name' variant='outlined' />
+				</Grid>
 
 				{/* scale group */}
 				<Grid item xs={12} md={8}></Grid>

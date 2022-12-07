@@ -1,14 +1,12 @@
 import Head from 'next/head'
 
 import ProfileCard from '@component/ProfileCard'
+import CustomHeader from '@component/CustomHeader'
 
 const Profile = () => {
 	return (
 		<div>
-			<Head>
-				<title>BestMatch</title>
-				<link rel='icon' href='/favicon.ico' />
-			</Head>
+			<CustomHeader pageName='profile' />	
 
 			<main>
         <ProfileCard />

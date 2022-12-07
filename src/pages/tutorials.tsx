@@ -1,7 +1,13 @@
+import CustomHeader from "@component/CustomHeader";
+
 const tutorials = () => {
   return (
     <div>
-      Enter tutorials page
+      <CustomHeader pageName='tutorial' />
+
+      <main>
+        Welcome to tutorial page
+      </main>
     </div>
   );
 }
