@@ -1,8 +1,11 @@
 import {
 	Button,
+	FormControlLabel,
+	FormGroup,
 	Grid,
 	Paper,
 	Slider,
+	Switch,
 	TextField,
 	Typography,
 } from '@mui/material'
@@ -59,7 +62,7 @@ const ProfileCard = () => {
 					/>
 				</Grid>
 
-				{/* scale group */}
+				{/* Slider group */}
 				<Grid item xs={12} md={4}>
 					<DotSlider
 						fieldName='การรักษาความสะอาด'
@@ -75,6 +78,13 @@ const ProfileCard = () => {
 						min={1}
 						max={9}
 					/>
+					<DotSlider
+						fieldName='เที่ยวกลางคืน'
+						defaultValue={4}
+						step={1}
+						min={1}
+						max={4}
+					/>
 				</Grid>
 				<Grid
 					item
@@ -83,13 +93,41 @@ const ProfileCard = () => {
 					sx={{ backgroundColor: 'green' }}
 				></Grid>
 
-				<Grid item xs={12} md={6}>
+				{/* Range slider group */}
+				<Grid item xs={12} md={5}>
 					<RangeSlider
 						fieldName='เวลานอน'
 						min={1}
-						max={9}
+						max={24}
+					/>
+					<RangeSlider
+						fieldName='เล่นเกม'
+						min={1}
+						max={24}
+					/>
+					<RangeSlider
+						fieldName='นอนกลางวัน'
+						min={1}
+						max={24}
+					/>
+					<RangeSlider
+						fieldName='สังสรรค์กับเพื่อน'
+						min={1}
+						max={24}
 					/>
 				</Grid>
+				{/* Life style group */}
+				<Grid item xs={0} md={7} />
+				<Grid item xs={12} md={5}>
+				{/* Toggle Button Group */}
+				<FormGroup row>
+					{/* <FormControlLabel control={<Switch />}label='เล่นเกมเสียงดัง' /> */}
+					<FormControlLabel control={<Switch />}label='ช่างพูด' />
+					{/* <FormControlLabel control={<Switch />}label='ชอบเที่ยวกลางคืน' /> */}
+					<FormControlLabel control={<Switch />}label='นอนกรน' />
+				</FormGroup>
+				</Grid>
+
 			</Grid>
 		</Paper>
 	)

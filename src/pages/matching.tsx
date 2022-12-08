@@ -1,5 +1,4 @@
 import CustomHeader from '@component/CustomHeader'
-import Head from 'next/head'
 
 const MatchingPage = () => {
   return (
@@ -7,7 +6,7 @@ const MatchingPage = () => {
       <CustomHeader pageName='matching' />
 
       <main>
-        
+        <div>Welcome to matching page</div>
       </main>
     </div>
   )

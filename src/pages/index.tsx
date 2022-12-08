@@ -39,11 +39,19 @@ export default function Home() {
 						xs={4}
 						sx={{ justifyContent: 'center', display: 'flex' }}
 					>
-						<Button variant='contained' sx={{ mr: 1 }}>
-							quick start
-						</Button>
+						<Link href='/matching'>
+							<Button variant='contained' sx={{ mr: 1 }}>
+								quick start
+							</Button>
+						</Link>
 						<Link href='/tutorials'>
-							<Button variant='outlined' color='secondary' sx={{ ml: 1 }}>tutorials</Button>
+							<Button
+								variant='outlined'
+								color='secondary'
+								sx={{ ml: 1 }}
+							>
+								tutorials
+							</Button>
 						</Link>
 					</Grid>
 					<Grid item xs={4}></Grid>

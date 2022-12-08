@@ -35,6 +35,7 @@ const RangeSlider = ({ fieldName, min, max, getValueText }: RangeSliderProps) =>
         onChange={handleChange}
         getAriaValueText={getValueText || defaultGetValueText}
         valueLabelDisplay='auto'
+        marks
         step={MIN_DISTANCE}
         min={min}
         max={max}

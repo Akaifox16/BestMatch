@@ -7,6 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ########################################
+// ##                                    ##
+// ##               User                 ##
+// ##                                    ##
+// ########################################
 model User {
   id        String    @id @default(cuid())
   createdAt DateTime? @default(now())
@@ -17,42 +22,67 @@ model User {
   email      String @unique
   password   String
 
-  date_of_birth DateTime
-  // maybe string?
-  personal_id   Int      @unique
-  sex           Sex
+  personal_id String @unique
+  sex         Sex
 
-  profile_id          String?         @unique
-  has_profile         Profile?        @relation("belong_to_user", fields: [profile_id], references: [id])
-  mate_pref_id        String?         @unique
-  has_mate_preference Profile?        @relation("preference_of", fields: [mate_pref_id], references: [id])
-  dorm_preference_id  String?         @unique
-  has_dorm_preference DormPreference? @relation("dorm_preference_of", fields: [dorm_preference_id], references: [id])
+  has_profile         Profile?        @relation("profile_of_user")
+  has_mate_preference Profile?        @relation("mate_pref_of_user")
+  has_dorm_preference DormPreference?
 
   roomId   String?
   lived_in Room?   @relation("lived_in", fields: [roomId], references: [id])
 }
 
+// ########################################
+// ##                                    ##
+// ##        Profile & Mate Pref         ##
+// ##                                    ##
+// ########################################
 model Profile {
   id        String    @id @default(cuid())
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
-  belong_to_user User? @relation("belong_to_user")
-  preference_of  User? @relation("preference_of")
+  owner_id       String @unique
+  belong_to_user User?  @relation("profile_of_user", fields: [owner_id], references: [id])
+  pref_owner_id  String @unique
+  preference_of  User?  @relation("mate_pref_of_user", fields: [pref_owner_id], references: [id])
 
-  loud_player YesNoPrefer
-  bed_time_lo DateTime
-  bed_time_hi DateTime
-  keep_clean  Int
+  talkative YesNoPrefer
+  snore     YesNoPrefer
+  // loud_player YesNoPrefer
+
+  // scale attribute 
+  messiness           Int
+  loudness_resistance Int
+  night_life          Int
+
+  // range attribute
+  sleep_lo DateTime
+  sleep_hi DateTime
+
+  game_lo DateTime
+  game_hi DateTime
+
+  nap_lo DateTime
+  nap_hi DateTime
+
+  party_lo DateTime
+  party_hi DateTime
 }
 
+// ########################################
+// ##                                    ##
+// ##             Dorm Pref              ##
+// ##                                    ##
+// ########################################
 model DormPreference {
   id        String    @id @default(cuid())
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
-  owner User? @relation("dorm_preference_of")
+  owner_id       String @unique
+  belong_to_user User   @relation(fields: [owner_id], references: [id])
 
   has_canteen      YesNoPrefer
   has_minimart     YesNoPrefer
@@ -65,6 +95,11 @@ model DormPreference {
   userId                String
 }
 
+// ########################################
+// ##                                    ##
+// ##             Room Pref              ##
+// ##                                    ##
+// ########################################
 model RoomPreference {
   id        String    @id @default(cuid())
   createdAt DateTime? @default(now())
@@ -81,6 +116,11 @@ model RoomPreference {
   close_to_stair         YesNoPrefer
 }
 
+// ########################################
+// ##                                    ##
+// ##                Dorm                ##
+// ##                                    ##
+// ########################################
 model Dorm {
   id        String    @id @default(cuid())
   createdAt DateTime? @default(now())
@@ -98,6 +138,11 @@ model Dorm {
   floors Floor[] @relation("belong_to_dorm")
 }
 
+// ########################################
+// ##                                    ##
+// ##               Floor                ##
+// ##                                    ##
+// ########################################
 model Floor {
   id        String    @id @default(cuid())
   createdAt DateTime? @default(now())
@@ -112,6 +157,11 @@ model Floor {
   rooms Room[]
 }
 
+// ########################################
+// ##                                    ##
+// ##                Room                ##
+// ##                                    ##
+// ########################################
 model Room {
   id        String    @id @default(cuid())
   createdAt DateTime? @default(now())
@@ -130,6 +180,11 @@ model Room {
   residents User[] @relation("lived_in")
 }
 
+// ########################################
+// ##                                    ##
+// ##                Enum                ##
+// ##                                    ##
+// ########################################
 enum DormType {
   BUFFET
   PREMIUM_BUFFET
@@ -152,13 +207,6 @@ enum YesNoPrefer {
   YES
   NO
   IGNORE
-}
-
-enum Activity {
-  CAFE
-  PLAY
-  REST
-  DRINK
 }
 
 enum Zone {
