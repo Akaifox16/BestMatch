@@ -1,17 +1,13 @@
 import {
 	Button,
-	FormControlLabel,
-	FormGroup,
 	Grid,
 	Paper,
-	Slider,
-	Switch,
 	TextField,
 	Typography,
 } from '@mui/material'
 import { display } from '@theme/lightTheme'
 import DotSlider from './Input/DotSlider'
-import RangeSlider from './Input/RangeSlider'
+import TimeRangeCheckBoxGroup from './Input/TimeRangeCheckboxGroup'
 
 const ProfileCard = () => {
 	return (
@@ -63,71 +59,27 @@ const ProfileCard = () => {
 				</Grid>
 
 				{/* Slider group */}
-				<Grid item xs={12} md={4}>
+				<Grid item xs={12}>
 					<DotSlider
 						fieldName='การรักษาความสะอาด'
-						defaultValue={4}
+						defaultValue={0}
 						step={1}
 						min={1}
 						max={9}
 					/>
 					<DotSlider
-						fieldName='ทนทานต่อเสียงรบกวน'
-						defaultValue={4}
+						fieldName='ทนทานต่อเสียงกรน'
+						defaultValue={0}
 						step={1}
 						min={1}
 						max={9}
 					/>
-					<DotSlider
-						fieldName='เที่ยวกลางคืน'
-						defaultValue={4}
-						step={1}
-						min={1}
-						max={4}
-					/>
-				</Grid>
-				<Grid
-					item
-					xs={12}
-					md={8}
-					sx={{ backgroundColor: 'green' }}
-				></Grid>
-
-				{/* Range slider group */}
-				<Grid item xs={12} md={5}>
-					<RangeSlider
-						fieldName='เวลานอน'
-						min={1}
-						max={24}
-					/>
-					<RangeSlider
-						fieldName='เล่นเกม'
-						min={1}
-						max={24}
-					/>
-					<RangeSlider
-						fieldName='นอนกลางวัน'
-						min={1}
-						max={24}
-					/>
-					<RangeSlider
-						fieldName='สังสรรค์กับเพื่อน'
-						min={1}
-						max={24}
-					/>
-				</Grid>
-				{/* Life style group */}
-				<Grid item xs={0} md={7} />
-				<Grid item xs={12} md={5}>
-				{/* Toggle Button Group */}
-				<FormGroup row>
-					{/* <FormControlLabel control={<Switch />}label='เล่นเกมเสียงดัง' /> */}
-					<FormControlLabel control={<Switch />}label='ช่างพูด' />
-					{/* <FormControlLabel control={<Switch />}label='ชอบเที่ยวกลางคืน' /> */}
-					<FormControlLabel control={<Switch />}label='นอนกรน' />
-				</FormGroup>
 				</Grid>
 
+				{/* Time Range Checkbox  */}
+				<Grid item xs={12}>
+					<TimeRangeCheckBoxGroup fieldName='ช่วงเวลาที่อยากให้งดใช้เสียง' helper='เช่น เวลานอน เวลาอ่านหนังสือ' />
+				</Grid>
 			</Grid>
 		</Paper>
 	)

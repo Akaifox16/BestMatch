@@ -7,7 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 
 import { display } from "@theme/lightTheme"
 
-const pages = ['Summary', 'Tutorials']
+const pages = ['Tutorials', 'Profile', 'Summary']
 
 const NavMenu = () => {
 	const [anchorNav, setAnchorNav] = useState<HTMLElement | null>(null)
