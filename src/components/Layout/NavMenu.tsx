@@ -6,6 +6,8 @@ import { Box, IconButton, Menu, Typography, MenuItem } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu'
 
 import { display } from "@theme/lightTheme"
+import { loggedInSelector, useUserMachine } from "@component/Context/AuthContext"
+import { useSelector } from "@xstate/react"
 
 const pages = ['Tutorials', 'Profile', 'Summary']
 
@@ -17,6 +19,9 @@ const NavMenu = () => {
 	const handleCloseNavMenu = () => {
 		setAnchorNav(null)
 	}
+
+	const userMachine = useUserMachine()
+	const isLoggedIn = useSelector(userMachine.authService, loggedInSelector)
 	return (
 		<>
 			{/* mobile menu */}
@@ -49,16 +54,16 @@ const NavMenu = () => {
 						display: display.mobile.menu,
 					}}
 				>
-					{pages.map((page) => (
-						<NavMenuItem page={page} handleClose={handleCloseNavMenu} />
+					{ pages.map((page) => (
+						<NavMenuItem key={page} page={page} handleClose={handleCloseNavMenu} />
 					))}
 				</Menu>
 			</Box>
 
 			{/* web menu */}
 			<Box sx={{ flexGrow: 1, display: display.web }}>
-				{pages.map((page) => (
-					<NavMenuItem page={page} handleClose={handleCloseNavMenu} />
+				{ isLoggedIn && pages.map((page) => (
+					<NavMenuItem key={page} page={page} handleClose={handleCloseNavMenu} />
 				))}
 			</Box>
 		</>

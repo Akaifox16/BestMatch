@@ -1,3 +1,4 @@
+import { TitleCase } from '@utility/util'
 import Head from 'next/head'
 
 type CustomHeaderProps = {
@@ -14,7 +15,7 @@ type CustomHeaderProps = {
 const CustomHeader = ({ pageName }: CustomHeaderProps) => {
 	return (
 		<Head>
-			<title>BestMatch | {pageName.toUpperCase()}</title>
+			<title>{`${TitleCase(pageName)} | BestMatch`}</title>
 			<link rel='icon' href='/favicon.ico' />
 		</Head>
 	)

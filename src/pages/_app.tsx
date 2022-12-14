@@ -7,6 +7,7 @@ import { AppProps } from 'next/app'
 import Layout from '@component/Layout'
 import { trpc } from '@utility/trpc'
 import { Fragment, ReactNode } from 'react'
+import { UserMachineProvider } from '@component/Context/AuthContext'
 
 interface MUIAppProps extends AppProps {
 	emotionCache?: EmotionCache
@@ -45,10 +46,12 @@ const App = ({
 
 	return (
 		<AppWraper emotionCache={emotionCache}>
-			<LayoutWrapper>
-				<CssBaseline />
-				<Component {...pageProps} />
-			</LayoutWrapper>
+			<UserMachineProvider>
+				<LayoutWrapper>
+					<CssBaseline />
+					<Component {...pageProps} />
+				</LayoutWrapper>
+			</UserMachineProvider>
 		</AppWraper>
 	)
 }

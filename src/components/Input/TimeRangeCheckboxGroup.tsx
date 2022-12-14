@@ -33,6 +33,7 @@ const TimeRangeCheckBoxGroup = ({
 					{timeRange.map((time) => {
 						return (
 							<FormControlLabel
+								key={`${time}.00`}
 								control={<Checkbox defaultChecked />}
 								label={`${time.toString().padStart(2, '0')}:00`}
 								sx={{ my: 1 }}
@@ -48,6 +49,7 @@ const TimeRangeCheckBoxGroup = ({
 						.map((time) => {
 							return (
 								<FormControlLabel
+									key={`${time}.00`}
 									control={<Checkbox />}
 									label={`${time}:00`}
 									sx={{ my: 1 }}

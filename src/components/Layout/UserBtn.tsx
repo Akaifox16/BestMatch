@@ -1,12 +1,13 @@
-import { useState } from 'react'
-import type { MouseEvent } from 'react'
+import { MouseEvent, useEffect } from 'react'
 import Link from 'next/link'
 
 import { AccountCircle, Logout } from '@mui/icons-material'
 import {
 	Avatar,
 	Box,
+	Button,
 	Divider,
+	Grid,
 	IconButton,
 	ListItemIcon,
 	Menu,
@@ -15,6 +16,8 @@ import {
 	Tooltip,
 	Typography,
 } from '@mui/material'
+import { useSelector } from '@xstate/react'
+import { loggedInSelector, useUserMachine } from '@component/Context/AuthContext'
 
 const settings = ['Profile']
 
@@ -53,31 +56,60 @@ const MenuSx = {
 	},
 }
 
-const UserBtn = ({ username }: UserBtnProps) => {
-	const [anchor, setAnchor] = useState<HTMLElement | null>(null)
+const UserBtn = () => {
+	// const [anchor, setAnchor] = useState<HTMLElement | null>(null)
+	const userMachine = useUserMachine()
+	const isLoggedIn = useSelector(userMachine.authService, loggedInSelector)
+	// const handleOpenUserMenu = (evt: MouseEvent<HTMLElement>) => {
+	// 	setAnchor(evt.currentTarget)
+	// }
 
-	const handleOpenUserMenu = (evt: MouseEvent<HTMLElement>) => {
-		setAnchor(evt.currentTarget)
-	}
-
-	const handleCloseUserMenu = () => {
-		setAnchor(null)
-	}
+	// const handleCloseUserMenu = () => {
+	// 	setAnchor(null)
+	// }
+	// useEffect(() => {
+	// 	userMachine.authService.send('LOGGED_IN')
+	// }, [])
 
 	return (
 		<Box sx={{ flexGrow: 0 }}>
-			<Tooltip title='Open settings'>
-				<IconButton onClick={handleOpenUserMenu}>
-					<AccountCircle fontSize='large' />
-				</IconButton>
-			</Tooltip>
-			<UserMenu
+			{/* <Tooltip title='Open settings'>
+			</Tooltip> */}
+			{/* <IconButton onClick={handleOpenUserMenu}> */}
+			{/* </IconButton> */}
+			{/* <UserMenu
 				anchor={anchor}
 				handleCloseMenu={handleCloseUserMenu}
-			/>
+			/> */}
+			{
+				isLoggedIn ?
+				<LogoutBtn /> : <LoginBtn />
+			}
 		</Box>
 	)
 }
+
+const LoginBtn = () => {
+	return <Link href='/login'><Button color='success' variant='contained' >ล็อคอิน</Button></Link>
+}
+
+const LogoutBtn = () => {
+	const userMachine = useUserMachine()
+
+	return (
+			<Grid gap={2} container direction='row'>
+				<Grid item>
+					<AccountCircle fontSize='large' />
+				</Grid>
+				<Grid item>
+					<Button color='error' variant='contained' onClick={() => userMachine.authService.send('LOGGED_OUT')}>
+						<Logout /> ลงชื่อออก
+					</Button>
+				</Grid>
+			</Grid>
+	)
+}
+
 
 type UserMenuProps = {
 	anchor: HTMLElement | null
@@ -98,7 +130,7 @@ const UserMenu = ({ anchor, handleCloseMenu }: UserMenuProps) => {
 			keepMounted
 		>
 			{settings.map((option) => (
-				<Link href={`/${option.toLowerCase()}`}>
+				<Link key={option} href={`/${option.toLowerCase()}`}>
 					<MenuItem key={option} onClick={handleCloseMenu}>
 						<Typography>{option}</Typography>
 					</MenuItem>

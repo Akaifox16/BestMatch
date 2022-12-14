@@ -18,13 +18,16 @@ import {
 } from './Register'
 
 import { TitleCase } from '@utility/util'
+import Link from 'next/link'
+import { MouseEvent } from 'react'
+import { useUserMachine } from '@component/Context/AuthContext'
 
-type AuthCardVariant = 'login' | 'signup'
+type AuthCardVariant = 'ล็อคอิน' | 'ลงทะเบียน'
 type AuthenicationCardProps = {
 	variant: AuthCardVariant
 }
 
-const isLogin = (variant: AuthCardVariant) => variant === 'login'
+const isLogin = (variant: AuthCardVariant) => variant === 'ล็อคอิน'
 
 const AuthenticationCard = ({ variant }: AuthenicationCardProps) => {
 	return (
@@ -57,7 +60,7 @@ const AuthenticationCard = ({ variant }: AuthenicationCardProps) => {
 								{TitleCase(variant)}
 							</Typography>
 						</Grid>
-						<Grid item >
+						<Grid item>
 							<FormControl margin='normal'>
 								{!isLogin(variant) ? (
 									<Grid container direction='row' spacing={2}>
@@ -78,15 +81,13 @@ const AuthenticationCard = ({ variant }: AuthenicationCardProps) => {
 						</Grid>
 						<Grid
 							item
-							sx={{ justifyContent: 'center', display: 'flex', mb: 2 }}
+							sx={{
+								justifyContent: 'center',
+								display: 'flex',
+								mb: 2,
+							}}
 						>
-							<Button
-								variant='contained'
-								color='success'
-								endIcon={<ChevronRight />}
-							>
-								{variant}
-							</Button>
+							<SendBtn variant={variant} />
 						</Grid>
 						<Grid item>
 							{isLogin(variant) && <CreateAccountLink />}
@@ -94,10 +95,27 @@ const AuthenticationCard = ({ variant }: AuthenicationCardProps) => {
 					</Paper>
 				</Grid>
 			</Grid>
-			<Grid container sx={{ p: 8 }}>
-				<Grid item xs={12} sx={{ ml: 8, my: 4 }}></Grid>
-			</Grid>
 		</Grid>
+	)
+}
+
+const SendBtn = ({
+	variant,
+}: Pick<AuthenicationCardProps, 'variant'>) => {
+	const userMachine = useUserMachine()
+
+	return (
+		<Link href='/'>
+
+				<Button
+					variant='contained'
+					color='success'
+					endIcon={<ChevronRight />}
+					onClick={() => userMachine.authService.send('LOGGED_IN')}
+				>
+					{variant}
+				</Button>
+		</Link>
 	)
 }
 

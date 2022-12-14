@@ -7,7 +7,7 @@ const RegisterPage = () => {
       <CustomHeader pageName='register' />
 
       <main>
-        <AuthenticationCard variant='signup' />
+        <AuthenticationCard variant='ลงทะเบียน' />
       </main>
     </div>
   )

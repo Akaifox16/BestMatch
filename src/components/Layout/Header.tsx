@@ -16,7 +16,7 @@ const Header = () => {
 					<Logo name='BestMatch'>
 						<NavMenu />
 					</Logo>
-					<UserBtn username='John Doe' />
+					<UserBtn/>
 				</Toolbar>
 			</Container>
 		</AppBar>

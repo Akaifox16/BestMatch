@@ -7,7 +7,7 @@ const LoginPage = () => {
       <CustomHeader pageName="login" />
 
       <main>
-        <AuthenticationCard variant='login'/>
+        <AuthenticationCard variant='ล็อคอิน' />
       </main>
     </div>
   )

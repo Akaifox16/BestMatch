@@ -20,7 +20,7 @@ const TimelineWithDate = ({ timeline }: TimelineWithDateProps) => {
 		<Timeline>
 			{timeline.map((item, idx) => {
 				return (
-					<TimelineItem>
+					<TimelineItem key={`${item}-${idx}`}>
             <TimelineOppositeContent>{item.evtName}</TimelineOppositeContent>
 						<TimelineSeparator>
 							{idx === timeline.length-1 ? (
@@ -49,7 +49,7 @@ const TimelineWithoutDate = ({ timeline }: TimelineWithoutDateProps) => {
 		<Timeline>
 			{timeline.map((item, idx) => {
 				return (
-					<TimelineItem>
+					<TimelineItem key={`${item}-${idx}`}>
 						<TimelineSeparator>
 							{idx === timeline.length-1 ? (
 							  <TimelineDot />
