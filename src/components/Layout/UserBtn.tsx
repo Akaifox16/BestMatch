@@ -17,7 +17,10 @@ import {
 	Typography,
 } from '@mui/material'
 import { useSelector } from '@xstate/react'
-import { loggedInSelector, useUserMachine } from '@component/Context/AuthContext'
+import {
+	loggedInSelector,
+	useUserMachine,
+} from '@component/Context/AuthContext'
 
 const settings = ['Profile']
 
@@ -59,7 +62,10 @@ const MenuSx = {
 const UserBtn = () => {
 	// const [anchor, setAnchor] = useState<HTMLElement | null>(null)
 	const userMachine = useUserMachine()
-	const isLoggedIn = useSelector(userMachine.authService, loggedInSelector)
+	const isLoggedIn = useSelector(
+		userMachine.authService,
+		loggedInSelector
+	)
 	// const handleOpenUserMenu = (evt: MouseEvent<HTMLElement>) => {
 	// 	setAnchor(evt.currentTarget)
 	// }
@@ -81,35 +87,43 @@ const UserBtn = () => {
 				anchor={anchor}
 				handleCloseMenu={handleCloseUserMenu}
 			/> */}
-			{
-				isLoggedIn ?
-				<LogoutBtn /> : <LoginBtn />
-			}
+			{isLoggedIn ? <LogoutBtn /> : <LoginBtn />}
 		</Box>
 	)
 }
 
 const LoginBtn = () => {
-	return <Link href='/login'><Button color='success' variant='contained' >ล็อคอิน</Button></Link>
+	return (
+		<Link href='/login'>
+			<Button color='success' variant='contained'>
+				ล็อคอิน
+			</Button>
+		</Link>
+	)
 }
 
 const LogoutBtn = () => {
 	const userMachine = useUserMachine()
 
 	return (
-			<Grid gap={2} container direction='row'>
-				<Grid item>
-					<AccountCircle fontSize='large' />
-				</Grid>
-				<Grid item>
-					<Button color='error' variant='contained' onClick={() => userMachine.authService.send('LOGGED_OUT')}>
+		<Grid gap={2} container direction='row'>
+			<Grid item>
+				<AccountCircle fontSize='large' />
+			</Grid>
+			<Grid item>
+				<Link href='/'>
+					<Button
+						color='error'
+						variant='contained'
+						onClick={() => userMachine.authService.send('LOGGED_OUT')}
+					>
 						<Logout /> ลงชื่อออก
 					</Button>
-				</Grid>
+				</Link>
 			</Grid>
+		</Grid>
 	)
 }
-
 
 type UserMenuProps = {
 	anchor: HTMLElement | null

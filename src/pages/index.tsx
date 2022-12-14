@@ -5,12 +5,15 @@ import { Button, Container, Grid, Typography } from '@mui/material'
 
 import { TimelineWithDate } from '@component/SystemTimeline'
 import CustomHeader from '@component/CustomHeader'
+import { loggedInSelector, useUserMachine } from '@component/Context/AuthContext'
+import { useSelector } from '@xstate/react'
 
-const evtNames = ['register', 'open', 'close', 'annouce']
+const evtNames = ['ลงทะเบียนผู้ใช้', 'เปิดระบบจับคู่', 'ปิดระบบจับคู่', 'ระบบประมวลผล', 'ประกาศผล']
 const dates: { year: number; month: number; day: number }[] = [
 	{ year: 2022, month: 1, day: 12 },
 	{ year: 2022, month: 1, day: 16 },
 	{ year: 2022, month: 5, day: 16 },
+	{ year: 2022, month: 5, day: 17 },
 	{ year: 2022, month: 5, day: 28 },
 ]
 const timeline = evtNames.map((evt, idx) => ({
@@ -23,13 +26,16 @@ const timeline = evtNames.map((evt, idx) => ({
 }))
 
 export default function Home() {
+	const userMachine = useUserMachine()
+	const isLoggedIn = useSelector(userMachine.authService, loggedInSelector)
+
 	return (
 		<div>
 			<CustomHeader pageName='home' />
 
 			<main>
 				<Typography align='center' variant='h2' sx={{ mt: 8 }}>
-					Welcome to BestMatch!
+					ยินดีต้อนรับสู่ BestMatch!
 				</Typography>
 
 				<Grid container spacing={2} sx={{ mt: 4 }}>
@@ -39,9 +45,9 @@ export default function Home() {
 						xs={4}
 						sx={{ justifyContent: 'center', display: 'flex' }}
 					>
-						<Link href='/matching'>
+						<Link href={isLoggedIn ? '/matching': '/login'}>
 							<Button variant='contained' sx={{ mr: 1 }}>
-								quick start
+								เริ่มเลย!
 							</Button>
 						</Link>
 						<Link href='/tutorials'>
@@ -50,7 +56,7 @@ export default function Home() {
 								color='secondary'
 								sx={{ ml: 1 }}
 							>
-								tutorials
+								คู่มือการใช้
 							</Button>
 						</Link>
 					</Grid>

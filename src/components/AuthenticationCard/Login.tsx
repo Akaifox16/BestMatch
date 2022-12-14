@@ -5,7 +5,7 @@ import Link from 'next/link'
 const ForgotPasswordLink = () => {
 	return (
 		<Link href='/forget-password'>
-			<Typography>Forgot your password?</Typography>
+			<Typography>ลืมรหัสผ่าน?</Typography>
 		</Link>
 	)
 }
@@ -14,12 +14,12 @@ const CreateAccountLink = () => {
 		<Grid container spacing={1}>
 			<Grid item>
 				<Typography variant='caption'>
-					Don't have account yet?
+					ยังไม่มีบัญชี bestmatch?
 				</Typography>
 			</Grid>
 			<Grid item>
 				<Link href='/register'>
-					<Typography variant='caption'>Create an account</Typography>
+					<Typography variant='caption'>สร้างบัญชีผู้ใช้ใหม่</Typography>
 				</Link>
 			</Grid>
 		</Grid>
