@@ -23,7 +23,7 @@ const DotSlider = ({
 }: DotSliderProps) => {
 	return (
 		<Grid container>
-			<Grid item xs={12} md={2}>
+			<Grid item xs={12} md={2} sx={{ mr: 4 }}>
 				<Typography variant='body1'>{fieldName}</Typography>
 			</Grid>
 			<Grid item xs={12} md={4}>
