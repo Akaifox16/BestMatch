@@ -17,9 +17,8 @@ import {
 	PersonalInfomationForm,
 } from './Register'
 
-import { TitleCase } from '@utility/util'
+import { titleCase } from '@utility/util'
 import Link from 'next/link'
-import { MouseEvent } from 'react'
 import { useUserMachine } from '@component/Context/AuthContext'
 
 type AuthCardVariant = 'ล็อคอิน' | 'ลงทะเบียน'
@@ -57,7 +56,7 @@ const AuthenticationCard = ({ variant }: AuthenicationCardProps) => {
 					>
 						<Grid item sx={{ mb: 4 }}>
 							<Typography variant='h3'>
-								{TitleCase(variant)}
+								{titleCase(variant)}
 							</Typography>
 						</Grid>
 						<Grid item>
