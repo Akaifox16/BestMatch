@@ -7,7 +7,7 @@ const Profile = () => {
 			<CustomHeader pageName='profile' />	
 
 			<main>
-        <ProfileCard />
+        <ProfileCard variant='profile'/>
 			</main>
 		</div>
 	)
