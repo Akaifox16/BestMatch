@@ -5,12 +5,23 @@ import {
 	Typography,
 	Checkbox,
 } from '@mui/material'
-
-const timeRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+import { range } from '@utility/util'
 
 type TimeRangeCheckBoxGroupProps = {
 	fieldName: string
 	helper: string
+}
+
+const TimeCheckBoxRow = ({ time, checked }: { time: number, checked?: boolean }) => {
+	return (
+		<FormControlLabel
+			key={`${time}.00`}
+			control={<Checkbox />}
+			label={`${time.toString().padStart(2, '0')}:00`}
+			checked={checked}
+			sx={{ my: 1 }}
+		/>
+	)
 }
 
 const TimeRangeCheckBoxGroup = ({
@@ -28,36 +39,17 @@ const TimeRangeCheckBoxGroup = ({
 					sx={{ ml: 1 }}
 				>{`* ${helper}`}</Typography>
 			</Grid>
-			<Grid item xs={12}>
-				<FormGroup row sx={{ ml: 2 }}>
-					{timeRange.map((time) => {
-						return (
-							<FormControlLabel
-								key={`${time}.00`}
-								control={<Checkbox defaultChecked />}
-								label={`${time.toString().padStart(2, '0')}:00`}
-								sx={{ my: 1 }}
-							/>
-						)
-					})}
-				</FormGroup>
-			</Grid>
-			<Grid item xs={12}>
-				<FormGroup row sx={{ ml: 2 }}>
-					{timeRange
-						.map((item) => item + 12)
-						.map((time) => {
-							return (
-								<FormControlLabel
-									key={`${time}.00`}
-									control={<Checkbox />}
-									label={`${time}:00`}
-									sx={{ my: 1 }}
-								/>
-							)
-						})}
-				</FormGroup>
-			</Grid>
+			{[1, 7, 13, 18].map((start) => {
+				return (
+					<Grid item xs={12}>
+						<FormGroup row sx={{ ml: 2 }}>
+							{ range(start, start +6).map( time => {
+								return <TimeCheckBoxRow time={time} checked={start === 1} />
+							})}
+						</FormGroup>
+					</Grid>
+				)
+			})}
 		</Grid>
 	)
 }
