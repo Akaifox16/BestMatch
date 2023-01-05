@@ -1,4 +1,5 @@
 import CustomHeader from "@component/CustomHeader";
+import ProfileCard from "@component/ProfileCard";
 
 const summary = () => {
   return (
@@ -6,7 +7,7 @@ const summary = () => {
       <CustomHeader pageName='summary' />
 
       <main>
-        Welcome to summary page
+        <ProfileCard variant='summary' />
       </main>
     </div>
   );

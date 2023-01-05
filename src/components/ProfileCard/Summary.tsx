@@ -1,9 +1,9 @@
 import { Fragment } from "react"
 
-const DormCard = () => {
+const SummaryCard = () => {
   return <Fragment>
 
   </Fragment>
 }
 
-export default DormCard
+export default SummaryCard

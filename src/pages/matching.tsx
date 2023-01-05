@@ -1,4 +1,6 @@
 import CustomHeader from '@component/CustomHeader'
+import MatingApp from '@component/MatingApp'
+import ProfileCard from '@component/ProfileCard'
 
 const MatchingPage = () => {
   return (
@@ -6,7 +8,7 @@ const MatchingPage = () => {
       <CustomHeader pageName='matching' />
 
       <main>
-        <div>Welcome to matching page</div>
+        <MatingApp />
       </main>
     </div>
   )
