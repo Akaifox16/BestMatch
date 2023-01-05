@@ -2,7 +2,7 @@ import ProfileCard from '@component/ProfileCard'
 import { Box, Button, Stack, Step, StepLabel, Stepper } from '@mui/material'
 import { Fragment, useState } from 'react'
 
-enum ActiveStep {
+export enum ActiveStep {
 	profile,
 	matePref,
 	roomPref,
