@@ -7,15 +7,14 @@ import lightTheme from '@theme/lightTheme'
 import Layout from '@component/Layout'
 import { UserMachineProvider } from '@component/Context/AuthContext'
 
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
-// import '@fontsource/noto-sans-thai'
+import '../styles/globals.css'
+import '@fontsource/noto-sans-thai/300.css'
+import '@fontsource/noto-sans-thai/400.css'
+import '@fontsource/noto-sans-thai/500.css'
+import '@fontsource/noto-sans-thai/700.css'
 
 import { trpc } from '@utility/trpc'
 import createEmotionCache from '@utility/createEmotionCache'
-import '../styles/globals.css'
 
 interface MUIAppProps extends AppProps {
 	emotionCache?: EmotionCache
