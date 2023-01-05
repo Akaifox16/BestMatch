@@ -1,13 +1,21 @@
-import '../styles/globals.css'
-import createEmotionCache from '@utility/createEmotionCache'
+import { Fragment, ReactNode } from 'react'
+import { AppProps } from 'next/app'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import { CssBaseline, ThemeProvider } from '@mui/material'
+
 import lightTheme from '@theme/lightTheme'
-import { AppProps } from 'next/app'
 import Layout from '@component/Layout'
-import { trpc } from '@utility/trpc'
-import { Fragment, ReactNode } from 'react'
 import { UserMachineProvider } from '@component/Context/AuthContext'
+
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
+// import '@fontsource/noto-sans-thai'
+
+import { trpc } from '@utility/trpc'
+import createEmotionCache from '@utility/createEmotionCache'
+import '../styles/globals.css'
 
 interface MUIAppProps extends AppProps {
 	emotionCache?: EmotionCache
