@@ -5,7 +5,7 @@ import {
 	useRef,
 	useState,
 } from 'react'
-import { interpret, InterpreterFrom, send, StateFrom } from 'xstate'
+import { interpret, InterpreterFrom, StateFrom } from 'xstate'
 
 import { ParentNode } from '@utility/type'
 import mateStepperMachine from '@utility/globalState/mateStepper'
@@ -33,7 +33,6 @@ export const MateStepperProvider = ({ children }: ParentNode) => {
 	return (
 		<MateStepperCtx.Provider
 			value={{ mateService: mateStepper.current, step, setStep }}
-			// value={{ mateService: mateStepper.current }}
 		>
 			{children}
 		</MateStepperCtx.Provider>
