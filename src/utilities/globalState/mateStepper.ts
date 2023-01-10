@@ -1,53 +1,28 @@
 import { createMachine } from 'xstate'
 
 const mateStepperMachine =
-	/** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOgFd8BrfAewHd8BiAbQAYBdRUABxtlwAuuGvi4gAHogC0AZgAsARhIA2BTLXLWCgKwB2AEwAOQ8oA0IAJ7S1ukqwCc9mfpm7l93ce2GAvj-NoWHiEpBTU9EzMCpxIILz8QiJikgiyMoYkenKsyrrq9nL6+h7mVqlytm6ehkYKhgqsuvbafgEYOATEJNwATjQAZrgANmCMAHIAogAaACpsMTx8gsKisSlNJHLeCvb6TVv2hnml0vqsrJl1chV7e7rZcq0ggR0hJAIUYCQw+AAKfYMRowAOITSYAJQAgjMJgAReZieLLJJrayHEj6BQVLaGRqePKGE4IIoZZx5BTKa6sbTKbTaR7+Z7tYJdD6EEiwbD0f4DYajSEAYQFE1+MPhHERS0Sq1AKSkmIyjm0Stxunx6SJMhpJBq5Mp2RpdIZbSCnVIbK+nO5AL5jHBEwAYgBVADKcIRsSR0uSiEMMhIMmcCmKOyKwdpRIUugumka2hkBWptL0TxeLNIGAEYH+YH642mcwlnqlKx9xOKm22u32yqO+iJ8vOl0M1wMbfurGNTNNb0z2Z6ucYACFBQBpD2LBKl1GpXRKNzUvRnelaIwNv12K43dsPVPMs0kPo0VA5vOTWYTuIllGyxDqfQB5ruPYFWv3BvKZSblvbu67xlpgeR4ngOeYjgK45FpOyIyhIiBqiorjGKwxQHEcMjrv6Wg-m2f6dn4jK0BAcBiIBISSlON5wak6T2CoagaFoS7GGYljSOoSisOo5xyIY3jKo4XZkV0YS0AwFEwWWshnCo2iYvYPHaDkaraA2RT+vGDj2M+MidhSQn7m8vS8iMEnejOUgbuceyttS2TBoSbGpFiX76MoOG3Gq-4mq8rKfGZ063jRWg6uc7mBniRxyJqD5krU7m8X6rh7j2fnsj8PKAmAAVUXK+jxqFORJZF75OQoOw6ns6j6kmRopb55qfByXJ0JlfI5bBco7HIJDleoxVquhjllEYX5ktVVKGvS9XpiQfanh1Zafo+NLVq+hzHE5UhYtozatp5HYGalpDAQtxaUZ1iCYpU5zpCh611g2LkYglv5efhBFAA */
-	createMachine({
-    id: 'mate_app_machine',
+	/** @xstate-layout N4IgpgJg5mDOIC5QFsCGAXMB9VAHXWaAxgBYCWAdmAHQCuFA1hQPYDuFAxANoAMAuolC5msMujLMKgkAA9EARgBsAFmo916gEwAOAKzKA7NoOaAzABoQATwWbF1JYqfy72t3oC+Hy2kw58hKiklDT0TGycXPICSCDCouKS0nIISqoaWnqGxmaWNgiaurpqGXrapiamyopePhjYeATE5FTUuABOzABmZAA2YBwAcgCiABoAKrwxQiJiElKxKYryPNQGyybyAJza2wamFtaIyqYO2oqmmluKZrrb2oW1IL4NAc0h1C8ACu1gXUNjSb8aTxOZJRaIbQnNYGeS6JyKc6mLbbPLHU7yJHyeTKMzGapPF7+JpBFo0b6-f4AIQAggBhADSUxBs0SC1AKSqqjSPEqRXKV0UaIKPC2DgOBh4ylFJ3kpjchPqxMCwVanWYyB+fwBE2ZsVBbOSkJ2DgMuh4xgquL2wtMSjU6zubjueNMukVfkaKrJ1HVmspHFpjL1MwS8yNCBU2moyl0BzMmiMmO0W2Fmjs1ERcq2RVxWy26e0HteJNVNHQ9BoMAoP26fQGEEkNEoADdmAwq2AqO16rWev0Q3FWeGIQhpat8zwcU4pW69Id8tp1GtE8pjFstAXlMXle9WhXWtW+-WOGB2p12m1ehgusx2shqNWz73Ov2wIODSOOYgVKdJSZFB4ZF9iMYUbmKQwLV0dNZ35HcvT3ctK2oWASDYY9+g4ek6WGL5xmGAARD9h3Bb9IyA6hzSXKVqnKedhQMfNqHTM0lDuUwLTteC3lJD4DxoVD0NfE8ACVhgAMQAVQAZUI4iw1I2RIR4TRqDtWEDGUOEtgqVEjgQRixRYu5FHYzjNC8bwQBYCA4GkIkEN4qgWQU9klIQABaFxVOxGd1GUa4bm0YUPJ0aMdnWM0AuUE4DndKyHJ4ss6EYFh2BcsE3JSDzNIcRwNACpwdBCzQpxjYxFDNconXNUxuNLH0OjrfoMsNUd42oAtkyq619iFfSXFULSnF0fZChWed6u9D4KT+Vqv3c8DqDcUUcQ4pxpX6-JBpjRw13TaCyiLBKlUc5K-S1Lp5sUlIHlUaDsShCorjXYUduGxFqk0WN1lxKbEOofjrqyxA3VUydp0Ak5dHo-TzWKc0eAuKCRqXGoTs9JKfX4x8uwwsBgYjWNo0TO1IJnQwc2FXQdJKJH5CMFFAOxf6nKQ1pBNYfHCdHIK1I3KE7CKeFRuFLZqkonZeSKC54QuSyPCAA */
+	
+/** @xstate-layout N4IgpgJg5mDOIC5QFsCGAXMB9VAHXWaAxgBYCWAdmAHQCuFA1hQPYDuFAxANoAMAuolC5msMujLMKgkAA9EARgBsAFmo916gEwAOAKzKA7NoOaAzABoQATwWbF1JYqfy72t3oC+Hy2kw58hKiklDT0TGycXPICSCDCouKS0nIISqoaWnqGxmaWNgiaurpqGXrapiamyopePhjYeATE5FTUuABOzABmZAA2YBwAcgCiABoAKrwxQiJiElKxKYryPNQGyybyAJza2wamFtaIyqYO2oqmmluKZrrb2oW1IL4NAc0h1C8ACu1gXUNjSb8aTxOZJRaIbQnNYGeS6JyKc6mLbbPLHU7yJHyeTKMzGapPF7+JpBFo0b6-f4AIQAggBhADSUxBs0SC1AKSqqjSPEqRXKV0UaIKPC2DgOBh4ylFJ3kpjchPqxMCwVanWYyB+fwBE2ZsVBbOSkJ2DgMuh4xgquL2wtMSjU6zubjueNMukVfkaKrJ1HVmspHFpjL1MwS8yNCBU2moyl0BzMmiMmO0W2Fmjs1ERcq2RVxWy26e0HteJNVNHQ9DA7WosBIbB+3T6A3pdOGX3GwwAIiG4qzwxCELpdmseLpEwWVMtNMKjOlFPDlJjdFtqkVi8r3q0K1Rq7X650ev0OAAlYYAMQAqgBlLs9g39jmIIyrO7KN8porL4wzqFqecqJcV3-LxvBAFgIDgaQiS9TcwBZMNwUfBAAFoXE0BxHA0ZRrhubRhWQnRoxwqFFAMN9NB4ZF1xg0kPjCFh2HgsF2VkRBkLIjCnCwnCdHwij5BjYxSKHN0l0o6i3lo1oOkbfomMNAd42oAtkzNKFNHkfYhSOVJNFURcnF0fZChWPRTAk0sfQpP55IfVjI0Kag3FFHFTB4JxpW0-IXH0xxlAeQodCHItQOgySy19ZgNS1LpbMQ+yHlUMdsShCorn84UfJjRwSL0oyVE0CzvQ+bcqziljOTcGNJWtc50zIi5hWw1Y3RzK4UTfZdlCK2DqFK6sYAoBtDzg-U+3ilITnsQwpQ0urE2qQ58iMgwnPlMjLgqHY3R6qTy0rXc61YYam3KiNFHc6hguxMi7gMAtlGFLY7RjUwbnULZRRXBUQKAA */
+createMachine({
+		id: 'mate_app_machine',
 		initial: 'unknown',
 		context: {
 			initial: true,
+      profile: undefined,
 		},
 		states: {
 			unknown: {
 				always: [
-					{ target: 'profile', cond: 'isInitialized' },
-					{ target: 'tune' },
+					{ target: 'profile', cond: 'isInit' },
+					{ target: 'tuner' },
 				],
 			},
-
 			profile: {
 				on: {
 					NEXT: 'matePref',
 				},
 			},
-
-			tune: {
-        initial: 'showProfile',
-        states: {
-          genProfile: {
-              on: {
-                  GENERATED: "showProfile"
-              },
-
-              entry: "generate_new_profile"
-          },
-          showProfile: {
-              on: {
-                  ACCEPTED: {
-                      target: "genProfile",
-                      actions: "accepted_feedback"
-                  },
-
-                  REFUSED: {
-                      target: "genProfile",
-                      actions: "refused_feedback"
-                  }
-              }
-          },
-        }
-      },
-
 			matePref: {
 				on: {
 					NEXT: 'roomPref',
@@ -57,11 +32,57 @@ const mateStepperMachine =
 
 			roomPref: {
 				on: {
-					NEXT: 'tune',
+					NEXT: {
+            target: 'tuner',
+            actions: 'initialized'},
 					BACK: 'matePref',
 				},
 			},
+			tuner: {
+				initial: 'genProfile',
+				states: {
+					genProfile: {
+						// invoke: {
+            //   id: 'generateProfile',
+            //   src: () => undefined,
+            //   onDone: {
+            //     target: 'showProfile',
+            //     actions: assign({profile: (_ctx, evt) => evt.data})
+            //   },
+            //   onError: {
+            //     target: 'genProfile',
+            //   }
+            // }
+					},
+					showProfile: {
+						on: {
+							ACCEPTED: {
+								target: 'genProfile',
+								actions: 'accepted_feedback',
+							},
+
+							REFUSED: {
+								target: 'genProfile',
+								actions: 'refused_feedback',
+							},
+						},
+					},
+				},
+			},
 		},
-	})
+	},
+	{
+	  guards: {
+	    isInit: ({ initial }) => {
+	      return initial
+	    },
+	  },
+		actions: {
+			initialized: ({ initial }) => {
+				initial = true
+			}
+		}
+	}
+	)
 
 export default mateStepperMachine
