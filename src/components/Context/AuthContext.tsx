@@ -1,8 +1,10 @@
 
 import { createContext, useContext, useEffect, useRef } from "react";
-import { ParentNode } from "@utility/type";
 import { interpret, InterpreterFrom, State, StateFrom } from "xstate";
+
+import { ParentNode } from "@utility/type";
 import userMachine from "@utility/globalState/user";
+
 const UserMachineContext = createContext({authService: {} as InterpreterFrom<typeof userMachine>})
 
 export const UserMachineProvider = ({ children }: ParentNode) => {
