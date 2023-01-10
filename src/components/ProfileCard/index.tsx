@@ -22,7 +22,7 @@ const VariantSelector = ({variant}: {variant: ProfileVariant}) => {
 
 const ProfileCard = ({ variant }: ProfileCardProps) => {
 	return (
-		<Paper elevation={1} variant='outlined' sx={{ m: 8 }}>
+		<Paper elevation={1} sx={{ m: 8 }}>
 			<Grid container spacing={2} sx={{ my: 2, p: 4 }}>
 				<CardTitle name={variant} editable={variant === 'profile'} />
 				<VariantSelector variant={variant} />
