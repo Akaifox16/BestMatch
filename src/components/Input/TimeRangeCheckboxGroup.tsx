@@ -39,12 +39,12 @@ const TimeRangeCheckBoxGroup = ({
 					sx={{ ml: 1 }}
 				>{`* ${helper}`}</Typography>
 			</Grid>
-			{[1, 7, 13, 18].map((start) => {
+			{[1, 7, 13, 19].map((start) => {
 				return (
-					<Grid item xs={12}>
+					<Grid key={`group-${start}`} item xs={12}>
 						<FormGroup row sx={{ ml: 2 }}>
-							{ range(start, start +6).map( time => {
-								return <TimeCheckBoxRow time={time} checked={start === 1} />
+							{ range(start, start + 5).map( time => {
+								return <TimeCheckBoxRow key={time} time={time} checked={start === 1} />
 							})}
 						</FormGroup>
 					</Grid>
