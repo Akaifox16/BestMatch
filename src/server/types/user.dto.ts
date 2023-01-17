@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { SexEnum, ThreeChoiceEnum, YesNoEnum } from './enum'
+import { SexEnum, YesNoEnum } from './enum'
 
 // validate function
 function isValidPersonalId(pid: number) {
@@ -14,7 +14,7 @@ function isValidPersonalId(pid: number) {
 }
 
 // dto
-const createUserDto = z.object({
+export const createUserDto = z.object({
 	first_name: z.string(),
 	last_name: z.string(),
 	email: z.string().email(),
@@ -30,7 +30,7 @@ const createUserDto = z.object({
 	sex: SexEnum,
 })
 
-const addPrefDto = z.object({
+export const addPrefDto = z.object({
 	loud_player: ThreeChoiceEnum,
 	bed_time_lo: z.date(),
 	bed_time_hi: z.date(),
@@ -40,12 +40,12 @@ const addPrefDto = z.object({
 		.min(0, 'must not less than 0')
 		.max(100, 'must not more than 100'),
 })
-const editPrefDto = addPrefDto.deepPartial()
+export const editPrefDto = addPrefDto.deepPartial()
 
-const addProfileDto = addPrefDto
+export const addProfileDto = addPrefDto
 	.omit({ loud_player: true })
 	.merge(z.object({ loud_player: YesNoEnum }))
-const editProfileDto = createUserDto
+export const editProfileDto = createUserDto
 	.pick({
 		date_of_birth: true,
 		personal_id: true,
@@ -54,15 +54,6 @@ const editProfileDto = createUserDto
 	.merge(addProfileDto)
 	.deepPartial()
 
-const bookRoomDto = z.object({
+export const bookRoomDto = z.object({
 	room_id: z.string().cuid(),
 })
-
-export {
-	createUserDto,
-	addProfileDto,
-	editProfileDto,
-	addPrefDto,
-	editPrefDto,
-	bookRoomDto,
-}
