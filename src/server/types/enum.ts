@@ -1,7 +1,5 @@
-import { Sex, YesNo } from '@prisma/client'
+import { Sex } from '@prisma/client'
 import { z } from 'zod'
-// Enum
-const SexEnum = z.nativeEnum(Sex)
-const YesNoEnum = z.nativeEnum(YesNo)
 
-export { SexEnum, YesNoEnum }
+// Enum
+export const SexEnum = z.nativeEnum(Sex)
