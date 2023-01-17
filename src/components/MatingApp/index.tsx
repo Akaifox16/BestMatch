@@ -11,9 +11,9 @@ import {
 import ContentSelector from './ContentSelector'
 
 export const steps = [
-	'ระบุลักษณะของคุณ',
-	'ระบุลักษณะรูมเมทที่คุณอยากได้',
-	'ระบุลักษณะห้องพักที่คุณอยากได้',
+	'ฉันเป็นใคร',
+	'ใครคือเมทของฉัน',
+	'ที่พักในฝัน',
 ]
 
 const MatingApp = () => {

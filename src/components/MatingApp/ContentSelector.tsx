@@ -1,5 +1,5 @@
 import { currentStateSelector, useMateStepperMachine } from "@component/Context/MateStepperContext"
-import ProfileCard from "@component/ProfileCard"
+import MatingCard from "@component/MatingCard"
 import { MatchVariant } from "@component/ProfileCard/index.type"
 import { Box, Button } from "@mui/material"
 import { useSelector } from "@xstate/react"
@@ -28,7 +28,7 @@ const ContentSelector = ({
 
 	return (
 		<Fragment>
-			<ProfileCard variant={currentState as MatchVariant} />
+			<MatingCard variant={currentState as MatchVariant} />
 			<Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
 				<Button
 					color='inherit'

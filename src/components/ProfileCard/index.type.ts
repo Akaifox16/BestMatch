@@ -1,6 +1,11 @@
-export type ProfileVariant = 'profile' | 'matePref' | 'roomPref' | 'summary' | 'tuner'
-export type StudentVariant = Extract<ProfileVariant, 'profile' | 'matePref'>
-export type MatchVariant = Exclude<ProfileVariant, 'summary'>
+export type MatchVariant = 'matePref' | 'roomPref' | Extract<ProfileVariant, 'profile'>
+export type ProfileVariant = 'profile' | 'summary'
+
+export type StudentVariant = Extract<MatchVariant, 'profile' | 'matePref'>
+
+export type MatchCardProps = {
+	variant: MatchVariant
+}
 
 export type ProfileCardProps = {
 	variant: ProfileVariant

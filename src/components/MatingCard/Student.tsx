@@ -10,7 +10,7 @@ import {
 	AttrName,
 	ProfileOwner,
 	StudentVariant,
-} from './index.type'
+} from '../ProfileCard/index.type'
 
 const attrName: Record<ProfileOwner, AttrName> = {
 	self: {

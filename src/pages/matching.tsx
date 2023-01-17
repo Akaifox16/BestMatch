@@ -1,6 +1,5 @@
 import CustomHeader from '@component/CustomHeader'
 import MatingApp from '@component/MatingApp'
-import ProfileCard from '@component/ProfileCard'
 
 const MatchingPage = () => {
   return (
