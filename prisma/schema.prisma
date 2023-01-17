@@ -17,15 +17,14 @@ model User {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
-  admin Boolean @default(false)
-
   first_name String
   last_name  String
   email      String @unique
   password   String
 
-  personal_id String @unique
+  personal_id String  @unique
   sex         Sex
+  isAdmin     Boolean @default(false)
 
   has_profile         Profile?        @relation("profile_of_user")
   has_mate_preference Profile?        @relation("mate_pref_of_user")
@@ -50,27 +49,22 @@ model Profile {
   pref_owner_id  String @unique
   preference_of  User?  @relation("mate_pref_of_user", fields: [pref_owner_id], references: [id])
 
-  talkative YesNoPrefer
-  snore     YesNoPrefer
-  // loud_player YesNoPrefer
-
   // scale attribute 
-  messiness           Int
-  loudness_resistance Int
-  night_life          Int
+  messiness Int
+  loudness  Int
 
   // range attribute
-  sleep_lo DateTime
-  sleep_hi DateTime
+  do_not_disturb DoNotDisturb[]
+}
 
-  game_lo DateTime
-  game_hi DateTime
+model DoNotDisturb {
+  id String @id @default(cuid())
 
-  nap_lo DateTime
-  nap_hi DateTime
+  start DateTime @db.Timestamptz()
+  stop  DateTime @db.Timestamptz()
 
-  party_lo DateTime
-  party_hi DateTime
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id])
 }
 
 // ########################################
@@ -86,11 +80,8 @@ model DormPreference {
   owner_id       String @unique
   belong_to_user User   @relation(fields: [owner_id], references: [id])
 
-  has_canteen      YesNoPrefer
-  has_minimart     YesNoPrefer
-  has_laundry      YesNoPrefer
-  close_to_transit YesNoPrefer
-  dorm_type        DormTypePrefer
+  dorm_type       DormTypePrefer
+  residents_limit Int            @db.SmallInt
 
   room_pref_id          String         @unique
   about_room_preference RoomPreference @relation("belong_to_dorm_preference", fields: [room_pref_id], references: [id])
@@ -109,13 +100,8 @@ model RoomPreference {
 
   belong_to_dorm_preference DormPreference? @relation("belong_to_dorm_preference")
 
-  zone            Zone
-  floor_number    Int
-  residents_limit Int
-
-  close_to_computer_room YesNoPrefer
-  close_to_shower_room   YesNoPrefer
-  close_to_stair         YesNoPrefer
+  zone         Zone
+  floor_number Int
 }
 
 // ########################################
@@ -131,11 +117,6 @@ model Dorm {
   name      String
   sex       Sex
   dorm_type DormType
-
-  has_canteen      YesNo
-  has_minimart     YesNo
-  has_laundry      YesNo
-  close_to_transit YesNo
 
   floors Floor[] @relation("belong_to_dorm")
 }
@@ -153,8 +134,7 @@ model Floor {
   dormId         String
   belong_to_dorm Dorm   @relation("belong_to_dorm", fields: [dormId], references: [id])
 
-  floor_number      Int
-  has_computer_room YesNo
+  floor_number Int
 
   rooms Room[]
 }
@@ -172,12 +152,8 @@ model Room {
   floorId         String?
   belong_to_floor Floor?  @relation(fields: [floorId], references: [id])
 
-  room_number    Int
-  resident_limit Int
-  zone           Zone
-
-  close_to_shower_room YesNo
-  close_to_stair       YesNo
+  room_number Int
+  zone        Zone
 
   residents User[] @relation("lived_in")
 }
@@ -189,25 +165,14 @@ model Room {
 // ########################################
 enum DormType {
   BUFFET
-  PREMIUM_BUFFET
+  RENOVATED
   MONTHLY
 }
 
 enum DormTypePrefer {
   BUFFET
-  PREMIUM_BUFFET
+  RENOVATED
   MONTHLY
-  IGNORE
-}
-
-enum YesNo {
-  YES
-  NO
-}
-
-enum YesNoPrefer {
-  YES
-  NO
   IGNORE
 }
 
