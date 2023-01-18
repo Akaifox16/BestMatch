@@ -20,6 +20,7 @@ import {
 import { titleCase } from '@utility/util'
 import Link from 'next/link'
 import { useUserMachine } from '@component/Context/AuthContext'
+import { trpc } from '@utility/trpc'
 
 type AuthCardVariant = 'ล็อคอิน' | 'ลงทะเบียน'
 type AuthenicationCardProps = {
@@ -76,7 +77,7 @@ const AuthenticationCard = ({ variant }: AuthenicationCardProps) => {
 							</FormControl>
 						</Grid>
 						<Grid item sx={{ mb: 2 }}>
-							{isLogin(variant) && <ForgotPasswordLink />}
+							{/* {isLogin(variant) && <ForgotPasswordLink />} */}
 						</Grid>
 						<Grid
 							item
@@ -101,7 +102,22 @@ const AuthenticationCard = ({ variant }: AuthenicationCardProps) => {
 const SendBtn = ({
 	variant,
 }: Pick<AuthenicationCardProps, 'variant'>) => {
-	const userMachine = useUserMachine()
+	const { authService } = useUserMachine()
+	const createStudent = trpc.student.createStudent.useMutation()
+
+	const handleClick = () => {
+		if (variant === 'ลงทะเบียน') {
+			createStudent.mutateAsync({
+				first_name: 'ทดสอบ',
+				last_name: 'การสร้าง',
+				sex: 'MALE',
+				email: 'test@test.mail',
+				password: '1234',
+				personal_id: '1234567890ABC',
+			})
+		}
+		authService.send('LOGGED_IN')
+	}
 
 	return (
 		<Link href='/'>
@@ -110,7 +126,7 @@ const SendBtn = ({
 					variant='contained'
 					color='success'
 					endIcon={<ChevronRight />}
-					onClick={() => userMachine.authService.send('LOGGED_IN')}
+					onClick={handleClick}
 				>
 					{variant}
 				</Button>
