@@ -1,13 +1,9 @@
-import { Profile, User } from '@prisma/client'
-import { ModelId, ZodObject } from '@utility/type'
 import { z } from 'zod'
 
 import { SexEnum } from './enum'
 
 // dto
-export const createUserDto: ZodObject<
-	Omit<User, ModelId | 'roomId' | 'isAdmin'>
-> = z.object({
+export const createUserDto = z.object({
 	first_name: z.string(),
 	last_name: z.string(),
 	email: z.string().email(),
@@ -17,9 +13,7 @@ export const createUserDto: ZodObject<
 	personal_id: z.string().max(13).min(13),
 	sex: SexEnum,
 })
-export const addPrefDto: ZodObject<
-Omit<Profile, ModelId | 'owner_id' | 'pref_owner_id'>
-> = z.object({
+export const addPrefDto = z.object({
 	messiness: z.number(),
 	loudness: z.number(),
 	do_not_disturb: z.array(
@@ -34,6 +28,6 @@ export const addProfileDto = addPrefDto
 export const editProfileDto = addProfileDto.deepPartial()
 export const editPrefDto = addPrefDto.deepPartial()
 
-export const bookRoomDto: ZodObject<Pick<User, 'roomId'>> = z.object({
+export const bookRoomDto = z.object({
 	roomId: z.string().cuid(),
 })
