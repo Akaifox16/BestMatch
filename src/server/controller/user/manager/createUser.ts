@@ -1,18 +1,38 @@
-import { publicProcedure } from "@server/trpc"
-import { userIdResponse } from "@server/types/user"
-import { createUserDto } from "@server/types/user.dto"
+import { publicProcedure } from '@server/trpc'
+import { userIdResponse } from '@server/types/user'
+import { createUserDto } from '@server/types/user.dto'
 
-import { prisma } from "@server/db"
+import { prisma } from '@server/db'
+import { ExistingUserError } from '@server/types/errors'
 
-const createUser = publicProcedure
-		.input(createUserDto)
-		.output(userIdResponse)
-		.mutation(async ({ input }) => {
-			const userId = await prisma.user.create({
-				data: input,
-				select: { id: true },
-			})
-
-			return userId
+const createStudent = publicProcedure
+	.input(createUserDto)
+	.output(userIdResponse)
+	.mutation(async ({ input }) => {
+		const user = await prisma.user.findFirst({
+			where: {
+				OR: [
+					{
+						email: input.email,
+					},
+					{
+						personal_id: input.personal_id,
+					},
+				],
+			},
+			select: { id: true },
 		})
-export default createUser
+
+		if (user) {
+			throw ExistingUserError
+		}
+
+		const userId = await prisma.user.create({
+			data: input,
+			select: { id: true },
+		})
+
+		return userId
+	})
+
+export default createStudent
