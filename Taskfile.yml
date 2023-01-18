@@ -1,7 +1,31 @@
 version: '3'
 
 includes:
-  postgres-manager: ./terraform/postgres-manager
+  postgres-manager: 
+    taskfile: ./terraform/postgres-manager
+    aliases: [pg]
   prisma: ./prisma
   dev: ./environment/Taskfile.dev.yml
-  
+
+tasks:
+  setup-db:
+    desc: setup db for new installation
+    cmds:
+      - task: pg:apply
+      - task: prisma:migrate
+  migrate:
+    desc: migrate db
+    cmds:
+      - task: prisma:migrate
+  dev:
+    desc: continue development
+    cmds:
+      - task: dev:run
+  stop:
+    desc: exit development process
+    cmds:
+      - task: dev:stop
+  purge:
+    desc: purge exiting containers
+    cmds:
+      - task: dev:purge

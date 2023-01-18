@@ -7,13 +7,16 @@ tasks:
       - docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
       - echo -e '\e[32mrunning...\e[0m'
     silent: true
+    internal: true
   stop:
     desc: Stop container but keep its volume
     cmds:
       - echo -e '\e[33mshutting down...\e[0m'
       - docker-compose down
+    internal: true
   purge:
     desc: Stop container and clean up volume
     cmds:
       - echo -e '\e[33mpurge...\e[0m'
       - docker-compose down -v
+    internal: true
