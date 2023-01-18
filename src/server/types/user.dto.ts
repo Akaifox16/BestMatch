@@ -9,7 +9,6 @@ export const createUserDto = z.object({
 	email: z.string().email(),
 	password: z.string(),
 	// personal information
-	date_of_birth: z.date(),
 	personal_id: z.string().max(13).min(13),
 	sex: SexEnum,
 })
