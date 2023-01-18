@@ -12,14 +12,14 @@ services:
       - backend-db:/var/lib/postgresql/data
     env_file:
       - ./db.env
-  next-app:
-    container_name: next-server
-    build:
-      context: .
-    ports:
-      - 3000:3000
-    networks:
-      - backend-network
+  # next-app:
+  #   container_name: next-server
+  #   build:
+  #     context: .
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     - backend-network
   pgadmin:
     image: dpage/pgadmin4
     ports:
