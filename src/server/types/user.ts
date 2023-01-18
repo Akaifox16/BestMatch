@@ -1,19 +1,10 @@
 import { z } from 'zod'
 import { createUserDto } from './user.dto'
 
-const userResponse = createUserDto.omit({ password: true })
-const userIdResponse = z.object({
+export const userResponse = createUserDto.omit({ password: true })
+export const userIdResponse = z.object({
   id: z.string().cuid()
 })
-export {
-  userResponse,
-  userIdResponse
-}
 
-type UserResponse = typeof userResponse
-type UserIdResponse = typeof userIdResponse
-
-export type {
-  UserResponse,
-  UserIdResponse
-}
+export type UserResponse = typeof userResponse
+export type UserIdResponse = typeof userIdResponse
