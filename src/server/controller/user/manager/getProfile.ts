@@ -6,7 +6,7 @@ import { prisma } from "@server/db"
 const getProfile = publicProcedure
 		.output(userResponse.nullable())
 		.query(async () => {
-			const userId = 'this-is-user-cuid'
+			const userId = 'cld1ns6f80000qt54q7jf81ej'
 
 			const user = await prisma.user.findFirst({
 				select: {
