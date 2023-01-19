@@ -3,7 +3,7 @@ import { userIdResponse } from '@server/types/user'
 import { createUserDto } from '@server/types/user.dto'
 
 import { prisma } from '@server/db'
-import { ExistingUserError } from '@server/types/errors'
+import { ConflictError } from '@server/types/errors'
 
 const createStudent = publicProcedure
 	.input(createUserDto)
@@ -24,7 +24,7 @@ const createStudent = publicProcedure
 		})
 
 		if (user) {
-			throw ExistingUserError
+			throw ConflictError('cannot create duplicate user')
 		}
 
 		const userId = await prisma.user.create({
