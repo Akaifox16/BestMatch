@@ -1,9 +1,8 @@
 import { publicProcedure } from '@server/trpc'
-import { userIdResponse } from '@server/types/user'
-import { createUserDto } from '@server/types/user.dto'
+import { createUserDto, userIdResponse } from '@server/model/user'
 
 import { prisma } from '@server/db'
-import { ConflictError } from '@server/types/errors'
+import { ConflictError } from '@server/model/errors'
 
 const createStudent = publicProcedure
 	.input(createUserDto)

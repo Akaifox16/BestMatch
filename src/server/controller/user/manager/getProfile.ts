@@ -1,5 +1,5 @@
 import { publicProcedure } from "@server/trpc"
-import { userResponse } from "@server/types/user"
+import { userResponse } from "@server/model/user"
 
 import { prisma } from "@server/db"
 

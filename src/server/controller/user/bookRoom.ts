@@ -1,6 +1,6 @@
 import { publicProcedure } from '@server/trpc'
-import { bookRoomDto } from '@server/types/user.dto'
 import { prisma } from '@server/db'
+import { bookRoomDto } from '@server/model/user'
 
 const bookRoom = publicProcedure
 	.input(bookRoomDto)
@@ -9,9 +9,7 @@ const bookRoom = publicProcedure
 
 		const room = await prisma.user
 			.update({
-				data: {
-					roomId: input.room_id,
-				},
+				data: input,
 				where: {
 					id: userId,
 				},
