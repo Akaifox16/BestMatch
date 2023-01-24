@@ -1,8 +1,6 @@
 import { z } from 'zod'
+import { SexEnum } from '../enum'
 
-import { SexEnum } from './enum'
-
-// dto
 export const createUserDto = z.object({
 	first_name: z.string(),
 	last_name: z.string(),
@@ -29,4 +27,9 @@ export const editPrefDto = addPrefDto.deepPartial()
 
 export const bookRoomDto = z.object({
 	roomId: z.string().cuid(),
+})
+
+export const userResponse = createUserDto.omit({ password: true })
+export const userIdResponse = z.object({
+  id: z.string().cuid()
 })
