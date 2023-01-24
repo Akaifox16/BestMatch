@@ -6,10 +6,10 @@ export const createUserDto = z.object({
 	last_name: z.string(),
 	email: z.string().email(),
 	password: z.string(),
-	// personal information
 	personal_id: z.string().max(13).min(13),
 	sex: SexEnum,
 })
+
 export const addPrefDto = z.object({
 	messiness: z.number(),
 	loudness: z.number(),
