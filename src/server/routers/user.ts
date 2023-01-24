@@ -1,7 +1,6 @@
-import { bookRoom, upsertProfile } from '@server/controller/user'
+import { bookRoom, upsertPreference, upsertProfile } from '@server/controller/user'
 import { addDormPreference, editDormPreference } from '@server/controller/user/dormPref'
 import { createStudent, getProfile, getRole } from '@server/controller/user/manager'
-import { addPreference, editPreference } from '@server/controller/user/matePref'
 import { router } from '@server/trpc'
 
 
@@ -15,8 +14,7 @@ export const userRouter = router({
 	upsertProfile,
 
   // Mate
-	addPreference,
-	editPreference,
+	upsertPreference,
  
   // Room & Dorm
 	addDormPreference,

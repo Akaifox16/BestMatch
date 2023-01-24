@@ -1,8 +1,8 @@
 import { publicProcedure } from '@server/trpc'
-import { addProfileDto } from '@server/types/user.dto'
 
 import { prisma } from '@server/db'
-import { InternalServerError } from '@server/types/errors'
+import { InternalServerError } from '@server/model/errors'
+import { addProfileDto } from '@server/model/user'
 
 const upsertProfile = publicProcedure
 	.input(addProfileDto)
