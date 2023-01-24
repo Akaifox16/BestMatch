@@ -5,7 +5,7 @@ import {
 	Typography,
 	Checkbox,
 } from '@mui/material'
-import { range } from '@utility/util'
+import { range } from 'utils/util'
 
 type TimeRangeCheckBoxGroupProps = {
 	fieldName: string

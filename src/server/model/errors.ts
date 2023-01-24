@@ -12,10 +12,21 @@ const InternalServerError = (msg: string) =>
 		message: msg,
 	})
 
-const NotFoundError = (msg: string) => 
+const NotFoundError = (msg: string) =>
 	new TRPCError({
 		code: 'NOT_FOUND',
-		message: msg
+		message: msg,
 	})
 
-export { ConflictError, InternalServerError, NotFoundError }
+const UnAutorizedError = (msg: string) =>
+	new TRPCError({
+		code: 'UNAUTHORIZED',
+		message: msg,
+	})
+
+export {
+	ConflictError,
+	InternalServerError,
+	NotFoundError,
+	UnAutorizedError,
+}

@@ -2,6 +2,7 @@ import { Fragment, ReactNode } from 'react'
 import { AppProps } from 'next/app'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import { CssBaseline, ThemeProvider } from '@mui/material'
+import { SessionProvider } from 'next-auth/react'
 
 import lightTheme from '@theme/lightTheme'
 import Layout from '@component/Layout'
@@ -12,8 +13,8 @@ import '@fontsource/noto-sans-thai/400.css'
 import '@fontsource/noto-sans-thai/500.css'
 import '@fontsource/noto-sans-thai/700.css'
 
-import { trpc } from '@utility/trpc'
-import createEmotionCache from '@utility/createEmotionCache'
+import { trpc } from 'utils/trpc'
+import createEmotionCache from 'utils/createEmotionCache'
 import UserMachineProvider from '@component/Context/Auth/provider'
 
 interface MUIAppProps extends AppProps {
@@ -44,7 +45,7 @@ const AppWraper = ({
 const App = ({
 	Component,
 	emotionCache = clientSideEmotionCache,
-	pageProps,
+	pageProps: { session, ...pageProps },
 	router,
 }: MUIAppProps) => {
 	const LayoutWrapper = !pageWithoutLayout.includes(router.pathname)
@@ -54,10 +55,12 @@ const App = ({
 	return (
 		<AppWraper emotionCache={emotionCache}>
 			<UserMachineProvider>
-				<LayoutWrapper>
-					<CssBaseline />
-					<Component {...pageProps} />
-				</LayoutWrapper>
+				<SessionProvider session={session}>
+					<LayoutWrapper>
+						<CssBaseline />
+						<Component {...pageProps} />
+					</LayoutWrapper>
+				</SessionProvider>
 			</UserMachineProvider>
 		</AppWraper>
 	)

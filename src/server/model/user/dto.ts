@@ -1,6 +1,9 @@
 import { z } from 'zod'
 import { SexEnum } from '../enum'
 
+const timerange = z.number().max(23).min(0)
+const cuid = z.string().cuid()
+
 export const createUserDto = z.object({
 	first_name: z.string(),
 	last_name: z.string(),
@@ -15,8 +18,8 @@ export const addPrefDto = z.object({
 	loudness: z.number(),
 	do_not_disturb: z.array(
 		z.object({
-			start: z.date(),
-			stop: z.date(),
+			start: timerange,
+			stop: timerange,
 		})
 	),
 })
@@ -26,10 +29,12 @@ export const editProfileDto = addProfileDto.deepPartial()
 export const editPrefDto = addPrefDto.deepPartial()
 
 export const bookRoomDto = z.object({
-	roomId: z.string().cuid(),
+	roomId: cuid,
 })
 
 export const userResponse = createUserDto.omit({ password: true })
 export const userIdResponse = z.object({
-  id: z.string().cuid()
+  id: cuid
 })
+
+export const findById = cuid

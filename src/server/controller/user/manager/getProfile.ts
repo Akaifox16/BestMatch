@@ -1,12 +1,12 @@
 import { publicProcedure } from "@server/trpc"
-import { userResponse } from "@server/model/user"
+import { findById, userResponse } from "@server/model/user"
 
 import { prisma } from "@server/db"
 
 const getProfile = publicProcedure
+		.input(findById)
 		.output(userResponse.nullable())
-		.query(async () => {
-			const userId = 'cld1ns6f80000qt54q7jf81ej'
+		.query(async ({ input }) => {
 
 			const user = await prisma.user.findFirst({
 				select: {
@@ -17,7 +17,7 @@ const getProfile = publicProcedure
 					sex: true,
 				},
 				where: {
-					id: userId,
+					id: input,
 				},
 			})
 

@@ -1,4 +1,4 @@
-import { titleCase } from '@utility/util'
+import { titleCase } from 'utils/util'
 import Head from 'next/head'
 
 type CustomHeaderProps = {

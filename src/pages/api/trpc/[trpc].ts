@@ -3,5 +3,12 @@ import * as trpcNext from '@trpc/server/adapters/next'
 
 export default trpcNext.createNextApiHandler({
   router: appRouter,
-  createContext: () => ({}),
+  createContext() {return {}},
+  onError({ error, type, path, input, ctx, req }) {
+    console.error('Error: ', error)
+    
+    if (error.code === 'CONFLICT') {
+      console.log('conflict')
+    }
+  }
 })

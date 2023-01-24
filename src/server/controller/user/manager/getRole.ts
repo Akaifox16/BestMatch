@@ -1,6 +1,7 @@
+import { findById } from '@server/model/user'
 import { publicProcedure } from '@server/trpc'
 
-const getRole = publicProcedure.query(async () => {
+const getRole = publicProcedure.input(findById).query(async () => {
 	return {
 		message: 'need implementation',
 	}

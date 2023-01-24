@@ -6,6 +6,5 @@ tasks:
     cmds:
       - npx prisma migrate dev
       - npx prisma generate
-      - yarn add @prisma/client@latest
     silent: true
     internal: true

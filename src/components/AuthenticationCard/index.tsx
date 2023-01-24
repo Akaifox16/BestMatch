@@ -17,9 +17,9 @@ import {
 	PersonalInfomationForm,
 } from './Register'
 
-import { titleCase } from '@utility/util'
+import { titleCase } from 'utils/util'
 import Link from 'next/link'
-import { trpc } from '@utility/trpc'
+import { trpc } from 'utils/trpc'
 import { useUserMachine } from '@component/Context/Auth'
 
 type AuthCardVariant = 'ล็อคอิน' | 'ลงทะเบียน'

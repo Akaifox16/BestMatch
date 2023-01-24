@@ -60,8 +60,8 @@ model Profile {
 model DoNotDisturb {
   id String @id @default(cuid())
 
-  start DateTime @db.Timestamptz()
-  stop  DateTime @db.Timestamptz()
+  start Int
+  stop  Int
 
   profileId String
   profile   Profile @relation(fields: [profileId], references: [id])
