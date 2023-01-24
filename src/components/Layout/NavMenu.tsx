@@ -6,8 +6,8 @@ import { Box, IconButton, Menu, Typography, MenuItem } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu'
 
 import { display } from "@theme/lightTheme"
-import { loggedInSelector, useUserMachine } from "@component/Context/AuthContext"
 import { useSelector } from "@xstate/react"
+import { loggedInSelector, useUserMachine } from "@component/Context/Auth"
 
 const pages = ['Tutorials', 'Profile', 'Summary']
 

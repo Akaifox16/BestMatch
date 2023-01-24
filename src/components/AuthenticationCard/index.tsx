@@ -19,8 +19,8 @@ import {
 
 import { titleCase } from '@utility/util'
 import Link from 'next/link'
-import { useUserMachine } from '@component/Context/AuthContext'
 import { trpc } from '@utility/trpc'
+import { useUserMachine } from '@component/Context/Auth'
 
 type AuthCardVariant = 'ล็อคอิน' | 'ลงทะเบียน'
 type AuthenicationCardProps = {

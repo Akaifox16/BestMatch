@@ -1,20 +1,11 @@
 import {
 	MateStepperProvider,
 	useMateStepperMachine,
-} from '@component/Context/MateStepperContext'
-import {
-	Stack,
-	Step,
-	StepLabel,
-	Stepper,
-} from '@mui/material'
+} from '@component/Context/MateStepper'
+import { Stack, Step, StepLabel, Stepper } from '@mui/material'
 import ContentSelector from './ContentSelector'
 
-export const steps = [
-	'ฉันเป็นใคร',
-	'ใครคือเมทของฉัน',
-	'ที่พักในฝัน',
-]
+export const steps = ['ฉันเป็นใคร', 'ใครคือเมทของฉัน', 'ที่พักในฝัน']
 
 const MatingApp = () => {
 	const { step } = useMateStepperMachine()

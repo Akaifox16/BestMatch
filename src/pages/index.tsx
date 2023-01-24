@@ -5,8 +5,8 @@ import { Button, Container, Grid, Typography } from '@mui/material'
 
 import { TimelineWithDate } from '@component/SystemTimeline'
 import CustomHeader from '@component/CustomHeader'
-import { loggedInSelector, useUserMachine } from '@component/Context/AuthContext'
 import { useSelector } from '@xstate/react'
+import { loggedInSelector, useUserMachine } from '@component/Context/Auth'
 
 const evtNames = ['ลงทะเบียนผู้ใช้', 'เปิดระบบจับคู่', 'ปิดระบบจับคู่', 'ระบบประมวลผล', 'ประกาศผล']
 const dates: { year: number; month: number; day: number }[] = [

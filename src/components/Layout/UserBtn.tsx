@@ -1,16 +1,9 @@
 import Link from 'next/link'
 
 import { AccountCircle, Logout } from '@mui/icons-material'
-import {
-	Box,
-	Button,
-	Grid,
-} from '@mui/material'
+import { Box, Button, Grid } from '@mui/material'
 import { useSelector } from '@xstate/react'
-import {
-	loggedInSelector,
-	useUserMachine,
-} from '@component/Context/AuthContext'
+import { loggedInSelector, useUserMachine } from '@component/Context/Auth'
 
 const UserBtn = () => {
 	const userMachine = useUserMachine()
@@ -18,7 +11,6 @@ const UserBtn = () => {
 		userMachine.authService,
 		loggedInSelector
 	)
-
 
 	return (
 		<Box sx={{ flexGrow: 0 }}>
