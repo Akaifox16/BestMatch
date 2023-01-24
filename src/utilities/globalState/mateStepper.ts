@@ -82,7 +82,7 @@ createMachine({
 				initial = true
 			}
 		}
-	}
+	},
 	)
 
 export default mateStepperMachine
