@@ -1,15 +1,15 @@
-import { publicProcedure } from '@server/trpc'
+import { protectedProcedure } from '@server/trpc'
 
 import { prisma } from '@server/db'
 import { InternalServerError } from '@server/model/errors'
 import { addProfileDto } from '@server/model/user'
 
-const upsertProfile = publicProcedure
+const upsertProfile = protectedProcedure
 	.input(addProfileDto)
-	.mutation(async ({ input }) => {
+	.mutation(async ({ input, ctx }) => {
 		const profile = await prisma.profile.upsert({
 			where: {
-				owner_id: userId,
+				owner_id: ctx.session.user.id,
 			},
 			select: {
 				messiness: true,
