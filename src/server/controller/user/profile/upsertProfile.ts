@@ -7,8 +7,6 @@ import { addProfileDto } from '@server/model/user'
 const upsertProfile = publicProcedure
 	.input(addProfileDto)
 	.mutation(async ({ input }) => {
-		const userId = 'cld1ns6f80000qt54q7jf81ej'
-
 		const profile = await prisma.profile.upsert({
 			where: {
 				owner_id: userId,

@@ -1,27 +1,23 @@
 import Link from 'next/link'
 
 import { AccountCircle, Logout } from '@mui/icons-material'
-import { Box, Button, Grid } from '@mui/material'
-import { useSelector } from '@xstate/react'
-import { loggedInSelector, useUserMachine } from '@component/Context/Auth'
+import { Box, Button, Grid, Typography } from '@mui/material'
+import { signOut, useSession } from 'next-auth/react'
+import { Stack } from '@mui/system'
 
 const UserBtn = () => {
-	const userMachine = useUserMachine()
-	const isLoggedIn = useSelector(
-		userMachine.authService,
-		loggedInSelector
-	)
+	const { status } = useSession()
 
 	return (
 		<Box sx={{ flexGrow: 0 }}>
-			{isLoggedIn ? <LogoutBtn /> : <LoginBtn />}
+			{status === 'authenticated' ? <LogoutBtn /> : <LoginBtn />}
 		</Box>
 	)
 }
 
 const LoginBtn = () => {
 	return (
-		<Link href='/login'>
+		<Link href={'/auth/login'}>
 			<Button color='success' variant='contained'>
 				ล็อคอิน
 			</Button>
@@ -30,19 +26,24 @@ const LoginBtn = () => {
 }
 
 const LogoutBtn = () => {
-	const userMachine = useUserMachine()
+	const { data: sessionData } = useSession()
 
 	return (
 		<Grid gap={2} container direction='row'>
 			<Grid item>
-				<AccountCircle fontSize='large' />
+				<Stack direction='row'>
+					<AccountCircle fontSize='large' />
+					<Typography variant='body1'>
+						{sessionData?.user?.email}
+					</Typography>
+				</Stack>
 			</Grid>
 			<Grid item>
 				<Link href='/'>
 					<Button
 						color='error'
 						variant='contained'
-						onClick={() => userMachine.authService.send('LOGGED_OUT')}
+						onClick={() => signOut()}
 					>
 						<Logout /> ลงชื่อออก
 					</Button>

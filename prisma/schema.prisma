@@ -7,6 +7,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 // ########################################
 // ##                                    ##
 // ##               User                 ##
@@ -22,16 +49,18 @@ model User {
   email      String @unique
   password   String
 
-  personal_id String  @unique
+  personal_id String @unique
   sex         Sex
-  isAdmin     Boolean @default(false)
+  role        Role   @default(STUDENT)
 
   has_profile         Profile?        @relation("profile_of_user")
   has_mate_preference Profile?        @relation("mate_pref_of_user")
   has_dorm_preference DormPreference?
 
   roomId   String?
-  lived_in Room?   @relation("lived_in", fields: [roomId], references: [id])
+  lived_in Room?     @relation("lived_in", fields: [roomId], references: [id], onDelete: SetNull)
+  Account  Account[]
+  Session  Session[]
 }
 
 // ########################################
@@ -45,9 +74,9 @@ model Profile {
   updatedAt DateTime? @updatedAt
 
   owner_id       String @unique
-  belong_to_user User?  @relation("profile_of_user", fields: [owner_id], references: [id])
+  belong_to_user User?  @relation("profile_of_user", fields: [owner_id], references: [id], onDelete: Cascade)
   pref_owner_id  String @unique
-  preference_of  User?  @relation("mate_pref_of_user", fields: [pref_owner_id], references: [id])
+  preference_of  User?  @relation("mate_pref_of_user", fields: [pref_owner_id], references: [id], onDelete: Cascade)
 
   // scale attribute 
   messiness Int
@@ -64,7 +93,7 @@ model DoNotDisturb {
   stop  Int
 
   profileId String
-  profile   Profile @relation(fields: [profileId], references: [id])
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 }
 
 // ########################################
@@ -78,7 +107,7 @@ model DormPreference {
   updatedAt DateTime? @updatedAt
 
   owner_id       String @unique
-  belong_to_user User   @relation(fields: [owner_id], references: [id])
+  belong_to_user User   @relation(fields: [owner_id], references: [id], onDelete: Cascade)
 
   dorm_type       DormTypePrefer
   residents_limit Int            @db.SmallInt
@@ -132,7 +161,7 @@ model Floor {
   updatedAt DateTime? @updatedAt
 
   dormId         String
-  belong_to_dorm Dorm   @relation("belong_to_dorm", fields: [dormId], references: [id])
+  belong_to_dorm Dorm   @relation("belong_to_dorm", fields: [dormId], references: [id], onDelete: Cascade)
 
   floor_number Int
 
@@ -150,7 +179,7 @@ model Room {
   updatedAt DateTime? @updatedAt
 
   floorId         String?
-  belong_to_floor Floor?  @relation(fields: [floorId], references: [id])
+  belong_to_floor Floor?  @relation(fields: [floorId], references: [id], onDelete: Cascade)
 
   room_number Int
   zone        Zone
@@ -184,4 +213,9 @@ enum Zone {
 enum Sex {
   MALE
   FEMALE
+}
+
+enum Role {
+  STUDENT
+  ADMIN
 }

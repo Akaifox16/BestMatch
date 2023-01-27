@@ -7,7 +7,8 @@ import MenuIcon from '@mui/icons-material/Menu'
 
 import { display } from "@theme/lightTheme"
 import { useSelector } from "@xstate/react"
-import { loggedInSelector, useUserMachine } from "@component/Context/Auth"
+import { useSession } from "next-auth/react"
+// import { loggedInSelector, useUserMachine } from "@component/Context/Auth"
 
 const pages = ['Tutorials', 'Profile', 'Summary']
 
@@ -20,8 +21,11 @@ const NavMenu = () => {
 		setAnchorNav(null)
 	}
 
-	const userMachine = useUserMachine()
-	const isLoggedIn = useSelector(userMachine.authService, loggedInSelector)
+	// const userMachine = useUserMachine()
+	// const isLoggedIn = useSelector(userMachine.authService, loggedInSelector)
+
+	const { data: sessionData } = useSession()
+
 	return (
 		<>
 			{/* mobile menu */}
@@ -62,7 +66,7 @@ const NavMenu = () => {
 
 			{/* web menu */}
 			<Box sx={{ flexGrow: 1, display: display.web }}>
-				{ isLoggedIn && pages.map((page) => (
+				{ sessionData && pages.map((page) => (
 					<NavMenuItem key={page} page={page} handleClose={handleCloseNavMenu} />
 				))}
 			</Box>

@@ -6,16 +6,37 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '@server/db'
 
 export const authOptions: NextAuthOptions = {
+	session: {
+		strategy: 'jwt',
+		maxAge: 3600,
+		updateAge: 600,
+	},
 	callbacks: {
-		session({ session, user }) {
-			if (session.user) session.user.id = user.id
+		redirect: async ({ baseUrl }) => {
+			return baseUrl
+		},
+		session({ session, user, token }) {
+			console.log('begin session');
+			
+			if (session.user && token.id) session.user.id = token.id as string
+
 			return session
+		},
+		jwt({ token, user, account, isNewUser }) {
+			console.log(`signing jwt for ${user?.email}`);
+
+			if (user?.id) token.id = user.id
+			if (account?.access_token) console.log(account.access_token);
+			
+			console.log(`signed token: ${token.email}`);
+			
+			return token
 		},
 	},
 	adapter: PrismaAdapter(prisma),
 	providers: [
 		CredentialsProvider({
-			name: 'bestmatch-auth',
+			// name: '',
 			credentials: {
 				email: {
 					label: 'Email',
@@ -24,12 +45,21 @@ export const authOptions: NextAuthOptions = {
 				},
 				password: { label: 'Password', type: 'password' },
 			},
-			async authorize(_cred, _req) {
-				return {
-					name: 'mockup-user',
-					email: 'mockup@mockmail.com',
+			async authorize(cred, _req) {
+				console.log('begin authorization...')
+				console.log(`incoming user: ${cred?.email}`);
+
+				const user = {
+					email: cred?.email,
 					id: 'clda953nf0000qtah0fb2z9cp',
 				}
+
+				if (!user) {
+					return null
+				}
+
+				console.log(`authorized`);
+				return user
 			},
 		}),
 	],

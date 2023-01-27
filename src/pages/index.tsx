@@ -1,14 +1,18 @@
-import Head from 'next/head'
 import Link from 'next/link'
 
 import { Button, Container, Grid, Typography } from '@mui/material'
 
 import { TimelineWithDate } from '@component/SystemTimeline'
 import CustomHeader from '@component/CustomHeader'
-import { useSelector } from '@xstate/react'
-import { loggedInSelector, useUserMachine } from '@component/Context/Auth'
+import { useSession } from 'next-auth/react'
 
-const evtNames = ['ลงทะเบียนผู้ใช้', 'เปิดระบบจับคู่', 'ปิดระบบจับคู่', 'ระบบประมวลผล', 'ประกาศผล']
+const evtNames = [
+	'ลงทะเบียนผู้ใช้',
+	'เปิดระบบจับคู่',
+	'ปิดระบบจับคู่',
+	'ระบบประมวลผล',
+	'ประกาศผล',
+]
 const dates: { year: number; month: number; day: number }[] = [
 	{ year: 2022, month: 1, day: 12 },
 	{ year: 2022, month: 1, day: 16 },
@@ -26,8 +30,9 @@ const timeline = evtNames.map((evt, idx) => ({
 }))
 
 export default function Home() {
-	const userMachine = useUserMachine()
-	const isLoggedIn = useSelector(userMachine.authService, loggedInSelector)
+	const { data: sessionData, status } = useSession()
+
+	if (status === 'loading') return <div>Loading...</div>
 
 	return (
 		<div>
@@ -45,7 +50,7 @@ export default function Home() {
 						xs={4}
 						sx={{ justifyContent: 'center', display: 'flex' }}
 					>
-						<Link href={isLoggedIn ? '/matching': '/login'}>
+						<Link href={sessionData ? '/matching' : '/auth/login'}>
 							<Button variant='contained' sx={{ mr: 1 }}>
 								เริ่มเลย!
 							</Button>
