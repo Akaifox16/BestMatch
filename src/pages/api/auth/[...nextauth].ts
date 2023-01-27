@@ -22,8 +22,8 @@ export const authOptions: NextAuthOptions = {
 
 			return session
 		},
-		jwt({ token, user, account, isNewUser }) {
-			console.log(`signing jwt for ${user?.email}`);
+		jwt({ token, user, account, }) {
+			console.log(`signing jwt for ${token.email}`);
 
 			if (user?.id) token.id = user.id
 			if (account?.access_token) console.log(account.access_token);
