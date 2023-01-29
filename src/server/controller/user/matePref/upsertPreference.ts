@@ -1,12 +1,11 @@
-import { protectedProcedure, publicProcedure } from '@server/trpc'
+import { protectedProcedure } from '@server/trpc'
 import { prisma } from '@server/db'
 import { addPrefDto } from '@server/model/user'
 import { InternalServerError } from '@server/model/errors'
 
-const addPreference = protectedProcedure 
+const addPreference = protectedProcedure
 	.input(addPrefDto)
 	.mutation(async ({ input, ctx }) => {
-
 		const preference = await prisma.profile.upsert({
 			where: {
 				pref_owner_id: ctx.session.user.id,
