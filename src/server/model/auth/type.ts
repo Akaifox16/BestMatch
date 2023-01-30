@@ -1,3 +1,3 @@
-import { loginDto } from "./dto";
+import { loginDto } from './dto';
 
-export type LoginDto = typeof loginDto
+export type LoginDto = typeof loginDto;

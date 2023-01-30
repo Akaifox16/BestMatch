@@ -1,25 +1,30 @@
-import { bookRoom, upsertPreference, upsertProfile } from '@server/controller/user'
-import { addDormPreference, editDormPreference } from '@server/controller/user/dormPref'
-import { createStudent, getProfile, getRole } from '@server/controller/user/manager'
-import { createTRPCRouter } from '@server/trpc'
-
+import {
+  bookRoom,
+  upsertPreference,
+  upsertProfile,
+} from '@server/controller/user';
+import {
+  addDormPreference,
+  editDormPreference,
+} from '@server/controller/user/dormPref';
+import { getProfile, getRole } from '@server/controller/user/manager';
+import { createTRPCRouter } from '@server/trpc';
 
 export const userRouter = createTRPCRouter({
   // User
-	getProfile,
-	getRole,
-	createStudent,
- 
+  getProfile,
+  getRole,
+
   // Profile
-	upsertProfile,
+  upsertProfile,
 
   // Mate
-	upsertPreference,
- 
+  upsertPreference,
+
   // Room & Dorm
-	addDormPreference,
-	editDormPreference,
+  addDormPreference,
+  editDormPreference,
 
   // Book room
-	bookRoom,
-})
+  bookRoom,
+});
