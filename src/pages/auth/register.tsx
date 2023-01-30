@@ -1,5 +1,5 @@
-import AuthenticationCard from "@component/AuthenticationCard"
-import CustomHeader from "@component/CustomHeader"
+import AuthenticationCard from '@component/AuthenticationCard';
+import CustomHeader from '@component/CustomHeader';
 
 const RegisterPage = () => {
   return (
@@ -10,7 +10,7 @@ const RegisterPage = () => {
         <AuthenticationCard variant='ลงทะเบียน' />
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default RegisterPage
+export default RegisterPage;

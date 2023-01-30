@@ -1,5 +1,5 @@
-import CustomHeader from "@component/CustomHeader";
-import ProfileCard from "@component/ProfileCard";
+import CustomHeader from '@component/CustomHeader';
+import ProfileCard from '@component/ProfileCard';
 
 const summary = () => {
   return (
@@ -11,6 +11,6 @@ const summary = () => {
       </main>
     </div>
   );
-}
+};
 
 export default summary;

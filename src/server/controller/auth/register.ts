@@ -1,4 +1,4 @@
-import { authResponseDto, createStudentDto, loginDto } from "@server/model/user";
+import { authResponseDto, createStudentDto, } from "@server/model/user";
 import { publicProcedure } from "@server/trpc";
 import { prisma } from '@server/db'
 import { ConflictError, InternalServerError } from "@server/model/errors";

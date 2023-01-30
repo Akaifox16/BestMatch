@@ -1,5 +1,5 @@
-import CustomHeader from '@component/CustomHeader'
-import MatingApp from '@component/MatingApp'
+import CustomHeader from '@component/CustomHeader';
+import MatingApp from '@component/MatingApp';
 
 const MatchingPage = () => {
   return (
@@ -10,7 +10,7 @@ const MatchingPage = () => {
         <MatingApp />
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default MatchingPage
+export default MatchingPage;
