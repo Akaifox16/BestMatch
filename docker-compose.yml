@@ -2,12 +2,11 @@ version: '3'
 
 services:
   backend-db:
-    image: postgres:15
+    image: postgres:15-alpine
     ports:
       - 5433:5432
     networks:
       - backend-network
-      - db-network
     volumes:
       - backend-db:/var/lib/postgresql/data
     env_file:
@@ -20,17 +19,7 @@ services:
   #     - 3000:3000
   #   networks:
   #     - backend-network
-  pgadmin:
-    image: dpage/pgadmin4
-    ports:
-      - 8080:80
-    networks:
-      - db-network
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=p@ssw0rd
 networks:
   backend-network: 
-  db-network:
 volumes:
   backend-db:

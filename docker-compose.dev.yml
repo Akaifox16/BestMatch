@@ -1,8 +1,0 @@
-version: '3'
-
-services:
-  # next-app:
-  #   build:
-  #     dockerfile: dev.Dockerfile
-  #   volumes:
-  #     - ./:/app/
