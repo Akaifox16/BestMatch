@@ -1,0 +1,20 @@
+{
+  "name": "@bm/server",
+  "version": "0.0.0",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "lint": "eslint",
+    "type-check": "tsx --noEmit"
+  },
+  "dependencies": {
+    "@bm/database": "*",
+    "@trpc/client": "^10.8.1",
+    "@trpc/next": "^10.8.1",
+    "@trpc/react-query": "^10.8.1",
+    "@trpc/server": "^10.8.1",
+    "superjson": "1.9.1",
+    "zod": "^3.20.2"
+  }
+}

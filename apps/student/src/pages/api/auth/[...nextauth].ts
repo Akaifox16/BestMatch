@@ -3,7 +3,7 @@ import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { prisma } from '@server/db';
+import { _prisma as prisma } from '@bm/database';
 
 export const authOptions: NextAuthOptions = {
   session: {

@@ -3,7 +3,7 @@ import { Session } from 'next-auth';
 import { UnAutorizedError } from './model/errors';
 import superjson from 'superjson';
 
-import { prisma } from './db';
+import { _prisma as prisma } from '@bm/database';
 import { CreateNextContextOptions } from '@trpc/server/adapters/next';
 import { getServerAuthSession } from './auth';
 

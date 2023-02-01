@@ -1,4 +1,4 @@
-!process.env.SKIP_ENV_VALIDATION && (await import('./src/env/server.mjs'))
+!process.env.SKIP_ENV_VALIDATION && (await import('@bm/env'))
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -7,6 +7,7 @@ const nextConfig = {
 		locales: ['en'],
 		defaultLocale: 'en',
 	},
+	transpilePackages: ['@bm/server'],
 }
 
 export default nextConfig
