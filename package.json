@@ -1,57 +1,27 @@
 {
-  "name": "auto-roommate",
-  "version": "0.2.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "prisma": {
+    "schema": "packages/database/prisma/schema.prisma"
   },
-  "os": [
-    "linux"
-  ],
-  "libc": [
-    "glibc",
-    "musl"
-  ],
-  "dependencies": {
-    "@emotion/cache": "^11.10.5",
-    "@emotion/react": "^11.10.5",
-    "@emotion/server": "^11.10.0",
-    "@emotion/styled": "^11.10.5",
-    "@fontsource/noto-sans-thai": "^4.5.12",
-    "@mui/icons-material": "^5.11.0",
-    "@mui/lab": "^5.0.0-alpha.110",
-    "@mui/material": "^5.10.12",
-    "@mui/x-date-pickers": "^5.0.15",
-    "@next-auth/prisma-adapter": "^1.0.5",
-    "@prisma/client": "^4.8.0",
-    "@tanstack/react-query": "^4.20.0",
-    "@trpc/client": "^10.8.1",
-    "@trpc/next": "^10.8.1",
-    "@trpc/react-query": "^10.8.1",
-    "@trpc/server": "^10.8.1",
-    "@xstate/react": "^3.0.1",
-    "next": "13.1.2",
-    "next-auth": "^4.18.7",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-hook-form": "^7.42.1",
-    "react-hook-form-mui": "^5.12.4",
-    "superjson": "1.9.1",
-    "xstate": "^4.35.0",
-    "zod": "^3.20.2"
+  "scripts": {
+    "build": "turbo run build",
+    "db:migrate:deploy": "turbo run db:migrate:deploy",
+    "db:push": "turbo run db:push",
+    "db:seed": "turbo run db:seed",
+    "dev": "turbo run dev",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "generate": "turbo run generate",
+    "lint": "turbo run lint"
   },
   "devDependencies": {
-    "@types/node": "^18.11.18",
-    "@types/react": "^18.0.26",
-    "@types/react-dom": "^18.0.10",
-    "@typescript-eslint/eslint-plugin": "^5.47.1",
-    "@typescript-eslint/parser": "^5.47.1",
-    "eslint": "^8.30.0",
-    "eslint-config-next": "13.1.2",
-    "prisma": "^4.8.0",
-    "typescript": "^4.9.4"
-  }
+    "prettier": "^2.5.1",
+    "tsx": "^3.7.1",
+    "turbo": "latest"
+  },
+  "packageManager": "yarn@1.22.17",
+  "version": "0.0.0"
 }
