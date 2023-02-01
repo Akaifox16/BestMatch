@@ -1,11 +1,11 @@
-import { publicProcedure } from '@server/trpc'
+import { publicProcedure } from '@server/trpc';
 
 const setupDateTimeOfSystem = publicProcedure
-	// .input()
-	.mutation(() => {
-		return {
-			message: 'need implementation',
-		}
-	})
+  // .input()
+  .mutation(() => {
+    return {
+      message: 'need implementation',
+    };
+  });
 
-export default setupDateTimeOfSystem
+export default setupDateTimeOfSystem;

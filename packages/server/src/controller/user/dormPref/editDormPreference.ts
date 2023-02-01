@@ -1,11 +1,11 @@
-import { publicProcedure } from '@server/trpc'
+import { publicProcedure } from '@server/trpc';
 
 const editDormPreference = publicProcedure
-	// .input()
-	.mutation(async () => {
-		return {
-			message: 'need implementation',
-		}
-	})
+  // .input()
+  .mutation(async () => {
+    return {
+      message: 'need implementation',
+    };
+  });
 
-export default editDormPreference
+export default editDormPreference;

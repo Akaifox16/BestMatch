@@ -1,1 +1,1 @@
-export { default as upsertPreference } from './upsertPreference'
+export { default as upsertPreference } from './upsertPreference';

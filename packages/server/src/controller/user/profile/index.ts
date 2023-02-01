@@ -1,1 +1,1 @@
-export { default as upsertProfile } from './upsertProfile'
+export { default as upsertProfile } from './upsertProfile';

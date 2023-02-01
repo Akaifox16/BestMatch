@@ -1,20 +1,20 @@
-import React from "react";
+import React from 'react';
 
-import { Container } from "@mui/material";
+import { Container } from '@mui/material';
 
-import Header from "./Header";
+import Header from './Header';
 
 interface LayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
   return (
     <Container maxWidth='xl'>
       <Header />
-      { children }
+      {children}
     </Container>
   );
-}
+};
 
 export default Layout;

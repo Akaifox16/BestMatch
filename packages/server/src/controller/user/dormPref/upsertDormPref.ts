@@ -1,7 +1,6 @@
 const upsertDormPref = protectedProcedure
   .input()
   .output()
-  .mutation(({ input }) => {
-})
+  .mutation(({ input }) => {});
 
-export default upsertDormPref
+export default upsertDormPref;

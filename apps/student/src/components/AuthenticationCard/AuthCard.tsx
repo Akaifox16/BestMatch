@@ -1,8 +1,7 @@
-import { Grid, Paper, Stack } from "@mui/material";
-import { ParentNode } from "@utility/type";
+import { Grid, Paper, Stack } from '@mui/material';
+import { ParentNode } from '@utility/type';
 
 export default function AuthCard({ children }: ParentNode) {
-
   return (
     <Grid
       container
@@ -27,10 +26,10 @@ export default function AuthCard({ children }: ParentNode) {
               p: 12,
             }}
           >
-            { children }
+            {children}
           </Paper>
         </Stack>
       </Grid>
     </Grid>
-  )
+  );
 }

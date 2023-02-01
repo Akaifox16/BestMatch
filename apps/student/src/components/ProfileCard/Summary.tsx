@@ -1,9 +1,7 @@
-import { Fragment } from "react"
+import { Fragment } from 'react';
 
 const SummaryCard = () => {
-  return <Fragment>
+  return <Fragment></Fragment>;
+};
 
-  </Fragment>
-}
-
-export default SummaryCard
+export default SummaryCard;

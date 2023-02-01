@@ -1,52 +1,50 @@
-import { ParentNode } from 'utils/type'
-import { useContext, useRef, useState } from 'react'
+import { ParentNode } from 'utils/type';
+import { useContext, useRef, useState } from 'react';
 
-import { createContext } from 'react'
-import { interpret, InterpreterFrom } from 'xstate'
-import mateStepperMachine from './machine'
+import { createContext } from 'react';
+import { interpret, InterpreterFrom } from 'xstate';
+import mateStepperMachine from './machine';
 
 export const MateStepperCtx = createContext({
-	mateService: {} as InterpreterFrom<typeof mateStepperMachine>,
-	step: 0,
-	setStep: (_x: number) => {},
-})
+  mateService: {} as InterpreterFrom<typeof mateStepperMachine>,
+  step: 0,
+  setStep: (_x: number) => {},
+});
 
-export default function MateStepperProvider({
-	children,
-}: ParentNode) {
-	const [step, setStep] = useState<number>(0)
-	const mateStepper = useRef(
-		interpret(mateStepperMachine)
-			.onSend((evt) => console.log(`MateStepper: send ${evt.type}`))
-			.onTransition((state) =>
-				console.log(`MateStepper: transition to ${state.value}`)
-			)
-	)
+export default function MateStepperProvider({ children }: ParentNode) {
+  const [step, setStep] = useState<number>(0);
+  const mateStepper = useRef(
+    interpret(mateStepperMachine)
+      .onSend((evt) => console.log(`MateStepper: send ${evt.type}`))
+      .onTransition((state) =>
+        console.log(`MateStepper: transition to ${state.value}`)
+      )
+  );
 
-	return (
-		<MateStepperCtx.Provider
-			value={{ mateService: mateStepper.current, step, setStep }}
-		>
-			{children}
-		</MateStepperCtx.Provider>
-	)
+  return (
+    <MateStepperCtx.Provider
+      value={{ mateService: mateStepper.current, step, setStep }}
+    >
+      {children}
+    </MateStepperCtx.Provider>
+  );
 }
 
 export function useMateStepperMachine() {
-	const { mateService, setStep, step } = useContext(MateStepperCtx)
+  const { mateService, setStep, step } = useContext(MateStepperCtx);
 
-	function nextStep() {
-		return setStep(step + 1)
-	}
+  function nextStep() {
+    return setStep(step + 1);
+  }
 
-	function prevStep() {
-		return setStep(step - 1)
-	}
+  function prevStep() {
+    return setStep(step - 1);
+  }
 
-	return {
-		mateService,
-		step,
-		nextStep,
-		prevStep,
-	}
+  return {
+    mateService,
+    step,
+    nextStep,
+    prevStep,
+  };
 }

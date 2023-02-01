@@ -1,56 +1,50 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
-import { AccountCircle, Logout } from '@mui/icons-material'
-import { Box, Button, Grid, Typography } from '@mui/material'
-import { signOut, useSession } from 'next-auth/react'
-import { Stack } from '@mui/system'
+import { AccountCircle, Logout } from '@mui/icons-material';
+import { Box, Button, Grid, Typography } from '@mui/material';
+import { signOut, useSession } from 'next-auth/react';
+import { Stack } from '@mui/system';
 
 const UserBtn = () => {
-	const { status } = useSession()
+  const { status } = useSession();
 
-	return (
-		<Box sx={{ flexGrow: 0 }}>
-			{status === 'authenticated' ? <LogoutBtn /> : <LoginBtn />}
-		</Box>
-	)
-}
+  return (
+    <Box sx={{ flexGrow: 0 }}>
+      {status === 'authenticated' ? <LogoutBtn /> : <LoginBtn />}
+    </Box>
+  );
+};
 
 const LoginBtn = () => {
-	return (
-		<Link href={'/auth/login'}>
-			<Button color='success' variant='contained'>
-				ล็อคอิน
-			</Button>
-		</Link>
-	)
-}
+  return (
+    <Link href={'/auth/login'}>
+      <Button color='success' variant='contained'>
+        ล็อคอิน
+      </Button>
+    </Link>
+  );
+};
 
 const LogoutBtn = () => {
-	const { data: sessionData } = useSession()
+  const { data: sessionData } = useSession();
 
-	return (
-		<Grid gap={2} container direction='row'>
-			<Grid item>
-				<Stack direction='row'>
-					<AccountCircle fontSize='large' />
-					<Typography variant='body1'>
-						{sessionData?.user?.email}
-					</Typography>
-				</Stack>
-			</Grid>
-			<Grid item>
-				<Link href='/'>
-					<Button
-						color='error'
-						variant='contained'
-						onClick={() => signOut()}
-					>
-						<Logout /> ลงชื่อออก
-					</Button>
-				</Link>
-			</Grid>
-		</Grid>
-	)
-}
+  return (
+    <Grid gap={2} container direction='row'>
+      <Grid item>
+        <Stack direction='row'>
+          <AccountCircle fontSize='large' />
+          <Typography variant='body1'>{sessionData?.user?.email}</Typography>
+        </Stack>
+      </Grid>
+      <Grid item>
+        <Link href='/'>
+          <Button color='error' variant='contained' onClick={() => signOut()}>
+            <Logout /> ลงชื่อออก
+          </Button>
+        </Link>
+      </Grid>
+    </Grid>
+  );
+};
 
-export default UserBtn
+export default UserBtn;

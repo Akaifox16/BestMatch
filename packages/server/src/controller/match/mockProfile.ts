@@ -1,9 +1,9 @@
-import { publicProcedure } from "@server/trpc";
-import { prisma } from "@server/db";
-import { NotFoundError } from "@server/model/errors";
+import { publicProcedure } from '@server/trpc';
+import { prisma } from '@server/db';
+import { NotFoundError } from '@server/model/errors';
 
 const mockProfile = publicProcedure.query(async () => {
-  const userId = "cld1ns6f80000qt54q7jf81ej";
+  const userId = 'cld1ns6f80000qt54q7jf81ej';
 
   const matePref = await prisma.profile.findFirst({
     where: {
