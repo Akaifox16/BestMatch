@@ -1,5 +1,5 @@
 import { publicProcedure } from '../../trpc';
-import { _prisma as prisma } from '@bm/database';
+import { prisma } from '@bm/database';
 import { loginDto } from '../../model/user';
 
 const login = publicProcedure.input(loginDto).mutation(async ({ input }) => {

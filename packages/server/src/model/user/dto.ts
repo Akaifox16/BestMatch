@@ -20,14 +20,20 @@ export const authResponseDto = z.object({
   }),
 });
 
-export const createStudentDto = z.object({
-  first_name: z.string(),
-  last_name: z.string(),
-  email,
-  password,
-  personal_id,
-  sex: SexEnum,
-});
+export const createStudentDto = z
+  .object({
+    first_name: z.string(),
+    last_name: z.string(),
+    email,
+    password,
+    confirm_password: password,
+    personal_id,
+    sex: SexEnum,
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: "Password don't match",
+    path: ['confirm_password'],
+  });
 
 export const createDormPrefDto = z.object({
   residents_limit: z.number().int().min(2).max(4),

@@ -1,14 +1,14 @@
 import FieldInput from '@component/Input/FieldInput';
 import { Grid, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import { LoginDto } from '@server/model/auth';
+import { RouterInputs } from '@utility/trpc';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { PasswordElement, TextFieldElement } from 'react-hook-form-mui';
 import SendBtn from '../SendBtn';
 
 function LoginForm() {
-  const { control, handleSubmit } = useForm<LoginDto>();
+  const { control, handleSubmit } = useForm<RouterInputs['auth']['login']>();
 
   function submit() {}
 
@@ -21,16 +21,12 @@ function LoginForm() {
         sx={{ minHeight: '30vh' }}
       >
         <TextFieldElement
-          name='shape.email'
+          name='email'
           label='Email'
           control={control}
           fullWidth
         />
-        <PasswordElement
-          name='shape.password'
-          label='Password'
-          control={control}
-        />
+        <PasswordElement name='password' label='Password' control={control} />
         <CreateAccountLink />
         <SendBtn variant='ล็อคอิน' />
       </Stack>

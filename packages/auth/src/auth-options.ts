@@ -1,13 +1,14 @@
-import { type NextAuthOptions, DefaultSession } from 'next-auth'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import CredentialsProvider from 'next-auth/providers/credentials'
+import { type NextAuthOptions, DefaultSession } from 'next-auth';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
-import { prisma } from '@bm/database'
+import { prisma } from '@bm/database';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
-    id: string} & DefaultSession['user']
+      id: string;
+    } & DefaultSession['user'];
   }
 }
 
@@ -58,4 +59,4 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-}
+};

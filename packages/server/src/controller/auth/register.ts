@@ -1,6 +1,6 @@
 import { authResponseDto, createStudentDto } from '../../model/user';
 import { publicProcedure } from '../../trpc';
-import { _prisma as prisma } from '@bm/database';
+import { prisma } from '@bm/database';
 import { ConflictError, InternalServerError } from '../../model/errors';
 
 const register = publicProcedure
@@ -16,8 +16,11 @@ const register = publicProcedure
 
     if (existedStudent) throw ConflictError('this user is already existed');
 
+    // remove confirm__password
+    const { confirm_password, ...data } = input;
+
     const user = await prisma.user.create({
-      data: input,
+      data,
       select: { email: true, id: true, first_name: true, last_name: true },
     });
 

@@ -1,69 +1,85 @@
-import { Fragment } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import {
+  PasswordElement,
+  RadioButtonGroup,
+  TextFieldElement,
+} from 'react-hook-form-mui';
+import { Stack } from '@mui/system';
 
-import FieldInput from '@component/Input/FieldInput';
-import SexRadioGroup, { Sex } from '@component/Input/SexRadioGroup';
-import { Grid } from '@mui/material';
+import { RouterInputs, trpc } from '@utility/trpc';
+import SendBtn from '../SendBtn';
+import { signIn } from 'next-auth/react';
 
-type PersonalInfoForm = {
-  fname: string;
-  lname: string;
-  personalId: string;
-  sex: Sex;
-};
+function RegisterForm() {
+  const { control, handleSubmit } = useForm<RouterInputs['auth']['register']>();
+  const createStudent = trpc.auth.register.useMutation();
 
-const PersonalInfomationForm = () => {
+  const submit: SubmitHandler<RouterInputs['auth']['register']> = (data) => {
+    createStudent.mutateAsync(data);
+    signIn('credentials', {
+      email: data.email,
+      password: data.password,
+    });
+  };
+
   return (
-    <Grid container direction='column'>
-      <Grid item>
-        <FieldInput label='ชื่อ' err errText=' ' />
-      </Grid>
-      <Grid item>
-        <FieldInput label='สกุล' err errText=' ' />
-      </Grid>
-      <Grid item>
-        <FieldInput
-          label='รหัสประชาชน'
-          err
-          errText='รหัสบัตรประชาชนไม่ถูกต้อง'
+    <form onSubmit={handleSubmit(submit)}>
+      <Stack
+        direction='column'
+        justifyContent='center'
+        spacing={2}
+        sx={{ minHeight: '30vh' }}
+      >
+        <Stack direction='row' spacing={2}>
+          <TextFieldElement
+            name='first_name'
+            label='first name'
+            control={control}
+            fullWidth
+          />
+          <TextFieldElement
+            name='last_name'
+            label='last name'
+            control={control}
+            fullWidth
+          />
+        </Stack>
+        <RadioButtonGroup
+          name='sex'
+          label='sex'
+          options={[
+            { id: 'MALE', label: 'ชาย' },
+            { id: 'FEMALE', label: 'หญิง' },
+          ]}
+          control={control}
         />
-      </Grid>
-      <Grid item>
-        <SexRadioGroup val='ชาย' />
-      </Grid>
-    </Grid>
+        <TextFieldElement
+          name='personal_id'
+          label='personal id'
+          control={control}
+        />
+        <TextFieldElement
+          name='email'
+          label='email'
+          control={control}
+          fullWidth
+        />
+        <PasswordElement
+          name='password'
+          label='password'
+          control={control}
+          fullWidth
+        />
+        <PasswordElement
+          name='confirm_password'
+          label='confirm password'
+          control={control}
+          fullWidth
+        />
+        <SendBtn variant='ลงทะเบียน' />
+      </Stack>
+    </form>
   );
-};
+}
 
-type AuthInfoForm = {
-  email: string;
-  password: string;
-  confirmationPassword: string;
-};
-
-const AuthInformationForm = () => {
-  return (
-    <Grid container direction='column'>
-      <Grid item>
-        <FieldInput label='อีเมล์' err errText='ไม่ใช่รูปแบบอีเมล์ที่ถูกต้อง' />
-      </Grid>
-      <Grid item>
-        <FieldInput
-          label='รหัสผ่าน'
-          password
-          err
-          errText='รหัสผ่านควรมีความยาวอย่างน้อย 8 ตัวอักษร'
-        />
-      </Grid>
-      <Grid item>
-        <FieldInput
-          label='ยืนยันรหัสผ่าน'
-          password
-          err
-          errText='รหัสผ่านไม่ตรงกัน'
-        />
-      </Grid>
-    </Grid>
-  );
-};
-
-export { PersonalInfomationForm, AuthInformationForm };
+export { RegisterForm };

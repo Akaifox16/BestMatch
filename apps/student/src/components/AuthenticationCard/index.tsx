@@ -3,6 +3,7 @@ import { Typography } from '@mui/material';
 import { titleCase } from 'utils/util';
 import AuthCard from './AuthCard';
 import { LoginForm } from './variant/Login';
+import { RegisterForm } from './variant/Register';
 
 type AuthCardVariant = 'ล็อคอิน' | 'ลงทะเบียน';
 export type AuthenicationCardProps = {
@@ -14,7 +15,7 @@ function VariantSelector({ variant }: Pick<AuthenicationCardProps, 'variant'>) {
     case 'ล็อคอิน':
       return <LoginForm />;
     case 'ลงทะเบียน':
-      return <></>;
+      return <RegisterForm />;
   }
 }
 
