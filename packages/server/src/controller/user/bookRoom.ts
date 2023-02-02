@@ -1,6 +1,7 @@
-import { publicProcedure } from '@server/trpc';
-import { prisma } from '@server/db';
-import { bookRoomDto } from '@server/model/user';
+import { publicProcedure } from '../../trpc';
+import { _prisma as prisma } from '@bm/database';
+import { bookRoomDto } from '../../model/user';
+import { NotFoundError } from '../../model/errors';
 
 const bookRoom = publicProcedure
   .input(bookRoomDto)
@@ -15,6 +16,8 @@ const bookRoom = publicProcedure
         },
       })
       .lived_in();
+
+    if (!room) throw NotFoundError("this user doesn't existed");
 
     return {
       message: `user booked room ${room.room_number} successfully!!`,

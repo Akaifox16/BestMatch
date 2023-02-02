@@ -1,4 +1,4 @@
-// src/client.ts
+// src/index.ts
 import { PrismaClient } from "@prisma/client";
 import { env } from "@bm/env";
 var prisma = global.prisma || new PrismaClient({
@@ -6,10 +6,7 @@ var prisma = global.prisma || new PrismaClient({
 });
 if (env.NODE_ENV === "production")
   global.prisma = prisma;
-
-// src/index.ts
-export * from "@prisma/client";
 export {
-  prisma as _prisma
+  prisma
 };
 //# sourceMappingURL=index.mjs.map

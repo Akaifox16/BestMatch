@@ -16,6 +16,7 @@
     "musl"
   ],
   "dependencies": {
+    "@bm/auth": "*",
     "@bm/env": "*",
     "@bm/server": "*",
     "@emotion/cache": "^11.10.5",
@@ -27,8 +28,11 @@
     "@mui/lab": "^5.0.0-alpha.110",
     "@mui/material": "^5.10.12",
     "@mui/x-date-pickers": "^5.0.15",
-    "@next-auth/prisma-adapter": "^1.0.5",
     "@tanstack/react-query": "^4.20.0",
+    "@trpc/client": "^10.8.1",
+    "@trpc/next": "^10.8.1",
+    "@trpc/react-query": "^10.8.1",
+    "@trpc/server": "^10.8.1",
     "@xstate/react": "^3.0.1",
     "next": "13.1.2",
     "next-auth": "^4.18.7",
@@ -36,7 +40,8 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.42.1",
     "react-hook-form-mui": "^5.12.4",
-    "xstate": "^4.35.0"
+    "xstate": "^4.35.0",
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",

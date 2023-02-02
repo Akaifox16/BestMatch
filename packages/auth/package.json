@@ -1,5 +1,5 @@
 {
-  "name": "@bm/server",
+  "name": "@bm/auth",
   "version": "0.0.0",
   "main": "index.ts",
   "types": "index.ts",
@@ -9,12 +9,12 @@
     "type-check": "tsx --noEmit"
   },
   "dependencies": {
-    "@bm/auth": "*",
     "@bm/database": "*",
-    "@trpc/client": "^10.8.1",
-    "@trpc/server": "^10.8.1",
-    "superjson": "1.9.1",
-    "zod": "^3.20.2"
+    "@next-auth/prisma-adapter": "^1.0.5",
+    "next": "13.1.2",
+    "next-auth": "^4.18.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "eslint": "^8.30.0",

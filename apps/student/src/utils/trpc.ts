@@ -1,8 +1,8 @@
-import { AppRouter } from '@server/routers/_app';
+import { AppRouter } from '@bm/server';
+import { transformer } from '@bm/server/transformer';
 import { httpBatchLink, loggerLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
-import superjson from 'superjson';
 
 function getBaseURL() {
   if (typeof window !== 'undefined') return '';
@@ -15,7 +15,7 @@ function getBaseURL() {
 export const trpc = createTRPCNext<AppRouter>({
   config() {
     return {
-      transformer: superjson,
+      transformer,
       links: [
         loggerLink({
           enabled: (opts) =>

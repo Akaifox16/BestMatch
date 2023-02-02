@@ -1,14 +1,10 @@
-import {
-  bookRoom,
-  upsertPreference,
-  upsertProfile,
-} from '@server/controller/user';
+import { bookRoom, upsertPreference, upsertProfile } from '../controller/user';
 import {
   addDormPreference,
   editDormPreference,
-} from '@server/controller/user/dormPref';
-import { getProfile, getRole } from '@server/controller/user/manager';
-import { createTRPCRouter } from '@server/trpc';
+} from '../controller/user/dormPref';
+import { getProfile, getRole } from '../controller/user/manager';
+import { createTRPCRouter } from '../trpc';
 
 export const userRouter = createTRPCRouter({
   // User

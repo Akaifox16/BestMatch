@@ -1,15 +1,10 @@
-import { appRouter } from '@server/routers/_app';
-import * as trpcNext from '@trpc/server/adapters/next';
-import { prisma } from '@server/db';
-export default trpcNext.createNextApiHandler({
+import { appRouter, createTRPCContext } from '@bm/server';
+import { createNextApiHandler } from '@trpc/server/adapters/next';
+
+export default createNextApiHandler({
   router: appRouter,
-  createContext() {
-    return {
-      session: null,
-      prisma,
-    };
-  },
-  onError({ error, type, path, input, ctx, req }) {
+  createContext: createTRPCContext,
+  onError({ error }) {
     console.error('Error: ', error);
 
     if (error.code === 'CONFLICT') {

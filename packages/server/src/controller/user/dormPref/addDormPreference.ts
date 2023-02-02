@@ -1,4 +1,4 @@
-import { publicProcedure } from '@server/trpc';
+import { publicProcedure } from '../../../trpc';
 
 const addDormPreference = publicProcedure
   // .input()

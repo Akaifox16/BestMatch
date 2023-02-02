@@ -9,7 +9,7 @@ const serverSchema = z.object({
       : z.string().min(1).optional(),
   NEXTAUTH_URL: z.preprocess(
     (str) => process.env.VERCEL_URL ?? str,
-    process.env.VERCEL ? z.string() : z.string().url()
+    process.env.VERCEL ? z.string() : z.string().url(),
   ),
 });
 
@@ -23,9 +23,13 @@ const serverEnv = {
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
 };
 
-const clientSchema = z.object({});
+const clientSchema = z.object({
 
-const clientEnv = {};
+});
+
+const clientEnv = {
+
+};
 
 const env$1 = serverSchema.parse(serverEnv);
 

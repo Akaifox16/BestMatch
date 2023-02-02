@@ -1,6 +1,6 @@
-import { publicProcedure } from '@server/trpc';
-import { prisma } from '@server/db';
-import { loginDto } from '@server/model/user';
+import { publicProcedure } from '../../trpc';
+import { _prisma as prisma } from '@bm/database';
+import { loginDto } from '../../model/user';
 
 const login = publicProcedure.input(loginDto).mutation(async ({ input }) => {
   const user = await prisma.user.findFirst({

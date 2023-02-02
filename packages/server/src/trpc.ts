@@ -1,11 +1,10 @@
 import { initTRPC } from '@trpc/server';
-import { Session } from 'next-auth';
 import { UnAutorizedError } from './model/errors';
+import { CreateNextContextOptions } from '@trpc/server/adapters/next';
 import superjson from 'superjson';
 
-import { _prisma as prisma } from '@bm/database';
-import { CreateNextContextOptions } from '@trpc/server/adapters/next';
-import { getServerAuthSession } from './auth';
+import { getServerSession, type Session } from '@bm/auth';
+import { prisma } from '@bm/database';
 
 type CreateContextOptions = {
   session: Session | null;
@@ -18,10 +17,10 @@ function createInnerTRPCContext(opts: CreateContextOptions) {
   };
 }
 
-async function createTRPCContext(opts: CreateNextContextOptions) {
+export async function createTRPCContext(opts: CreateNextContextOptions) {
   const { req, res } = opts;
 
-  const session = await getServerAuthSession({ req, res });
+  const session = await getServerSession({ req, res });
 
   return createInnerTRPCContext({
     session,

@@ -1,11 +1,10 @@
-import { publicProcedure } from '@server/trpc';
-import { findById, userResponse } from '@server/model/user';
+import { publicProcedure } from '../../../trpc';
+import { findByIdDto } from '../../../model/user';
 
-import { prisma } from '@server/db';
+import { _prisma as prisma } from '@bm/database';
 
 const getProfile = publicProcedure
-  .input(findById)
-  .output(userResponse.nullable())
+  .input(findByIdDto)
   .query(async ({ input }) => {
     const user = await prisma.user.findFirst({
       select: {

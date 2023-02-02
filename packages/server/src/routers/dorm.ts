@@ -1,5 +1,5 @@
-import { addDorm, addResidents } from '@server/controller/dorm';
-import { createTRPCRouter } from '@server/trpc';
+import { addDorm, addResidents } from '../controller/dorm';
+import { createTRPCRouter } from '../trpc';
 
 export const dormRouter = createTRPCRouter({
   addDorm,

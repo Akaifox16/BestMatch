@@ -1,7 +1,7 @@
-import { authResponseDto, createStudentDto } from '@server/model/user';
-import { publicProcedure } from '@server/trpc';
-import { prisma } from '@server/db';
-import { ConflictError, InternalServerError } from '@server/model/errors';
+import { authResponseDto, createStudentDto } from '../../model/user';
+import { publicProcedure } from '../../trpc';
+import { _prisma as prisma } from '@bm/database';
+import { ConflictError, InternalServerError } from '../../model/errors';
 
 const register = publicProcedure
   .input(createStudentDto)
