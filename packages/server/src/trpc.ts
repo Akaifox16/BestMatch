@@ -1,8 +1,8 @@
 import { initTRPC } from '@trpc/server';
-import { UnAutorizedError } from './model/errors';
 import { CreateNextContextOptions } from '@trpc/server/adapters/next';
 import superjson from 'superjson';
 
+import { UnAutorizedError } from '@src/model/errors';
 import { getServerSession, type Session } from '@bm/auth';
 import { prisma } from '@bm/database';
 

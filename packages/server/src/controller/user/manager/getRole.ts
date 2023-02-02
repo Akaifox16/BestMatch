@@ -1,5 +1,5 @@
-import { findByIdDto } from '../../../model/user';
-import { publicProcedure } from '../../../trpc';
+import { findByIdDto } from '@src/model/user';
+import { publicProcedure } from '@src/trpc';
 
 const getRole = publicProcedure.input(findByIdDto).query(async () => {
   return {

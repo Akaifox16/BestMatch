@@ -1,4 +1,4 @@
-import { createTRPCRouter } from '../trpc';
+import { createTRPCRouter } from '@src/trpc';
 import { authRouter } from './auth';
 import { userRouter } from './user';
 

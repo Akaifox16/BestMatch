@@ -30,4 +30,3 @@ export {
   env2 as clientEnv,
   env
 };
-//# sourceMappingURL=index.mjs.map

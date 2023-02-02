@@ -1,4 +1,4 @@
-import { publicProcedure } from '@server/trpc';
+import { publicProcedure } from '@src/trpc';
 
 const addDorm = publicProcedure.input().mutation(() => {
   return {

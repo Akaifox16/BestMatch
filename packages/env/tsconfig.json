@@ -1,5 +1,14 @@
 {
   "extends": "@bm/tsconfig/node18.json",
-  "include": ["**/*.ts"],
-  "exclude": ["node_modules"]
+  "compilerOptions": {
+    "target": "es6"
+  },
+  "include": [
+    "src",
+    "index.mts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

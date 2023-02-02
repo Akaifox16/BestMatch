@@ -1,29 +1,25 @@
 {
+  "extends": "@bm/tsconfig/nextjs.json",
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
     "noImplicitAny": true,
     "baseUrl": "./src",
     "paths": {
-      "@theme/*": ["styles/theme/*"],
-      "@utility/*": ["utils/*"],
-      "@server/*": ["server/*"],
-      "@component/*": ["components/*"],
-      "@env/*": ["env/*"]
+      "@theme/*": [
+        "styles/theme/*"
+      ],
+      "@utility/*": [
+        "utils/*"
+      ],
+      "@component/*": [
+        "components/*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "src"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

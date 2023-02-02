@@ -1,11 +1,19 @@
 {
   "name": "@bm/server",
   "version": "0.0.0",
-  "main": "index.ts",
-  "types": "index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "config": {
+    "prefix": "./"
+  },
   "scripts": {
-    "clean": "rm -rf .turbo node_modules",
-    "lint": "eslint",
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "clean": "rimraf .turbo node_modules dist",
+    "lint": "TIMING=1 eslint \"src/**/*.ts\"",
     "type-check": "tsx --noEmit"
   },
   "dependencies": {
@@ -17,6 +25,9 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
+    "@bm/config": "*",
+    "rimraf": "^3.0.2",
+    "tsup": "^5.11.13",
     "eslint": "^8.30.0",
     "typescript": "^4.9.4"
   }

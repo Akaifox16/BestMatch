@@ -1,7 +1,7 @@
-import { publicProcedure } from '../../../trpc';
-import { findByIdDto } from '../../../model/user';
+import { publicProcedure } from '@src/trpc';
+import { findByIdDto } from '@src/model/user';
 
-import { _prisma as prisma } from '@bm/database';
+import { prisma } from '@bm/database';
 
 const getProfile = publicProcedure
   .input(findByIdDto)

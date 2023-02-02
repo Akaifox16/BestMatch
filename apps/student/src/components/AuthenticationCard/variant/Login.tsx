@@ -1,16 +1,21 @@
-import FieldInput from '@component/Input/FieldInput';
-import { Grid, Typography } from '@mui/material';
-import { Stack } from '@mui/system';
-import { RouterInputs } from '@utility/trpc';
 import Link from 'next/link';
-import { useForm } from 'react-hook-form';
+import { signIn } from 'next-auth/react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { PasswordElement, TextFieldElement } from 'react-hook-form-mui';
+import { Stack } from '@mui/system';
+import { Grid, Typography } from '@mui/material';
+
+import FieldInput from '@component/Input/FieldInput';
 import SendBtn from '../SendBtn';
+
+import { RouterInputs } from '@utility/trpc';
 
 function LoginForm() {
   const { control, handleSubmit } = useForm<RouterInputs['auth']['login']>();
 
-  function submit() {}
+  const submit: SubmitHandler<RouterInputs['auth']['login']> = (data) => {
+    signIn('credentials', data);
+  };
 
   return (
     <form onSubmit={handleSubmit(submit)}>

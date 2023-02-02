@@ -1,5 +1,5 @@
-import { mockProfile, setupDateTimeOfSystem } from '../controller/match';
-import { createTRPCRouter } from '../trpc';
+import { mockProfile, setupDateTimeOfSystem } from '@src/controller/match';
+import { createTRPCRouter } from '@src/trpc';
 
 export const matchRouter = createTRPCRouter({
   // setup datetime of matching system

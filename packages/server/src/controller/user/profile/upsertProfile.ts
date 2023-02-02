@@ -1,8 +1,8 @@
-import { protectedProcedure } from '../../../trpc';
+import { protectedProcedure } from '@src/trpc';
 
-import { _prisma as prisma } from '@bm/database';
-import { InternalServerError } from '../../../model/errors';
-import { addProfileDto } from '../../../model/user';
+import { prisma } from '@bm/database';
+import { InternalServerError } from '@src/model/errors';
+import { addProfileDto } from '@src/model/user';
 
 const upsertProfile = protectedProcedure
   .input(addProfileDto)

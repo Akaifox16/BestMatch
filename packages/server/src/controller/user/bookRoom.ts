@@ -1,7 +1,7 @@
-import { publicProcedure } from '../../trpc';
-import { _prisma as prisma } from '@bm/database';
-import { bookRoomDto } from '../../model/user';
-import { NotFoundError } from '../../model/errors';
+import { publicProcedure } from '@src/trpc';
+import { prisma } from '@bm/database';
+import { bookRoomDto } from '@src/model/user';
+import { NotFoundError } from '@src/model/errors';
 
 const bookRoom = publicProcedure
   .input(bookRoomDto)

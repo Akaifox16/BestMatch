@@ -1,6 +1,6 @@
-import { publicProcedure } from '@server/trpc';
-import { prisma } from '@server/db';
-import { NotFoundError } from '@server/model/errors';
+import { publicProcedure } from '@src/trpc';
+import { prisma } from '@bm/database';
+import { NotFoundError } from '@src/model/errors';
 
 const mockProfile = publicProcedure.query(async () => {
   const userId = 'cld1ns6f80000qt54q7jf81ej';
