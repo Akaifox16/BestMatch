@@ -1,6 +1,7 @@
 {
   "name": "@bm/auth",
   "version": "0.0.0",
+  "license": "UNLICENSED",
   "main": "index.ts",
   "types": "index.ts",
   "scripts": {
