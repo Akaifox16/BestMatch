@@ -1,5 +1,5 @@
 {
-  "name": "@bm/server",
+  "name": "@acme/server",
   "version": "0.0.0",
   "license": "UNLICENSED",
   "main": "./dist/index.js",
@@ -18,15 +18,15 @@
     "type-check": "tsx --noEmit"
   },
   "dependencies": {
-    "@bm/auth": "*",
-    "@bm/database": "*",
+    "@acme/auth": "*",
+    "@acme/database": "*",
     "@trpc/client": "^10.8.1",
     "@trpc/server": "^10.8.1",
     "superjson": "1.9.1",
     "zod": "^3.20.2"
   },
   "devDependencies": {
-    "@bm/config": "*",
+    "@acme/config": "*",
     "rimraf": "^3.0.2",
     "tsup": "^5.11.13",
     "eslint": "^8.30.0",

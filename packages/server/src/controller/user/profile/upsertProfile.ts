@@ -1,6 +1,6 @@
 import { protectedProcedure } from '@src/trpc';
 
-import { prisma } from '@bm/database';
+import { prisma } from '@acme/database';
 import { InternalServerError } from '@src/model/errors';
 import { addProfileDto } from '@src/model/user';
 

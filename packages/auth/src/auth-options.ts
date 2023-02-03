@@ -2,7 +2,7 @@ import { type NextAuthOptions, DefaultSession } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-import { prisma } from '@bm/database';
+import { prisma } from '@acme/database';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {

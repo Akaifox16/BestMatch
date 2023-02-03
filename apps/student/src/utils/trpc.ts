@@ -1,5 +1,5 @@
-import { AppRouter } from '@bm/server';
-import { transformer } from '@bm/server/transformer';
+import { AppRouter } from '@acme/server';
+import { transformer } from '@acme/server/transformer';
 import { httpBatchLink, loggerLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import { inferRouterInputs, inferRouterOutputs } from '@trpc/server';

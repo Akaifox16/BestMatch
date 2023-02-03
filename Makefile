@@ -22,6 +22,17 @@ install:
 	@cd ./packages/database/ && yarn db:migrate:dev
 	@echo -e "\n\n${SUCS}Installation completed${RS}"
 
+up:
+	@echo -e "${INFO}Booting${RS} server"
+	@docker-compose up -d
+	@echo -e "\n\n${SUCS}Booting server successfully...${RS}"
+
+down:
+	@echo -e "${INFO}Shutting down${RS} server"
+	@docker-compose down
+	@docker ps
+	@echo -e "\n\n${SUCS}Shutting down server successfully...${RS}"
+
 uninstall:
 	@echo -e "${DNGR}Begining${RS} uninstallation..."
 	@echo -e "${DNGR}Destroy${RS} database"

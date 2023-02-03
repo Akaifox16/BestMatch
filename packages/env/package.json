@@ -1,5 +1,5 @@
 {
-  "name": "@bm/env",
+  "name": "@acme/env",
   "version": "0.0.0",
   "license": "UNLICENSED",
   "main": "./dist/index.js",
@@ -19,7 +19,7 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
-    "@bm/tsconfig": "*",
+    "@acme/tsconfig": "*",
     "tsup": "^5.11.13",
     "rimraf": "^3.0.2",
     "typescript": "^4.5.5"

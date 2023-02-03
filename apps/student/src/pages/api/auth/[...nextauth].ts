@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth/next';
 
-import { authOptions } from '@bm/auth';
+import { authOptions } from '@acme/auth';
 
 export default NextAuth(authOptions);

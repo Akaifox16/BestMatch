@@ -3,8 +3,8 @@ import { CreateNextContextOptions } from '@trpc/server/adapters/next';
 import superjson from 'superjson';
 
 import { UnAutorizedError } from '@src/model/errors';
-import { getServerSession, type Session } from '@bm/auth';
-import { prisma } from '@bm/database';
+import { getServerSession, type Session } from '@acme/auth';
+import { prisma } from '@acme/database';
 
 type CreateContextOptions = {
   session: Session | null;

@@ -1,5 +1,5 @@
 import { publicProcedure } from '@src/trpc';
-import { prisma } from '@bm/database';
+import { prisma } from '@acme/database';
 import { bookRoomDto } from '@src/model/user';
 import { NotFoundError } from '@src/model/errors';
 
