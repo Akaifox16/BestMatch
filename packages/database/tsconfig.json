@@ -1,5 +1,5 @@
 {
-  "extends": "@bm/tsconfig/node18.json",
+  "extends": "@acme/tsconfig/node18.json",
   "include": [
     "src"
   ],

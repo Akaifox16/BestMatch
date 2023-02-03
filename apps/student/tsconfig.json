@@ -1,5 +1,5 @@
 {
-  "extends": "@bm/tsconfig/nextjs.json",
+  "extends": "@acme/tsconfig/nextjs.json",
   "compilerOptions": {
     "noImplicitAny": true,
     "baseUrl": "./src",
