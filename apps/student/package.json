@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "cypress run",
     "clean": "rimraf .turbo .next node_modules",
     "lint": "next lint"
   },
@@ -51,6 +52,7 @@
     "@types/react-dom": "^18.0.10",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
+    "cypress": "^12.5.1",
     "eslint": "^8.30.0",
     "eslint-config-next": "13.1.2",
     "rimraf": "^3.0.2",

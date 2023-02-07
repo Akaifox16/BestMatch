@@ -3,11 +3,23 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // experimental: {
+  //   appDir: false
+  // }
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
   },
-  transpilePackages: ['@bm/server'],
+  compiler: {
+    removeConsole: {
+      exclude: ['error']
+    }
+  },
+  transpilePackages: [
+    '@acme/server',
+    '@acme/auth',
+    '@acme/env',
+  ],
 }
 
 export default nextConfig

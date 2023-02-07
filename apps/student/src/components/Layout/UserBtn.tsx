@@ -17,7 +17,7 @@ const UserBtn = () => {
 
 const LoginBtn = () => {
   return (
-    <Link href={'/auth/login'}>
+    <Link id='login-btn' href={'/auth/login'}>
       <Button color='success' variant='contained'>
         ล็อคอิน
       </Button>

@@ -42,7 +42,10 @@ export default function Home() {
         <Grid container spacing={2} sx={{ mt: 4 }}>
           <Grid item xs={4}></Grid>
           <Grid item xs={4} sx={{ justifyContent: 'center', display: 'flex' }}>
-            <Link href={sessionData ? '/matching' : '/auth/login'}>
+            <Link
+              id='quick-start'
+              href={sessionData ? '/matching' : '/auth/login'}
+            >
               <Button variant='contained' sx={{ mr: 1 }}>
                 เริ่มเลย!
               </Button>
