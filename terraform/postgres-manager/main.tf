@@ -18,7 +18,7 @@ resource "postgresql_database" "databases" {
   for_each = var.databases
 
   name       = each.key
-  owner      = "postgres"
+  owner      = "linpostgres"
   encoding   = each.value.encoding
   lc_collate = each.value.collate
   lc_ctype   = each.value.ctype
@@ -28,7 +28,7 @@ resource "postgresql_schema" "schemas" {
   for_each = local.schema_in_db_map
 
   name         = each.value.schema
-  owner        = "postgres"
+  owner        = "linpostgres"
   database     = each.value.database
   drop_cascade = true
 
@@ -55,12 +55,10 @@ resource "postgresql_role" "groups" {
 resource "random_string" "passwords" {
   for_each = var.users
 
-  length           = 16
-  special          = true
-  override_special = "!@#$"
+  length  = 16
+  special = true
 
   min_numeric = 3
-  min_special = 2
   min_upper   = 3
   min_lower   = 4
 }

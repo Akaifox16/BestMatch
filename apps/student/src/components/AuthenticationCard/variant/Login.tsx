@@ -53,7 +53,7 @@ const CreateAccountLink = () => {
         <Typography variant='caption'>ยังไม่มีบัญชี bestmatch?</Typography>
       </Grid>
       <Grid item>
-        <Link href='/auth/register'>
+        <Link id='register-btn' href='/auth/register'>
           <Typography variant='caption'>สร้างบัญชีผู้ใช้ใหม่</Typography>
         </Link>
       </Grid>

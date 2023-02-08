@@ -6,7 +6,7 @@ import {
 } from 'react-hook-form-mui';
 import { Stack } from '@mui/system';
 
-import { RouterInputs, trpc } from '@utility/trpc';
+import { type RouterInputs, trpc } from '@utility/trpc';
 import SendBtn from '../SendBtn';
 import { signIn } from 'next-auth/react';
 

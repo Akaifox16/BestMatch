@@ -50,7 +50,7 @@ export default function Home() {
                 เริ่มเลย!
               </Button>
             </Link>
-            <Link href='/tutorials'>
+            <Link id='tutorial' href='/tutorials'>
               <Button variant='outlined' color='secondary' sx={{ ml: 1 }}>
                 คู่มือการใช้
               </Button>

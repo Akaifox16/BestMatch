@@ -12,19 +12,19 @@ import { createTRPCRouter } from '@src/trpc';
 
 export const userRouter = createTRPCRouter({
   // User
-  getProfile,
-  getRole,
+  getProfile: getProfile,
+  getRole: getRole,
 
   // Profile
-  upsertProfile,
+  upsertProfile: upsertProfile,
 
   // Mate
-  upsertPreference,
+  upsertPreference: upsertPreference,
 
   // Room & Dorm
-  addDormPreference,
-  editDormPreference,
+  addDormPreference: addDormPreference,
+  editDormPreference: editDormPreference,
 
   // Book room
-  bookRoom,
+  bookRoom: bookRoom,
 });

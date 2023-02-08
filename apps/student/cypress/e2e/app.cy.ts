@@ -19,5 +19,27 @@ describe('navigation', () => {
     cy.url().should('include', '/auth/login');
   });
 
-  it('shoud navigate to login page', () => {});
+  it('shoud navigate to register page', () => {
+    cy.visit('/');
+
+    cy.get('#register-btn').click();
+
+    cy.url().should('include', '/auth/register');
+  });
+
+  it('should navigate to tutorial page', () => {
+    cy.visit('/');
+
+    cy.get('#tutorial').click();
+
+    cy.url().should('include', '/tutorial');
+  });
+
+  it('should navigate to profile page', () => {
+    cy.visit('/');
+
+    cy.get('').click();
+
+    cy.url().should('include', '/profile');
+  });
 });
