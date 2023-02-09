@@ -4,7 +4,14 @@ import { Grid, TextField } from '@mui/material';
 import TimeRangeCheckBoxGroup from '@component/Input/TimeRangeCheckboxGroup';
 import DotSlider from '@component/Input/DotSlider';
 
-import { display } from '@theme/lightTheme';
+import { display } from '@acme/theme';
+
+import type {
+  Control,
+  SliderElementProps,
+  MultiSelectElementProps,
+} from 'react-hook-form-mui';
+import { SliderElement, MultiSelectElement } from 'react-hook-form-mui';
 
 import type {
   AttrName,
@@ -28,7 +35,7 @@ const attrName: Record<ProfileOwner, AttrName> = {
 const StudentCard = ({ variant }: { variant: StudentVariant }) => {
   return (
     <Fragment>
-      <NameInput />
+      {/* <NameInput /> */}
       <NormalInput
         attrName={variant === 'profile' ? attrName.self : attrName.mate}
       />
@@ -37,36 +44,60 @@ const StudentCard = ({ variant }: { variant: StudentVariant }) => {
 };
 
 export default StudentCard;
-const NameInput = () => {
+
+function SliderWithLabel<ControlComponent extends Control>({
+  name,
+  control,
+}: Pick<SliderElementProps<ControlComponent>, 'name' | 'control'>) {
   return (
-    <Fragment>
-      <Grid item xs={12} md={8}>
-        <TextField
-          label='ชื่อ'
-          variant='outlined'
-          sx={{ display: { xs: 'none', md: 'inline-flex' }, mr: 4 }}
-        />
-        <TextField
-          label='สกุล'
-          variant='outlined'
-          sx={{ display: { xs: 'none', md: 'inline-flex' }, ml: 4 }}
-        />
-        <TextField
-          label='ชื่อ'
-          variant='outlined'
-          sx={{ display: display.mobile.main }}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <TextField
-          label='สกุล'
-          variant='outlined'
-          sx={{ display: display.mobile.main }}
-        />
-      </Grid>
-    </Fragment>
+    <SliderElement
+      name={name}
+      label={name}
+      control={control}
+      min={1}
+      max={9}
+      marks
+    />
   );
-};
+}
+
+function MultiChoices<ControlComponent extends Control>({
+  name,
+  control,
+}: Pick<MultiSelectElementProps<ControlComponent>, 'name' | 'control'>) {
+  return <MultiSelectElement name={name} label={name} control={control} />;
+}
+
+// const NameInput = () => {
+//   return (
+//     <Fragment>
+//       <Grid item xs={12} md={8}>
+//         <TextField
+//           label='ชื่อ'
+//           variant='outlined'
+//           sx={{ display: { xs: 'none', md: 'inline-flex' }, mr: 4 }}
+//         />
+//         <TextField
+//           label='สกุล'
+//           variant='outlined'
+//           sx={{ display: { xs: 'none', md: 'inline-flex' }, ml: 4 }}
+//         />
+//         <TextField
+//           label='ชื่อ'
+//           variant='outlined'
+//           sx={{ display: display.mobile.main }}
+//         />
+//       </Grid>
+//       <Grid item xs={12}>
+//         <TextField
+//           label='สกุล'
+//           variant='outlined'
+//           sx={{ display: display.mobile.main }}
+//         />
+//       </Grid>
+//     </Fragment>
+//   );
+// };
 
 const NormalInput = ({ attrName }: { attrName: AttrName }) => {
   return (

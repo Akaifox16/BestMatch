@@ -1,11 +1,7 @@
-import {
-  currentStateSelector,
-  useMateStepperMachine,
-} from '@component/Context/MateStepper';
+import { useMateStepperMachine } from '@component/Context/MateStepper';
 import MatingCard from '@component/MatingCard';
 import { MatchVariant } from '@component/ProfileCard/index.type';
 import { Box, Button } from '@mui/material';
-import { useSelector } from '@xstate/react';
 import { Fragment } from 'react';
 import { steps } from '.';
 
