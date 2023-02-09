@@ -5,6 +5,7 @@ import { PasswordElement, TextFieldElement } from 'react-hook-form-mui';
 import { Stack } from '@mui/system';
 import { Grid, Typography } from '@mui/material';
 
+import FieldInput from '@component/Input/FieldInput';
 import SendBtn from '../SendBtn';
 
 import { type RouterInputs } from '@utility/trpc';
@@ -39,6 +40,13 @@ function LoginForm() {
   );
 }
 
+const ForgotPasswordLink = () => {
+  return (
+    <Link href='/forget-password'>
+      <Typography>ลืมรหัสผ่าน?</Typography>
+    </Link>
+  );
+};
 const CreateAccountLink = () => {
   return (
     <Grid container spacing={1}>
@@ -54,4 +62,13 @@ const CreateAccountLink = () => {
   );
 };
 
-export { CreateAccountLink, LoginForm };
+const AuthField = () => {
+  return (
+    <>
+      <FieldInput label='อีเมล์' />
+      <FieldInput label='รหัสผ่าน' password />
+    </>
+  );
+};
+
+export { ForgotPasswordLink, CreateAccountLink, AuthField, LoginForm };

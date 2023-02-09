@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Box, IconButton, Menu, Typography, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import { display } from '@acme/theme';
+import { display } from '@theme/lightTheme';
 import { useSelector } from '@xstate/react';
 import { useSession } from 'next-auth/react';
 // import { loggedInSelector, useUserMachine } from "@component/Context/Auth"
