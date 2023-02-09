@@ -65,9 +65,7 @@ function MultiChoices<ControlComponent extends Control>({
   name,
   control,
 }: Pick<MultiSelectElementProps<ControlComponent>, 'name' | 'control'>) {
-  return (
-    <MultiSelectElement name={name} label={name} control={control} option />
-  );
+  return <MultiSelectElement name={name} label={name} control={control} />;
 }
 
 // const NameInput = () => {
