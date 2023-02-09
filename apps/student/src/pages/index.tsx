@@ -13,17 +13,25 @@ const evtNames = [
   'ระบบประมวลผล',
   'ประกาศผล',
 ];
-const dates: { year: number; month: number; day: number }[] = [
-  { year: 2022, month: 1, day: 12 },
-  { year: 2022, month: 1, day: 16 },
-  { year: 2022, month: 5, day: 16 },
-  { year: 2022, month: 5, day: 17 },
-  { year: 2022, month: 5, day: 28 },
+const dates = [
+  new Date(2022, 1, 12),
+  new Date(2022, 5, 16),
+  new Date(2022, 5, 17),
+  new Date(2022, 5, 28),
 ];
-const timeline = evtNames.map((evt, idx) => ({
-  evtName: evt,
-  date: new Date(dates.at(idx)!.year, dates.at(idx)!.month, dates.at(idx)!.day),
-}));
+const timeline = evtNames.map((evt, idx) => {
+  if (typeof dates.at(idx) === 'undefined')
+    return {
+      evtName: evt,
+      date: new Date(),
+    };
+  else
+    return {
+      evtName: evt,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      date: dates.at(idx)!,
+    };
+});
 
 export default function Home() {
   const { data: sessionData, status } = useSession();

@@ -28,6 +28,10 @@ const LoginBtn = () => {
 const LogoutBtn = () => {
   const { data: sessionData } = useSession();
 
+  function handleClick() {
+    signOut().catch(console.error);
+  }
+
   return (
     <Grid gap={2} container direction='row'>
       <Grid item>
@@ -38,7 +42,8 @@ const LogoutBtn = () => {
       </Grid>
       <Grid item>
         <Link href='/'>
-          <Button color='error' variant='contained' onClick={() => signOut()}>
+          {/* // eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+          <Button color='error' variant='contained' onClick={handleClick}>
             <Logout /> ลงชื่อออก
           </Button>
         </Link>

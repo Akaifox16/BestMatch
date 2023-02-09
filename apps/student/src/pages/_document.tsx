@@ -1,7 +1,7 @@
 import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from 'utils/createEmotionCache';
 import Document, {
-  DocumentContext,
+  type DocumentContext,
   Html,
   Main,
   NextScript,
@@ -31,10 +31,12 @@ export default class MyDocument extends Document {
 MyDocument.getInitialProps = async (ctx: DocumentContext) => {
   const originalRenderPage = ctx.renderPage;
   const cache = createEmotionCache();
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   const { extractCriticalToChunks } = createEmotionServer(cache);
 
   ctx.renderPage = () =>
     originalRenderPage({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       enhanceApp: (App: any) =>
         function EnhanceApp(props) {
           return <App emotionCache={cache} {...props} />;

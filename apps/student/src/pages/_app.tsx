@@ -1,6 +1,6 @@
-import { Fragment, ReactNode } from 'react';
-import { AppProps } from 'next/app';
-import { CacheProvider, EmotionCache } from '@emotion/react';
+import { Fragment, type ReactNode } from 'react';
+import { type AppProps } from 'next/app';
+import { CacheProvider, type EmotionCache } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { SessionProvider } from 'next-auth/react';
 
@@ -28,14 +28,14 @@ const clientSideEmotionCache = createEmotionCache();
 
 const pageWithoutLayout = ['/login', '/register'];
 
-const AppWraper = ({
+const AppWrapper = ({
   children,
   emotionCache,
 }: ParentNode & {
   emotionCache: EmotionCache;
 }) => {
   return (
-    <CacheProvider value={emotionCache!}>
+    <CacheProvider value={emotionCache}>
       <ThemeProvider theme={lightTheme}>{children}</ThemeProvider>
     </CacheProvider>
   );
@@ -52,14 +52,15 @@ const App = ({
     : Fragment;
 
   return (
-    <AppWraper emotionCache={emotionCache}>
+    <AppWrapper emotionCache={emotionCache}>
+      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
       <SessionProvider session={session}>
         <LayoutWrapper>
           <CssBaseline />
           <Component {...pageProps} />
         </LayoutWrapper>
       </SessionProvider>
-    </AppWraper>
+    </AppWrapper>
   );
 };
 

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { PasswordElement, TextFieldElement } from 'react-hook-form-mui';
 import { Stack } from '@mui/system';
 import { Grid, Typography } from '@mui/material';
@@ -8,16 +8,17 @@ import { Grid, Typography } from '@mui/material';
 import FieldInput from '@component/Input/FieldInput';
 import SendBtn from '../SendBtn';
 
-import { RouterInputs } from '@utility/trpc';
+import { type RouterInputs } from '@utility/trpc';
 
 function LoginForm() {
   const { control, handleSubmit } = useForm<RouterInputs['auth']['login']>();
 
   const submit: SubmitHandler<RouterInputs['auth']['login']> = (data) => {
-    signIn('credentials', data);
+    signIn('credentials', data).catch(console.error);
   };
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(submit)}>
       <Stack
         direction='column'

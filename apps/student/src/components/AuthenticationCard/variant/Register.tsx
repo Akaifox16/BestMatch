@@ -1,4 +1,4 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import {
   PasswordElement,
   RadioButtonGroup,
@@ -15,14 +15,15 @@ function RegisterForm() {
   const createStudent = trpc.auth.register.useMutation();
 
   const submit: SubmitHandler<RouterInputs['auth']['register']> = (data) => {
-    createStudent.mutateAsync(data);
+    createStudent.mutateAsync(data).catch(console.error);
     signIn('credentials', {
       email: data.email,
       password: data.password,
-    });
+    }).catch(console.error);
   };
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(submit)}>
       <Stack
         direction='column'

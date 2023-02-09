@@ -1,6 +1,6 @@
 import { Grid, Paper, Typography } from '@mui/material';
 import { titleCase } from 'utils/util';
-import { Fragment, ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 
 type CardTemplateProps = {
   children: ReactNode;

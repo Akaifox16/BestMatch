@@ -1,6 +1,6 @@
 import CardTemplate from '@component/CardTemplate';
 import { Fragment } from 'react';
-import { ProfileCardProps, ProfileVariant } from './index.type';
+import { type ProfileCardProps, type ProfileVariant } from './index.type';
 
 const VariantSelector = ({ variant }: { variant: ProfileVariant }) => {
   switch (variant) {

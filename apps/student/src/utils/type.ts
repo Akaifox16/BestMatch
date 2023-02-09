@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { z } from 'zod';
+import { type ReactNode } from 'react';
+import { type z } from 'zod';
 
 type TupleUnion<U extends string, R extends string[] = []> = {
   [S in U]: Exclude<U, S> extends never

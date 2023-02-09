@@ -6,7 +6,7 @@ import DotSlider from '@component/Input/DotSlider';
 
 import { display } from '@theme/lightTheme';
 
-import {
+import type {
   AttrName,
   ProfileOwner,
   StudentVariant,

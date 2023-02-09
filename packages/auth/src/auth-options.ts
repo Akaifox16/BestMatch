@@ -6,7 +6,7 @@ import { prisma } from '@acme/database';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
-    user: {
+    user?: {
       id: string;
     } & DefaultSession['user'];
   }

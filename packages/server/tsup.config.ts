@@ -9,5 +9,4 @@ export default defineConfig({
   entry: ['index.ts', 'transformer.ts'],
   format: ['cjs'],
   minify: isProduction,
-  sourcemap: true,
 });

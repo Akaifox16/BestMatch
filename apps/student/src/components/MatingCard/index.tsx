@@ -1,5 +1,5 @@
 import CardTemplate from '@component/CardTemplate';
-import {
+import type {
   MatchCardProps,
   MatchVariant,
 } from '@component/ProfileCard/index.type';

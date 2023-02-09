@@ -1,6 +1,6 @@
 import { publicProcedure } from '@src/trpc';
 
-const addDorm = publicProcedure.input().mutation(() => {
+const addDorm = publicProcedure.mutation(() => {
   return {
     message: 'need implementation',
   };

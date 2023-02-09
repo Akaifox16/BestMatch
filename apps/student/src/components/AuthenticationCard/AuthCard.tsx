@@ -1,5 +1,5 @@
 import { Grid, Paper, Stack } from '@mui/material';
-import { ParentNode } from '@utility/type';
+import { type ParentNode } from '@utility/type';
 
 export default function AuthCard({ children }: ParentNode) {
   return (

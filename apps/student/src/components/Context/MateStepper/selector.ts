@@ -1,5 +1,5 @@
-import mateStepperMachine from './machine';
-import { StateFrom } from 'xstate';
+import type mateStepperMachine from './machine';
+import type { StateFrom } from 'xstate';
 
 type MateStepperState = StateFrom<typeof mateStepperMachine>;
 

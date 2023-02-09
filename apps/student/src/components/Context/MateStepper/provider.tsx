@@ -1,13 +1,14 @@
-import { ParentNode } from 'utils/type';
+import { type ParentNode } from 'utils/type';
 import { useContext, useRef, useState } from 'react';
 
 import { createContext } from 'react';
-import { interpret, InterpreterFrom } from 'xstate';
+import { interpret, type InterpreterFrom } from 'xstate';
 import mateStepperMachine from './machine';
 
 export const MateStepperCtx = createContext({
   mateService: {} as InterpreterFrom<typeof mateStepperMachine>,
   step: 0,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setStep: (_x: number) => {},
 });
 
@@ -17,7 +18,7 @@ export default function MateStepperProvider({ children }: ParentNode) {
     interpret(mateStepperMachine)
       .onSend((evt) => console.log(`MateStepper: send ${evt.type}`))
       .onTransition((state) =>
-        console.log(`MateStepper: transition to ${state.value}`)
+        console.log(`MateStepper: transition to ${state.value.toString()}`)
       )
   );
 
