@@ -4,7 +4,7 @@ import { CacheProvider, type EmotionCache } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { SessionProvider } from 'next-auth/react';
 
-import lightTheme from '@theme/lightTheme';
+import { theme } from '@acme/theme';
 import Layout from '@component/Layout';
 
 import '../styles/globals.css';
@@ -36,7 +36,7 @@ const AppWrapper = ({
 }) => {
   return (
     <CacheProvider value={emotionCache}>
-      <ThemeProvider theme={lightTheme}>{children}</ThemeProvider>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </CacheProvider>
   );
 };

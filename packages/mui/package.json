@@ -1,0 +1,8 @@
+{
+  "name": "@acme/theme",
+  "version": "0.1.0",
+  "main": "indext.ts",
+  "devDependencies": {
+    "@acme/tsconfig": "*"
+  }
+}
