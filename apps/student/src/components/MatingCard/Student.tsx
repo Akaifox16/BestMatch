@@ -1,100 +1,34 @@
-import { Fragment } from 'react';
-import { Grid, TextField } from '@mui/material';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
-import TimeRangeCheckBoxGroup from '@component/Input/TimeRangeCheckboxGroup';
-import DotSlider from '@component/Input/DotSlider';
-
-import { display } from '@theme/lightTheme';
-
-import type {
-  AttrName,
-  ProfileOwner,
-  StudentVariant,
-} from '../ProfileCard/index.type';
-
-const attrName: Record<ProfileOwner, AttrName> = {
-  self: {
-    messiness: 'การรักษาความสะอาดของคุณ',
-    noise: 'เสียงรบกวนที่คุณสร้าง',
-    time: 'ช่วงเวลาที่ไม่ใช้เสียง',
-  },
-  mate: {
-    messiness: 'การรักษาความสะอาดของรูมเมท',
-    noise: 'เสืยงรบกวนที่คุณทนไหว',
-    time: 'ช่วงเวลาที่ไม่อยากให้ใช้เสียง',
-  },
-} as const;
+import { Slider, MultiChoices } from '@component/Input';
+import type { StudentVariant } from '../ProfileCard/index.type';
+import { RouterInputs, trpc } from '@utility/trpc';
 
 const StudentCard = ({ variant }: { variant: StudentVariant }) => {
+  const { control, handleSubmit } = useForm<RouterInputs['student'][]>();
+  const upsertProfile = trpc.student.upsertProfile.useMutation();
+  const upsertPreference = trpc.student.upsertPreference.useMutation();
+
+  const submit: SubmitHandler<RouterInputs['student']['upsertProfile']> = (
+    data
+  ) => {
+    if (variant === 'profile')
+      upsertProfile.mutateAsync(data).catch(console.error);
+    else upsertPreference.mutateAsync(data).catch(console.error);
+  };
+
   return (
-    <Fragment>
-      <NameInput />
-      <NormalInput
-        attrName={variant === 'profile' ? attrName.self : attrName.mate}
-      />
-    </Fragment>
+    <form /* onSubmit={handleSubmit(submit)} */>
+      {/* <Slider control={control} name='messiness' label='messiness' /> */}
+      {/* <Slider control={control} name='loudness' label='loudness' /> */}
+      {/* <MultiChoices */}
+      {/*   control={control} */}
+      {/*   name='' */}
+      {/*   label='do not disturb' */}
+      {/*   options={[]} */}
+      {/* /> */}
+    </form>
   );
 };
 
 export default StudentCard;
-const NameInput = () => {
-  return (
-    <Fragment>
-      <Grid item xs={12} md={8}>
-        <TextField
-          label='ชื่อ'
-          variant='outlined'
-          sx={{ display: { xs: 'none', md: 'inline-flex' }, mr: 4 }}
-        />
-        <TextField
-          label='สกุล'
-          variant='outlined'
-          sx={{ display: { xs: 'none', md: 'inline-flex' }, ml: 4 }}
-        />
-        <TextField
-          label='ชื่อ'
-          variant='outlined'
-          sx={{ display: display.mobile.main }}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <TextField
-          label='สกุล'
-          variant='outlined'
-          sx={{ display: display.mobile.main }}
-        />
-      </Grid>
-    </Fragment>
-  );
-};
-
-const NormalInput = ({ attrName }: { attrName: AttrName }) => {
-  return (
-    <Fragment>
-      {/* Slider group */}
-      <Grid item xs={12}>
-        <DotSlider
-          fieldName={attrName.messiness}
-          defaultValue={0}
-          step={1}
-          min={1}
-          max={9}
-        />
-        <DotSlider
-          fieldName={attrName.noise}
-          defaultValue={0}
-          step={1}
-          min={1}
-          max={9}
-        />
-      </Grid>
-      {/* Time Range Checkbox  */}
-      <Grid item xs={12}>
-        <TimeRangeCheckBoxGroup
-          fieldName={attrName.time}
-          helper='เช่น เวลานอน เวลาอ่านหนังสือ'
-        />
-      </Grid>
-    </Fragment>
-  );
-};

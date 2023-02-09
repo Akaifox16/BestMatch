@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { SystemStyleObject, Theme } from '@mui/system';
 import { Typography } from '@mui/material';
 
-import { display } from '@theme/lightTheme';
+import { display } from '@acme/theme';
 
 interface LogoProps {
   name: string;
