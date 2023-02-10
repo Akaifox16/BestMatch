@@ -2,6 +2,7 @@ import { type NextAuthOptions, DefaultSession } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
+import { env } from '@acme/env';
 import { prisma } from '@acme/database';
 
 declare module 'next-auth' {
@@ -33,6 +34,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
   },
+  secret: env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
