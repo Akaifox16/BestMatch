@@ -20,7 +20,7 @@ export const serverEnv = {
   DATABASE_URL: process.env.DATABASE_URL,
   NODE_ENV: process.env.NODE_ENV,
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
-  NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+  NEXTAUTH_URL: process.env.VERCEL_URL ?? process.env.NEXTAUTH_URL,
 };
 
 export const clientSchema = z.object({});

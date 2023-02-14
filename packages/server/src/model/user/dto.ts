@@ -1,11 +1,26 @@
 import { z } from 'zod';
 import { DormTypePreferEnum, SexEnum, ZoneEnum } from '../enum';
 
-const timerange = z.number().max(23).min(0);
-const cuid = z.string().cuid();
-const email = z.string().email();
-const password = z.string().max(18).min(8);
-const personal_id = z.string().max(13).min(13);
+function requiredMsg(obj: string) {
+  return `${obj} is required`;
+}
+
+const timerange = z
+  .number({ required_error: requiredMsg('Time range') })
+  .max(23, 'Time range should less than 24')
+  .min(0, 'Time range should more than or equal to 0');
+const cuid = z.string({ required_error: requiredMsg('ID') }).cuid();
+const email = z
+  .string({ required_error: requiredMsg('Email') })
+  .email('Invalid Email');
+const password = z
+  .string({ required_error: requiredMsg('Password') })
+  .max(18, 'Password must be less than 18 characters')
+  .min(8, 'Password must be more than 8 characters');
+const personal_id = z
+  .string({ required_error: requiredMsg('Personal ID') })
+  .max(13, 'Personal ID must be exactly 13')
+  .min(13, 'Personal ID must be exactly 13');
 
 export const loginDto = z.object({
   email,
@@ -22,8 +37,8 @@ export const authResponseDto = z.object({
 
 export const createStudentDto = z
   .object({
-    first_name: z.string(),
-    last_name: z.string(),
+    first_name: z.string({ required_error: requiredMsg('First name') }),
+    last_name: z.string({ required_error: requiredMsg('Last name') }),
     email,
     password,
     confirm_password: password,

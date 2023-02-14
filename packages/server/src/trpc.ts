@@ -2,10 +2,10 @@ import { initTRPC } from '@trpc/server';
 import { CreateNextContextOptions } from '@trpc/server/adapters/next';
 import superjson from 'superjson';
 
-import { UnAutorizedError } from '@src/model/errors';
-import { getServerSession, type Session } from '@acme/auth';
-
 import { prisma } from '@acme/database';
+
+import { UnAutorizedError } from './model/errors';
+import { getServerSession, type Session } from '@acme/auth';
 
 type CreateContextOptions = {
   session: Session | null;

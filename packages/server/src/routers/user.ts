@@ -7,8 +7,8 @@
 //   addDormPreference,
 //   editDormPreference,
 // } from '@src/controller/user/dormPref';
-import { getProfile, getRole } from '@src/controller/user/manager';
-import { createTRPCRouter } from '@src/trpc';
+import { getProfile, getRole } from '../controller/user/manager';
+import { createTRPCRouter } from '../trpc';
 
 export const studentRouter = createTRPCRouter({
   // User

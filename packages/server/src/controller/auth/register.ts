@@ -1,6 +1,8 @@
-import { authResponseDto, createStudentDto } from '../../model/user';
-import { publicProcedure } from '../../trpc';
+import * as bcrypt from 'bcrypt';
 import { prisma } from '@acme/database';
+
+import { publicProcedure } from '../../trpc';
+import { authResponseDto, createStudentDto } from '../../model/user';
 import { ConflictError, InternalServerError } from '../../model/errors';
 
 const register = publicProcedure
@@ -16,11 +18,12 @@ const register = publicProcedure
 
     if (existedStudent) throw ConflictError('this user is already existed');
 
-    // remove confirm__password
+    // remove confirm_password
     const { confirm_password, ...data } = input;
 
+    const hashPassword = await bcrypt.hash(data.password, 10);
     const user = await prisma.user.create({
-      data,
+      data: { ...data, password: hashPassword },
       select: { email: true, id: true, first_name: true, last_name: true },
     });
 

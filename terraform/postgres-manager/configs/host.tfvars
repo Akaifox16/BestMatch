@@ -1,5 +1,5 @@
 connection = {
-  host = "lin-15964-5175-pgsql-primary.servers.linodedb.net"
-  port = 5432
-  secret = ""
+  host = "localhost"
+  port = 5433
+  secret = "password"
 }

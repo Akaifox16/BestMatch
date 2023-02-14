@@ -10,6 +10,7 @@ const mateStepperMachine =
         initial: true,
         profile: undefined,
       },
+      predictableActionArguments: true,
       states: {
         unknown: {
           always: [{ target: 'profile', cond: 'isInit' }, { target: 'tuner' }],
@@ -70,13 +71,13 @@ const mateStepperMachine =
     },
     {
       guards: {
-        isInit: ({ initial }) => {
+        isInit: ({ initial }, _evt) => {
           return initial;
         },
       },
       actions: {
-        initialized: ({ initial }) => {
-          initial = true;
+        initialized: (ctx, _evt) => {
+          ctx.initial = true;
         },
       },
     }

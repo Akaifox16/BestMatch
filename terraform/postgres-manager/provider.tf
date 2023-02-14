@@ -2,10 +2,9 @@ provider "postgresql" {
   host            = var.connection.host
   port            = var.connection.port
   database        = "postgres"
-  username        = "linpostgres"
+  username        = "postgres"
   password        = var.connection.secret
-  sslmode         = "require"
+  sslmode         = "disable"
   connect_timeout = 15
-  superuser       = false
 }
 

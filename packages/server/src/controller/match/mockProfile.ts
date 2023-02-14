@@ -1,13 +1,12 @@
-import { publicProcedure } from '@src/trpc';
 import { prisma } from '@acme/database';
-import { NotFoundError } from '@src/model/errors';
 
-const mockProfile = publicProcedure.query(async () => {
-  const userId = 'cld1ns6f80000qt54q7jf81ej';
+import { protectedProcedure } from '../../trpc';
+import { NotFoundError } from '../../model/errors';
 
+const mockProfile = protectedProcedure.query(async ({ ctx }) => {
   const matePref = await prisma.profile.findFirst({
     where: {
-      pref_owner_id: userId,
+      pref_owner_id: ctx.session.user.id,
     },
     select: {
       messiness: true,
