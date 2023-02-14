@@ -1,39 +1,18 @@
 import Link from 'next/link';
+import { GetStaticPropsResult } from 'next';
+import { useSession } from 'next-auth/react';
 
 import { Button, Container, Grid, Typography } from '@mui/material';
 
 import { TimelineWithDate } from '@component/SystemTimeline';
 import CustomHeader from '@component/CustomHeader';
-import { useSession } from 'next-auth/react';
 
-const evtNames = [
-  'ลงทะเบียนผู้ใช้',
-  'เปิดระบบจับคู่',
-  'ปิดระบบจับคู่',
-  'ระบบประมวลผล',
-  'ประกาศผล',
-];
-const dates = [
-  new Date(2022, 1, 12),
-  new Date(2022, 5, 16),
-  new Date(2022, 5, 17),
-  new Date(2022, 5, 28),
-];
-const timeline = evtNames.map((evt, idx) => {
-  if (typeof dates.at(idx) === 'undefined')
-    return {
-      evtName: evt,
-      date: new Date(),
-    };
-  else
-    return {
-      evtName: evt,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      date: dates.at(idx)!,
-    };
-});
+type Timeline = Array<{ evtName: string; date: string }>;
+type ReturnProps = { timeline: Timeline };
+type HomePageStaticProps = GetStaticPropsResult<ReturnProps>;
+type HomePageProps = ReturnProps;
 
-export default function Home() {
+export default function Home({ timeline }: HomePageProps) {
   const { data: sessionData, status } = useSession();
 
   if (status === 'loading') return <div>Loading...</div>;
@@ -93,4 +72,41 @@ export default function Home() {
       </main>
     </div>
   );
+}
+
+export function getStaticProps(): HomePageStaticProps {
+  const evtNames = [
+    'ลงทะเบียนผู้ใช้',
+    'เปิดระบบจับคู่',
+    'ปิดระบบจับคู่',
+    'ระบบประมวลผล',
+    'ประกาศผล',
+  ];
+
+  const dates = [
+    new Date(2022, 1, 12),
+    new Date(2022, 5, 16),
+    new Date(2022, 5, 17),
+    new Date(2022, 5, 28),
+  ];
+
+  const timeline = evtNames.map((evt, idx) => {
+    if (typeof dates.at(idx) === 'undefined')
+      return {
+        evtName: evt,
+        date: new Date().toDateString(),
+      };
+    else
+      return {
+        evtName: evt,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        date: dates.at(idx)!.toDateString(),
+      };
+  });
+
+  return {
+    props: {
+      timeline,
+    },
+  };
 }

@@ -10,7 +10,7 @@ import {
 
 type TimelineWithDateProps = {
   timeline: {
-    date: Date;
+    date: string;
     evtName: string;
   }[];
 };
@@ -32,7 +32,7 @@ const TimelineWithDate = ({ timeline }: TimelineWithDateProps) => {
                 </>
               )}
             </TimelineSeparator>
-            <TimelineContent>{item.date.toDateString()}</TimelineContent>
+            <TimelineContent>{item.date}</TimelineContent>
           </TimelineItem>
         );
       })}
