@@ -1,4 +1,3 @@
-import { FunctionComponentElement } from 'react';
 import {
   FieldValues,
   MultiSelectElement,
