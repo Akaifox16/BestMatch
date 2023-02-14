@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { GetStaticPropsResult } from 'next';
+import { GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { useSession } from 'next-auth/react';
 
 import { Button, Container, Grid, Typography } from '@mui/material';
@@ -10,7 +10,7 @@ import CustomHeader from '@component/CustomHeader';
 type Timeline = Array<{ evtName: string; date: string }>;
 type ReturnProps = { timeline: Timeline };
 type HomePageStaticProps = GetStaticPropsResult<ReturnProps>;
-type HomePageProps = ReturnProps;
+type HomePageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 export default function Home({ timeline }: HomePageProps) {
   const { data: sessionData, status } = useSession();
