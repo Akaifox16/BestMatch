@@ -1,8 +1,8 @@
-import { protectedProcedure } from '@src/trpc';
-import { addPrefDto } from '@src/model/user';
-import { InternalServerError } from '@src/model/errors';
-
 import { prisma } from '@acme/database';
+
+import { protectedProcedure } from '../../../trpc';
+import { addPrefDto } from '../../../model/user';
+import { InternalServerError } from '../../../model/errors';
 
 const addPreference = protectedProcedure
   .input(addPrefDto)

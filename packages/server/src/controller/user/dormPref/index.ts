@@ -1,2 +1,1 @@
-export { default as addDormPreference } from './addDormPreference';
-export { default as editDormPreference } from './editDormPreference';
+export { default as upsertDormPreference } from './upsertDormPreference';
