@@ -50,7 +50,7 @@ export const createStudentDto = z
     path: ['confirm_password'],
   });
 
-export const createDormPrefDto = z.object({
+export const addDormPrefDto = z.object({
   residents_limit: z.number().int().min(2).max(4),
   dorm_type: DormTypePreferEnum,
   room_pref: z.object({

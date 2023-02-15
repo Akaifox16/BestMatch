@@ -1,36 +1,15 @@
-import { TextField } from '@mui/material';
+import {
+  FieldValues,
+  TextFieldElement,
+  TextFieldElementProps,
+} from 'react-hook-form-mui';
 
-type FieldInputProps = {
-  label: string;
-  val?: string;
-  err?: boolean;
-  errText?: string;
-  disable?: boolean;
-  password?: boolean;
-};
-
-const FieldInput = ({
-  val,
-  err,
-  errText,
-  disable,
-  password,
+export default function TextInput<Control extends FieldValues>({
+  name,
   label,
-}: FieldInputProps) => {
+  control,
+}: Pick<TextFieldElementProps<Control>, 'name' | 'label' | 'control'>) {
   return (
-    <TextField
-      label={label}
-      value={val}
-      error={err}
-      helperText={errText}
-      disabled={disable}
-      required
-      fullWidth
-      margin='dense'
-      variant='outlined'
-      type={password ? 'password' : 'text'}
-    />
+    <TextFieldElement name={name} label={label} control={control} fullWidth />
   );
-};
-
-export default FieldInput;
+}

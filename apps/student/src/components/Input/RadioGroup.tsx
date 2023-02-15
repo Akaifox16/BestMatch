@@ -1,33 +1,22 @@
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-} from '@mui/material';
+import type { FieldValues, RadioButtonGroupProps } from 'react-hook-form-mui';
+import { RadioButtonGroup } from 'react-hook-form-mui';
 
-type CustomRadioGroupProps = {
-  label: string;
-  values: Array<string>;
-};
-const CustomRadioGroup = ({ label, values }: CustomRadioGroupProps) => {
+export default function RadioGroup<Control extends FieldValues>({
+  name,
+  label,
+  control,
+  options,
+}: Pick<
+  RadioButtonGroupProps<Control>,
+  'name' | 'label' | 'control' | 'options'
+>) {
   return (
-    <FormControl>
-      <FormLabel>{label}</FormLabel>
-      <RadioGroup row name={`${label}-radio-group`}>
-        {values.map((val) => {
-          return (
-            <FormControlLabel
-              key={val}
-              label={val}
-              value={val}
-              control={<Radio />}
-            />
-          );
-        })}
-      </RadioGroup>
-    </FormControl>
+    <RadioButtonGroup
+      name={name}
+      label={label}
+      control={control}
+      options={options}
+      required
+    />
   );
-};
-
-export default CustomRadioGroup;
+}
