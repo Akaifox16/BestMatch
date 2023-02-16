@@ -1,13 +1,8 @@
-import { Fragment } from 'react';
+import StudentForm from '@component/Form/Student';
+import { ComponentProps } from 'react';
 
-import type {
-  AttrName,
-  ProfileOwner,
-  StudentVariant,
-} from '../ProfileCard/index.type';
+type StudentCardProps = Pick<ComponentProps<typeof StudentForm>, 'variant'>;
 
-const StudentCard = ({ variant }: { variant: StudentVariant }) => {
-  return <Fragment>{/* <NameInput /> */}</Fragment>;
-};
-
-export default StudentCard;
+export default function StudentCard({ variant }: StudentCardProps) {
+  return <StudentForm variant={variant} />;
+}

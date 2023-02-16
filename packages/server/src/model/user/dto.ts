@@ -5,10 +5,10 @@ function requiredMsg(obj: string) {
   return `${obj} is required`;
 }
 
-const timerange = z
-  .number({ required_error: requiredMsg('Time range') })
-  .max(23, 'Time range should less than 24')
-  .min(0, 'Time range should more than or equal to 0');
+// const timerange = z
+//   .number({ required_error: requiredMsg('Time range') })
+//   .max(23, 'Time range should less than 24')
+//   .min(0, 'Time range should more than or equal to 0');
 const cuid = z.string({ required_error: requiredMsg('ID') }).cuid();
 const email = z
   .string({ required_error: requiredMsg('Email') })
@@ -63,10 +63,11 @@ export const addPrefDto = z.object({
   messiness: z.number(),
   loudness: z.number(),
   do_not_disturb: z.array(
-    z.object({
-      start: timerange,
-      stop: timerange,
-    })
+    z.string()
+    // z.object({
+    //   id: z.string(),
+    //   label: z.string(),
+    // })
   ),
 });
 export const addProfileDto = addPrefDto;

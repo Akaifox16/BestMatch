@@ -1,8 +1,8 @@
-import { protectedProcedure } from '@src/trpc';
+import { protectedProcedure } from '../../../trpc';
 
 import { prisma } from '@acme/database';
-import { InternalServerError } from '@src/model/errors';
-import { addProfileDto } from '@src/model/user';
+import { InternalServerError } from '../../../model/errors';
+import { addProfileDto } from '../../../model/user';
 
 const upsertProfile = protectedProcedure
   .input(addProfileDto)
@@ -19,7 +19,7 @@ const upsertProfile = protectedProcedure
         ...input,
         do_not_disturb: {
           createMany: {
-            data: input.do_not_disturb,
+            data: { start: 0, stop: 23 },
             skipDuplicates: true,
           },
         },
@@ -28,7 +28,7 @@ const upsertProfile = protectedProcedure
         ...input,
         do_not_disturb: {
           createMany: {
-            data: input.do_not_disturb,
+            data: { start: 0, stop: 23 },
             skipDuplicates: true,
           },
         },

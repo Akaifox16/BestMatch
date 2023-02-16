@@ -8,7 +8,11 @@ export default function RangeWithPreview<Control extends FieldValues>({
   control,
   name,
   label,
-}: Pick<SliderElementProps<Control>, 'name' | 'label' | 'control'>) {
+  disabled,
+}: Pick<
+  SliderElementProps<Control>,
+  'name' | 'label' | 'control' | 'disabled'
+>) {
   return (
     <SliderElement
       control={control}
@@ -16,8 +20,9 @@ export default function RangeWithPreview<Control extends FieldValues>({
       label={label}
       max={9}
       min={1}
+      disabled={disabled}
       marks
-      required
+      required={disabled ? false : true}
     />
   );
 }

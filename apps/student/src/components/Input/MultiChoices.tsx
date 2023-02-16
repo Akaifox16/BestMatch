@@ -9,9 +9,10 @@ export default function MultiChoices<Control extends FieldValues>({
   label,
   options,
   control,
+  disabled,
 }: Pick<
   MultiSelectElementProps<Control>,
-  'name' | 'label' | 'options' | 'control'
+  'name' | 'label' | 'options' | 'control' | 'disabled'
 >) {
   return (
     <MultiSelectElement
@@ -19,7 +20,8 @@ export default function MultiChoices<Control extends FieldValues>({
       name={name}
       label={label}
       options={options}
-      required
+      disabled={disabled}
+      required={disabled ? false : true}
       showChips
     />
   );

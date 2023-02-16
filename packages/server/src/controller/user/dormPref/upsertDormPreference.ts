@@ -1,9 +1,10 @@
 // import { prisma } from '@acme/database';
 
+import { addDormPrefDto } from '../../../model/user';
 import { protectedProcedure } from '../../../trpc';
 
 const upsertDormPreference = protectedProcedure
-  // .input()
+  .input(addDormPrefDto)
   .mutation(async () => {
     // const preference = await prisma.dormPreference.upsert({
     //   where: {
