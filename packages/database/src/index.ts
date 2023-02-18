@@ -12,4 +12,22 @@ export const prisma =
       env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
   });
 
+export type {
+  User,
+  Profile,
+  DoNotDisturb,
+  CalculatedPreference,
+  DoNotDisturbTolerant,
+  DormPreference,
+  RoomPreference,
+  Dorm,
+  Floor,
+  Room,
+  Zone,
+  Sex,
+  Role,
+  DormType,
+  DormTypePrefer,
+} from '@prisma/client';
+
 if (env.NODE_ENV === 'production') global.prisma = prisma;
