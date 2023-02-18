@@ -8,8 +8,14 @@ import { Grid, Typography } from '@mui/material';
 import SendBtn from '../SendBtn';
 
 import { type RouterInputs } from '@utility/trpc';
+import CSRFInput from '@component/Input/CSRFInput';
+import { ComponentProps } from 'react';
 
-function LoginForm() {
+type LoginFormProps = {
+  token: Pick<ComponentProps<typeof CSRFInput>, 'csrfToken'>['csrfToken'];
+};
+
+function LoginForm({ token }: LoginFormProps) {
   const { control, handleSubmit } = useForm<RouterInputs['auth']['login']>();
 
   const submit: SubmitHandler<RouterInputs['auth']['login']> = (data) => {
@@ -19,6 +25,7 @@ function LoginForm() {
   return (
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(submit)}>
+      <CSRFInput csrfToken={token} />
       <Stack
         direction='column'
         justifyContent='center'
