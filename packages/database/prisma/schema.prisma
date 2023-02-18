@@ -7,25 +7,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
+// ########################################
+// ##                                    ##
+// ##               OAuth                ##
+// ##                                    ##
+// ########################################
+// model Account {
+//   id                String  @id @default(cuid())
+//   userId            String
+//   type              String
+//   provider          String
+//   providerAccountId String
+//   refresh_token     String? @db.Text
+//   access_token      String? @db.Text
+//   expires_at        Int?
+//   token_type        String?
+//   scope             String?
+//   id_token          String? @db.Text
+//   session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId])
-}
-
+//   @@unique([provider, providerAccountId])
+// }
 
 // ########################################
 // ##                                    ##
@@ -46,13 +50,16 @@ model User {
   sex         Sex
   role        Role   @default(STUDENT)
 
-  has_profile         Profile?        @relation("profile_of_user")
-  has_mate_preference Profile?        @relation("mate_pref_of_user")
-  has_dorm_preference DormPreference?
+  has_profile               Profile?              @relation("profile_of_user")
+  has_mate_preference       Profile?              @relation("mate_pref_of_user")
+  has_dorm_preference       DormPreference?
+  has_calculated_preference CalculatedPreference? @relation("has_calculated_preference")
 
   roomId   String?
-  lived_in Room?     @relation("lived_in", fields: [roomId], references: [id], onDelete: SetNull)
-  Account  Account[]
+  lived_in Room?   @relation("lived_in", fields: [roomId], references: [id], onDelete: SetNull)
+
+  // Oauth Profile
+  // Account  Account[]
 }
 
 // ########################################
@@ -78,6 +85,28 @@ model Profile {
   do_not_disturb DoNotDisturb[]
 }
 
+// ########################################
+// ##                                    ##
+// ##             Calc Pref              ##
+// ##                                    ##
+// ########################################
+model CalculatedPreference {
+  id        String    @id @default(cuid())
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  owner_id       String @unique
+  belong_to_user User?  @relation("has_calculated_preference", fields: [owner_id], references: [id])
+
+  messiness_tolerant_min Int
+  messiness_tolerant_max Int
+
+  loudness_tolerant_min Int
+  loudness_tolerant_max Int
+
+  do_not_disturb_tolerant DoNotDisturbTolerant[]
+}
+
 model DoNotDisturb {
   id String @id @default(cuid())
 
@@ -86,6 +115,19 @@ model DoNotDisturb {
 
   profileId String
   profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model DoNotDisturbTolerant {
+  id String @id @default(cuid())
+
+  start_min Int
+  start_max Int
+
+  stop_min Int
+  stop_max Int
+
+  preferenceId String
+  preference   CalculatedPreference @relation(fields: [preferenceId], references: [id], onDelete: Cascade)
 }
 
 // ########################################
@@ -106,7 +148,7 @@ model DormPreference {
 
   room_pref_id          String         @unique
   about_room_preference RoomPreference @relation("belong_to_dorm_preference", fields: [room_pref_id], references: [id])
-  userId                String
+  // userId                String
 }
 
 // ########################################

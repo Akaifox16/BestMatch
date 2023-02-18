@@ -28,7 +28,7 @@ export default function TimeRangeChoices<TFieldValues extends FieldValues>({
     <MultiChoices
       control={control}
       name={name}
-      label={''}
+      label={'do not disturb'}
       options={timeOptions}
       disabled={disabled}
     />

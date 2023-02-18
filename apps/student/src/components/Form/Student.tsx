@@ -39,17 +39,17 @@ export default function StudentForm({ variant, disable }: StudentFormProps) {
   return (
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(submit)}>
-      <Stack direction='row'>
+      <Stack direction='column' spacing={4} sx={{ m: 4, width: '50vw' }}>
         <Slider
           control={control}
           name='messiness'
-          label={''}
+          label={'messiness'}
           disabled={disable}
         />
         <Slider
           control={control}
           name='loudness'
-          label={''}
+          label={'loudness'}
           disabled={disable}
         />
         <TimeRangeChoices
