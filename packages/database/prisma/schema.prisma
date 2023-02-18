@@ -9,30 +9,6 @@ datasource db {
 
 // ########################################
 // ##                                    ##
-// ##               OAuth                ##
-// ##                                    ##
-// ########################################
-// model Account {
-//   id                String  @id @default(cuid())
-//   userId            String
-//   type              String
-//   provider          String
-//   providerAccountId String
-//   refresh_token     String? @db.Text
-//   access_token      String? @db.Text
-//   expires_at        Int?
-//   token_type        String?
-//   scope             String?
-//   id_token          String? @db.Text
-//   session_state     String?
-
-//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-//   @@unique([provider, providerAccountId])
-// }
-
-// ########################################
-// ##                                    ##
 // ##               User                 ##
 // ##                                    ##
 // ########################################
@@ -100,11 +76,14 @@ model CalculatedPreference {
 
   messiness_tolerant_min Int
   messiness_tolerant_max Int
+  messiness_weight       Float
 
   loudness_tolerant_min Int
   loudness_tolerant_max Int
+  loudness_weight       Float
 
   do_not_disturb_tolerant DoNotDisturbTolerant[]
+  do_not_disturb_weight   Float
 }
 
 model DoNotDisturb {
@@ -220,6 +199,30 @@ model Room {
 
   residents User[] @relation("lived_in")
 }
+
+// ########################################
+// ##                                    ##
+// ##               OAuth                ##
+// ##                                    ##
+// ########################################
+// model Account {
+//   id                String  @id @default(cuid())
+//   userId            String
+//   type              String
+//   provider          String
+//   providerAccountId String
+//   refresh_token     String? @db.Text
+//   access_token      String? @db.Text
+//   expires_at        Int?
+//   token_type        String?
+//   scope             String?
+//   id_token          String? @db.Text
+//   session_state     String?
+
+//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+//   @@unique([provider, providerAccountId])
+// }
 
 // ########################################
 // ##                                    ##
