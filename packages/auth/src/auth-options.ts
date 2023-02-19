@@ -1,4 +1,4 @@
-import { type NextAuthOptions, DefaultSession } from 'next-auth';
+import { type NextAuthOptions, DefaultSession, Session } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -48,10 +48,29 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(cred, _req) {
+        if (!cred) {
+          return null;
+        }
+
+        // const { data: user } = await fetch(
+        //   `${env.NEXTAUTH_URL}/api/auth.login`,
+        //   {
+        //     method: 'POST',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(cred),
+        //   }
+        // ).catch(console.error);
+
+        // console.log(user);
+
         const user = {
           email: cred?.email,
+          image: null,
+          name: 'test user',
           id: 'clda953nf0000qtah0fb2z9cp',
-        };
+        } satisfies Session['user'];
 
         if (!user) {
           return null;
