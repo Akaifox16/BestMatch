@@ -1,86 +1,176 @@
-import { createMachine } from 'xstate';
+import { assign, createMachine } from 'xstate';
+
+type Context = {
+  formData: {
+    selfProfile: Record<string, any>;
+    roommatePreference: Record<string, any>;
+    dormPreference: Record<string, any>;
+  };
+  currentStep: number;
+};
+
+type Events = { type: 'PREV' } | { type: 'NEXT' } | { type: 'SUBMIT' };
 
 const mateStepperMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QFsCGAXMB9VAHXWaAxgBYCWAdmAHQCuFA1hQPYDuFAxANoAMAuolC5msMujLMKgkAA9EARgBsAFmo916gEwAOAKzKA7NoOaAzABoQATwWbF1JYqfy72t3oC+Hy2kw58hKiklDT0TGycXPICSCDCouKS0nIISqoaWnqGxmaWNgiaurpqGXrapiamyopePhjYeATE5FTUuABOzABmZAA2YBwAcgCiABoAKrwxQiJiElKxKYryPNQGyybyAJza2wamFtaIyqYO2oqmmluKZrrb2oW1IL4NAc0h1C8ACu1gXUNjSb8aTxOZJRaIbQnNYGeS6JyKc6mLbbPLHU7yJHyeTKMzGapPF7+JpBFo0b6-f4AIQAggBhADSUxBs0SC1AKSqqjSPEqRXKV0UaIKPC2DgOBh4ylFJ3kpjchPqxMCwVanWYyB+fwBE2ZsVBbOSkJ2DgMuh4xgquL2wtMSjU6zubjueNMukVfkaKrJ1HVmspHFpjL1MwS8yNCBU2moyl0BzMmiMmO0W2Fmjs1ERcq2RVxWy26e0HteJNVNHQ9BoMAoP26fQGEEkNEoADdmAwq2AqO16rWev0Q3FWeGIQhpat8zwcU4pW69Id8tp1GtE8pjFstAXlMXle9WhXWtW+-WOGB2p12m1ehgusx2shqNWz73Ov2wIODSOOYgVKdJSZFB4ZF9iMYUbmKQwLV0dNZ35HcvT3ctK2oWASDYY9+g4ek6WGL5xmGAARD9h3Bb9IyA6hzSXKVqnKedhQMfNqHTM0lDuUwLTteC3lJD4DxoVD0NfE8ACVhgAMQAVQAZUI4iw1I2RIR4TRqDtWEDGUOEtgqVEjgQRixRYu5FHYzjNC8bwQBYCA4GkIkEN4qgWQU9klIQABaFxVOxGd1GUa4bm0YUPJ0aMdnWM0AuUE4DndKyHJ4ss6EYFh2BcsE3JSDzNIcRwNACpwdBCzQpxjYxFDNconXNUxuNLH0OjrfoMsNUd42oAtkyq619iFfSXFULSnF0fZChWed6u9D4KT+Vqv3c8DqDcUUcQ4pxpX6-JBpjRw13TaCyiLBKlUc5K-S1Lp5sUlIHlUaDsShCorjXYUduGxFqk0WN1lxKbEOofjrqyxA3VUydp0Ak5dHo-TzWKc0eAuKCRqXGoTs9JKfX4x8uwwsBgYjWNo0TO1IJnQwc2FXQdJKJH5CMFFAOxf6nKQ1pBNYfHCdHIK1I3KE7CKeFRuFLZqkonZeSKC54QuSyPCAA */
-  createMachine(
+  /** @xstate-layout N4IgpgJg5mDOIC5QFsCGAXMB9WmAOeYATlmgMYAWAlgHZgB0sYANgGYAKRA9q1c2AGIAcgFEAGgBUA2gAYAuolB4usKuipcaikAA9EAFgCMAJnoBmQwA4ArNZlmz+68Zv6ANCACeiQ2YCc9IaGAGyG1gDsZuEywcH6xgC+CR5omDj4hCTk1HT03FzIqWCcYKzEYDRkguwASiIAarIKSCDKquqa2noI8eH0+vpmxg7G+pHBfuEe3ggAtIYyfZZW4X6j1n4ylmY2SSkY2LhgBMSkqJS0DPmFByVlRBVVwuLS8tptahpaLd2Wxn0ucKDUYyMLhQzTHyGPpBeL2RbWWLgxLJEBFdLHTJnC65CBcIjIO7lSrVOqNN4tD4db6gX6xejBZygpyWGTDUGQuZhGT0SyWcHOeJ+P7BYwo-ZpI4nLLnHIMPEEokPEkCADKAFUAEIAWQAkq9mkoVJ9Oj8fMYJvRrDtBpY-Iz4iZOb4eY67P9HC5Qns0QcMdLsXLGABXABGyDU6hoUDVWr1EgkIgAIk13sbqV0fENTBFhvptn5-HFOU59PQ-Po4oY1jYZDFfElUTQuBA4Np0VKsdlLmn2l9MwgVuWIr5raLGfyzJzZsNLOZYg4gXZbMEZNYfR2Mqdu7kmGxODw+GBeyaabpEMNrMPwWYxxbrJPOcErWZgtFBvpC2t7H4N37O9usqXHkXAFEUSqPMelLpv2ZoIA+hj0OExjWp+YqjoynIBPYb4yB+X7GHhf6SluMo4vK+KEg89yQSeGZwQsb5IaC34FuE4QPs6iFjsE-JxDEYzOJYxGHKRgbAbAYYRugUZQHRsG0ua9r0GyhZbLefjusYnIWIhfibHyvFBIWITBCJ-pdkBuKaFBRp9qaimDkMz5stYYw7BxvH2JythztW4QivEgz2uEjYJEAA */
+  createMachine<Context, Events>(
     {
-      id: 'mate_app_machine',
-      initial: 'unknown',
-      context: {
-        initial: true,
-        profile: undefined,
-      },
+      id: 'mate_stepper_machine',
+      initial: 'selfProfile',
       predictableActionArguments: true,
+      context: {
+        formData: {
+          selfProfile: {},
+          roommatePreference: {},
+          dormPreference: {},
+        },
+        currentStep: 0,
+      },
       states: {
-        unknown: {
-          always: [{ target: 'profile', cond: 'isInit' }, { target: 'tuner' }],
-        },
-        profile: {
-          on: {
-            NEXT: 'matePref',
-          },
-        },
-        matePref: {
-          on: {
-            NEXT: 'roomPref',
-            BACK: 'profile',
-          },
-        },
-
-        roomPref: {
+        selfProfile: {
           on: {
             NEXT: {
-              target: 'tuner',
-              actions: 'initialized',
+              target: 'roommatePreference',
+              actions: ['saveSelfProfileFormData', 'incrementStep'],
             },
-            BACK: 'matePref',
           },
-        },
-        tuner: {
-          initial: 'genProfile',
-          states: {
-            genProfile: {
-              // invoke: {
-              //   id: 'generateProfile',
-              //   src: () => undefined,
-              //   onDone: {
-              //     target: 'showProfile',
-              //     actions: assign({profile: (_ctx, evt) => evt.data})
-              //   },
-              //   onError: {
-              //     target: 'genProfile',
-              //   }
-              // }
-            },
-            showProfile: {
-              on: {
-                ACCEPTED: {
-                  target: 'genProfile',
-                  actions: 'accepted_feedback',
-                },
 
-                REFUSED: {
-                  target: 'genProfile',
-                  actions: 'refused_feedback',
-                },
-              },
+          entry: 'loadSelfProfile',
+        },
+
+        roommatePreference: {
+          on: {
+            PREV: {
+              target: 'selfProfile',
+              actions: 'decrementStep',
+            },
+            NEXT: {
+              target: 'dormPreference',
+              actions: ['saveRoommatePreferenceFormData', 'incrementStep'],
             },
           },
+
+          entry: 'loadRoommatePreference',
+        },
+
+        dormPreference: {
+          on: {
+            PREV: {
+              target: 'roommatePreference',
+              actions: 'decrementStep',
+            },
+            SUBMIT: {
+              target: 'submitting',
+              actions: 'saveDormPreferenceFormData',
+            },
+          },
+
+          entry: 'loadDormPreference',
+        },
+        submitting: {
+          entry: 'submitForm',
         },
       },
     },
     {
-      guards: {
-        isInit: ({ initial }, _evt) => {
-          return initial;
-        },
-      },
       actions: {
-        initialized: (ctx, _evt) => {
-          ctx.initial = true;
-        },
+        saveSelfProfileFormData: assign({
+          formData: (ctx, evt) => ({
+            ...ctx.formData,
+            // selfProfile: evt.formData,
+          }),
+        }),
+        saveRoommatePreferenceFormData: assign({
+          formData: (ctx, evt) => ({
+            ...ctx.formData,
+            // roommatePreference: evt.formData,
+          }),
+        }),
+        saveDormPreferenceFormData: assign({
+          formData: (ctx, evt) => ({
+            ...ctx.formData,
+            // dormPreference: evt.formData,
+          }),
+        }),
+        incrementStep: assign({
+          currentStep: (ctx) => ctx.currentStep + 1,
+        }),
+        decrementStep: assign({
+          currentStep: (ctx) => ctx.currentStep - 1,
+        }),
+        submitForm: () => {},
       },
     }
   );
 
 export default mateStepperMachine;
+
+// const mateStepperMachine =
+// createMachine( {
+//  id: 'mate_app_machine',
+//  initial: 'unknown',
+//  context: {
+//  initial: true,
+//  profile: undefined,
+//  },
+//  predictableActionArguments: true,
+//  states: {
+//  unknown: {
+//  always: [{ target: 'profile', cond: 'isInit' }, { target: 'tuner' }],
+//         },
+//         profile: {
+//           on: {
+//             NEXT: 'matePref',
+//           },
+//         },
+//         matePref: {
+//           on: {
+//             NEXT: 'roomPref',
+//             BACK: 'profile',
+//           },
+//         },
+
+//         roomPref: {
+//           on: {
+//             NEXT: {
+//               target: 'tuner',
+//               actions: 'initialized',
+//             },
+//             BACK: 'matePref',
+//           },
+//         },
+//         tuner: {
+//           initial: 'genProfile',
+//           states: {
+//             showProfile: {
+//               on: {
+//                 ACCEPTED: {
+//                   target: 'genProfile',
+//                   actions: 'accepted_feedback',
+//                 },
+
+//                 REFUSED: {
+//                   target: 'genProfile',
+//                   actions: 'refused_feedback',
+//                 },
+//               },
+//             },
+//           },
+//         },
+//       },
+//     },
+//     {
+//       guards: {
+//         isInit: ({ initial }, _evt) => {
+//           return initial;
+//         },
+//       },
+//       actions: {
+//         initialized: (ctx, _evt) => {
+//           ctx.initial = true;
+//         },
+//       },
+//     }
+//   );
+
+// export default mateStepperMachine;
