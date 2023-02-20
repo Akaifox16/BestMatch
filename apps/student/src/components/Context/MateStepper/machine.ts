@@ -98,7 +98,9 @@ const mateStepperMachine =
         decrementStep: assign({
           currentStep: (ctx) => ctx.currentStep - 1,
         }),
-        submitForm: () => {},
+        submitForm: () => {
+          console.log('TODO');
+        },
       },
     }
   );

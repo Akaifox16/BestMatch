@@ -7,13 +7,9 @@ import mateStepperMachine from './machine';
 
 export const MateStepperCtx = createContext({
   mateService: {} as InterpreterFrom<typeof mateStepperMachine>,
-  step: 0,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setStep: (_x: number) => {},
 });
 
 export default function MateStepperProvider({ children }: ParentNode) {
-  const [step, setStep] = useState<number>(0);
   const mateStepper = useRef(
     interpret(mateStepperMachine)
       .onSend((evt) => console.log(`MateStepper: send ${evt.type}`))
@@ -23,29 +19,16 @@ export default function MateStepperProvider({ children }: ParentNode) {
   );
 
   return (
-    <MateStepperCtx.Provider
-      value={{ mateService: mateStepper.current, step, setStep }}
-    >
+    <MateStepperCtx.Provider value={{ mateService: mateStepper.current }}>
       {children}
     </MateStepperCtx.Provider>
   );
 }
 
 export function useMateStepperMachine() {
-  const { mateService, setStep, step } = useContext(MateStepperCtx);
-
-  function nextStep() {
-    return setStep(step + 1);
-  }
-
-  function prevStep() {
-    return setStep(step - 1);
-  }
+  const { mateService } = useContext(MateStepperCtx);
 
   return {
     mateService,
-    step,
-    nextStep,
-    prevStep,
   };
 }

@@ -9,10 +9,10 @@ import CustomHeader from '@component/CustomHeader';
 import ProfileCard from '@component/ProfileCard';
 
 export default function SummaryPage() {
-  const {data: session} = useSession()
-  
-  if (!session){
-    return <AccessDenied />
+  const { data: session } = useSession();
+
+  if (!session) {
+    return <AccessDenied />;
   }
 
   return (
@@ -24,16 +24,12 @@ export default function SummaryPage() {
       </main>
     </div>
   );
-};
+}
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   return {
     props: {
-      session: await getServerSession(
-        ctx.req,
-        ctx.res,
-        authOptions
-      )
-    }
-  }
+      session: await getServerSession(ctx.req, ctx.res, authOptions),
+    },
+  };
 }

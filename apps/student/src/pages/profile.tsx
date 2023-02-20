@@ -9,9 +9,9 @@ import ProfileCard from '@component/ProfileCard';
 import AccessDenied from '@component/AccessDenied';
 
 export default function ProfilePage() {
-  const { data: session} = useSession()
+  const { data: session } = useSession();
   if (!session) {
-    return <AccessDenied />
+    return <AccessDenied />;
   }
 
   return (
@@ -23,16 +23,12 @@ export default function ProfilePage() {
       </main>
     </div>
   );
-};
+}
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   return {
     props: {
-      session: await getServerSession(
-        ctx.req,
-        ctx.res,
-        authOptions,
-      )
-    }
-  }
+      session: await getServerSession(ctx.req, ctx.res, authOptions),
+    },
+  };
 }
