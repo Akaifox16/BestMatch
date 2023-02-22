@@ -1,5 +1,5 @@
 import StudentForm from '@component/Form/Student';
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 
 type StudentCardProps = Pick<ComponentProps<typeof StudentForm>, 'variant'>;
 

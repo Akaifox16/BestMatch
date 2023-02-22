@@ -1,5 +1,7 @@
 import { Stack } from '@mui/system';
 import { type SubmitHandler, useForm } from 'react-hook-form';
+// import type { MultiSelectElementProps, FieldValues } from 'react-hook-form-mui';
+// import { MultiSelectElement } from 'react-hook-form-mui';
 
 import { Slider } from '@component/Input';
 import { trpc, type RouterInputs } from '@utility/trpc';
@@ -14,31 +16,45 @@ type StudentFormProps = {
 
 type FormInput = RouterInputs['student']['upsertProfile'];
 
+// const BEGIN_DAY = 0 as const;
+// const END_DAY = 23 as const;
+
+// const timeOptions = Array.from(Array(END_DAY - BEGIN_DAY + 1).keys()).map(
+//   (start) => {
+//     return { id: `${start}`, label: `${start}:00 - ${start + 1}:00` };
+//   }
+// ) satisfies MultiSelectElementProps<FieldValues>['options'];
+
 export default function StudentForm({ variant, disable }: StudentFormProps) {
   const { control, handleSubmit } = useForm<FormInput>({
     defaultValues: {
-      do_not_disturb: [],
+      messiness: 4,
+      loudness: 3,
+      do_not_disturb: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '22', '23'],
     },
   });
   const addProfile = trpc.student.upsertProfile.useMutation();
   const addPreference = trpc.student.upsertPreference.useMutation();
 
-  const submit: SubmitHandler<FormInput> = (data) => {
-    switch (variant) {
-      case 'profile':
-        addProfile.mutateAsync(data).catch(console.error);
-        break;
-      case 'matePref':
-        addPreference.mutateAsync(data).catch(console.error);
-        break;
-      default:
-        exhaustiveMatchingGuard(variant);
+  const submit: SubmitHandler<FormInput> = async (data) => {
+    try {
+      switch (variant) {
+        case 'profile':
+          await addProfile.mutateAsync(data);
+          break;
+        case 'matePref':
+          await addPreference.mutateAsync(data);
+          break;
+        default:
+          exhaustiveMatchingGuard(variant);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    <form onSubmit={handleSubmit(submit)}>
+    <form onSubmit={() => handleSubmit(submit)}>
       <Stack direction='column' spacing={4} sx={{ m: 4, width: '50vw' }}>
         <Slider
           control={control}
@@ -52,6 +68,15 @@ export default function StudentForm({ variant, disable }: StudentFormProps) {
           label={'loudness'}
           disabled={disable}
         />
+        {/* <MultiSelectElement */}
+        {/*   control={control} */}
+        {/*   name='do_not_disturb' */}
+        {/*   label='do not disturb' */}
+        {/*   options={timeOptions} */}
+        {/*   disabled={disable} */}
+        {/*   required */}
+        {/*   showChips */}
+        {/* /> */}
         <TimeRangeChoices
           control={control}
           name='do_not_disturb'

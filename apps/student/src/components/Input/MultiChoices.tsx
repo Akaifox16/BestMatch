@@ -1,8 +1,5 @@
-import {
-  FieldValues,
-  MultiSelectElement,
-  MultiSelectElementProps,
-} from 'react-hook-form-mui';
+import type { FieldValues, MultiSelectElementProps } from 'react-hook-form-mui';
+import { MultiSelectElement } from 'react-hook-form-mui';
 
 export default function MultiChoices<Control extends FieldValues>({
   name,
@@ -21,7 +18,7 @@ export default function MultiChoices<Control extends FieldValues>({
       label={label}
       options={options}
       disabled={disabled}
-      required={disabled ? false : true}
+      required={!disabled}
       showChips
     />
   );

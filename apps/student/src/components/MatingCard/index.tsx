@@ -33,10 +33,10 @@ const GamblerOption = ({ variant }: { variant: MatchVariant }) => {
       return (
         <Grid container spacing={1}>
           <Grid item>
-            <Typography>เชื่อในเรื่องดวง?</Typography>
+            <Typography>Gambling man?</Typography>
           </Grid>
           <Grid item>
-            <Button variant='text'>คลิกเลย</Button>
+            <Button variant='text'>Click here</Button>
           </Grid>
         </Grid>
       );

@@ -1,8 +1,5 @@
-import {
-  FieldValues,
-  TextFieldElement,
-  TextFieldElementProps,
-} from 'react-hook-form-mui';
+import type { FieldValues, TextFieldElementProps } from 'react-hook-form-mui';
+import { TextFieldElement } from 'react-hook-form-mui';
 
 export default function TextInput<Control extends FieldValues>({
   name,

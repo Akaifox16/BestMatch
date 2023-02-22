@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { GetStaticPropsResult, InferGetStaticPropsType } from 'next';
+import type { GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { useSession } from 'next-auth/react';
 
 import { Button, Container, Grid, Typography } from '@mui/material';

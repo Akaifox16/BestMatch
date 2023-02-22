@@ -1,5 +1,5 @@
-import { ComponentProps } from 'react';
-import { FieldValues } from 'react-hook-form';
+import type { ComponentProps } from 'react';
+import type { FieldValues } from 'react-hook-form';
 import MultiChoices from './MultiChoices';
 
 type MultiChoicesProps<TFieldValues extends FieldValues> = ComponentProps<

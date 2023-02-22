@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import { getCsrfToken } from 'next-auth/react';
+import type { getCsrfToken } from 'next-auth/react';
 
 import { titleCase } from 'utils/util';
 import AuthCard from './AuthCard';

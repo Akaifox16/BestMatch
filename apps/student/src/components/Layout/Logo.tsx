@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 
-import { SystemStyleObject, Theme } from '@mui/system';
+import type { SystemStyleObject, Theme } from '@mui/system';
 import { Typography } from '@mui/material';
 
 import { display } from '@acme/theme';

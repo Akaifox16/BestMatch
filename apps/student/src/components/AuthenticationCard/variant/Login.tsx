@@ -9,7 +9,7 @@ import SendBtn from '../SendBtn';
 
 import { type RouterInputs } from '@utility/trpc';
 import CSRFInput from '@component/Input/CSRFInput';
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 
 type LoginFormProps = {
   token: Pick<ComponentProps<typeof CSRFInput>, 'csrfToken'>['csrfToken'];

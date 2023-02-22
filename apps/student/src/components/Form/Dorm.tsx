@@ -1,12 +1,13 @@
 import { Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import { RouterInputs, trpc } from '@utility/trpc';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { type RouterInputs, trpc } from '@utility/trpc';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 
 import { RadioGroup } from '@component/Input';
 
-// type DormFormProps = {};
 type FormInput = RouterInputs['student']['upsertDormPreference'];
+
+const IGNORE_NUMBER = 99;
 
 const dorm_type_options = [
   { id: 'BUFFET', label: 'buffet' },
@@ -19,7 +20,7 @@ const resident_options = [
   { id: 2, label: '2' },
   { id: 3, label: '3' },
   { id: 4, label: '4' },
-  { id: 0, label: 'ignore' },
+  { id: IGNORE_NUMBER, label: 'ignore' },
 ] satisfies Array<{ id: FormInput['residents_limit']; label: string }>;
 
 const zone_options = [
@@ -37,7 +38,7 @@ const floor_number_options = [
   { id: 3, label: '3' },
   { id: 4, label: '4' },
   { id: 5, label: '5' },
-  { id: 0, label: 'ignore' },
+  { id: IGNORE_NUMBER, label: 'ignore' },
 ] satisfies Array<{
   id: FormInput['room_pref']['floor_number'];
   label: string;
@@ -56,30 +57,40 @@ export default function DormForm() {
     <form onSubmit={handleSubmit(submit)}>
       <Stack direction='column'>
         <Stack direction='row'>
-          <Typography variant='h5'>Dorm</Typography>
-          <RadioGroup
-            control={control}
-            name='dorm_type'
-            options={dorm_type_options}
-          />
-          <RadioGroup
-            control={control}
-            name='residents_limit'
-            options={resident_options}
-          />
+          <Stack>
+            <Typography variant='h5'>Dorm</Typography>
+            <Stack>
+              <RadioGroup
+                control={control}
+                name='dorm_type'
+                options={dorm_type_options}
+              />
+              <RadioGroup
+                control={control}
+                name='residents_limit'
+                number
+                options={resident_options}
+              />
+            </Stack>
+          </Stack>
         </Stack>
         <Stack direction='row'>
-          <Typography variant='h5'>Room</Typography>
-          <RadioGroup
-            control={control}
-            name='room_pref.zone'
-            options={zone_options}
-          />
-          <RadioGroup
-            control={control}
-            name='room_pref.floor_number'
-            options={floor_number_options}
-          />
+          <Stack>
+            <Typography variant='h5'>Room</Typography>
+            <Stack>
+              <RadioGroup
+                control={control}
+                name='room_pref.zone'
+                options={zone_options}
+              />
+              <RadioGroup
+                control={control}
+                name='room_pref.floor_number'
+                number
+                options={floor_number_options}
+              />
+            </Stack>
+          </Stack>
         </Stack>
       </Stack>
     </form>

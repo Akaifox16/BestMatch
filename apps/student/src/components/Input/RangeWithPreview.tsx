@@ -1,8 +1,5 @@
-import {
-  FieldValues,
-  SliderElement,
-  SliderElementProps,
-} from 'react-hook-form-mui';
+import type { FieldValues, SliderElementProps } from 'react-hook-form-mui';
+import { SliderElement } from 'react-hook-form-mui';
 
 export default function RangeWithPreview<Control extends FieldValues>({
   control,

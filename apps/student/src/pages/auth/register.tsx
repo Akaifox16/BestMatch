@@ -1,6 +1,9 @@
 import AuthenticationCard from '@component/AuthenticationCard';
 import CustomHeader from '@component/CustomHeader';
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from 'next';
 import { getCsrfToken } from 'next-auth/react';
 
 export default function RegisterPage({

@@ -1,5 +1,5 @@
 import { type ParentNode } from 'utils/type';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useRef } from 'react';
 
 import { createContext } from 'react';
 import { interpret, type InterpreterFrom } from 'xstate';

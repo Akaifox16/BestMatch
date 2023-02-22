@@ -1,4 +1,4 @@
-import { getCsrfToken } from 'next-auth/react';
+import type { getCsrfToken } from 'next-auth/react';
 
 type CSRFToken = Awaited<ReturnType<typeof getCsrfToken>>;
 type CSRFInputProps = {
