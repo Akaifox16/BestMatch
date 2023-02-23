@@ -3,6 +3,8 @@ import { prisma } from '@acme/database';
 import { protectedProcedure } from '../../trpc';
 import { NotFoundError } from '../../model/errors';
 
+// TODO: implement how to mock up new profile
+//       using calculated profile
 const mockProfile = protectedProcedure.query(async ({ ctx }) => {
   const matePref = await prisma.profile.findFirst({
     where: {

@@ -6,7 +6,7 @@ import AuthCard from './AuthCard';
 import { LoginForm } from './variant/Login';
 import { RegisterForm } from './variant/Register';
 
-type AuthCardVariant = 'ล็อคอิน' | 'ลงทะเบียน';
+type AuthCardVariant = 'login' | 'register';
 export type AuthenicationCardProps = {
   variant: AuthCardVariant;
   csrfToken: Awaited<ReturnType<typeof getCsrfToken>>;
@@ -17,9 +17,9 @@ function VariantSelector({
   csrfToken,
 }: Pick<AuthenicationCardProps, 'variant' | 'csrfToken'>) {
   switch (variant) {
-    case 'ล็อคอิน':
+    case 'login':
       return <LoginForm token={csrfToken} />;
-    case 'ลงทะเบียน':
+    case 'register':
       return <RegisterForm />;
   }
 }

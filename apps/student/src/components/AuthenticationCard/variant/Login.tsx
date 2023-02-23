@@ -40,7 +40,7 @@ function LoginForm({ token }: LoginFormProps) {
         />
         <PasswordElement name='password' label='Password' control={control} />
         <CreateAccountLink />
-        <SendBtn variant='ล็อคอิน' />
+        <SendBtn variant='login' />
       </Stack>
     </form>
   );

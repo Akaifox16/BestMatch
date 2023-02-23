@@ -16,15 +16,6 @@ type StudentFormProps = {
 
 type FormInput = RouterInputs['student']['upsertProfile'];
 
-// const BEGIN_DAY = 0 as const;
-// const END_DAY = 23 as const;
-
-// const timeOptions = Array.from(Array(END_DAY - BEGIN_DAY + 1).keys()).map(
-//   (start) => {
-//     return { id: `${start}`, label: `${start}:00 - ${start + 1}:00` };
-//   }
-// ) satisfies MultiSelectElementProps<FieldValues>['options'];
-
 export default function StudentForm({ variant, disable }: StudentFormProps) {
   const { control, handleSubmit } = useForm<FormInput>({
     defaultValues: {

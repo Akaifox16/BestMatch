@@ -1,6 +1,7 @@
 import { protectedProcedure } from '../../trpc';
 
-const choose_A_or_B = protectedProcedure.mutation(async () => {
+// TODO: notify other to which profile the student chooose
+const choose_A_or_B = protectedProcedure.mutation(() => {
   return {
     message: 'need implementation',
   };

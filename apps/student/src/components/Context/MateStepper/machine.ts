@@ -170,7 +170,7 @@ const mateStepperMachine =
           currentStep: (ctx) => ctx.currentStep - 1,
         }),
         submitForm: () => {
-          // TODO
+          // TODO: add submitForm implementation
           console.log('TODO');
         },
       },

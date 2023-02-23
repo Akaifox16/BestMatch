@@ -77,7 +77,7 @@ function RegisterForm() {
           control={control}
           fullWidth
         />
-        <SendBtn variant='ลงทะเบียน' />
+        <SendBtn variant='register' />
       </Stack>
     </form>
   );
