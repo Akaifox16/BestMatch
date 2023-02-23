@@ -1,5 +1,5 @@
 import { initTRPC } from '@trpc/server';
-import { CreateNextContextOptions } from '@trpc/server/adapters/next';
+import type { CreateNextContextOptions } from '@trpc/server/adapters/next';
 import superjson from 'superjson';
 
 import { prisma } from '@acme/database';
@@ -18,7 +18,9 @@ function createInnerTRPCContext(opts: CreateContextOptions) {
   };
 }
 
-export async function createTRPCContext(opts: CreateNextContextOptions) {
+export default async function createTRPCContext(
+  opts: CreateNextContextOptions
+) {
   const { req, res } = opts;
 
   const session = await getServerSession({ req, res });

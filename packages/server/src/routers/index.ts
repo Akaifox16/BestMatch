@@ -1,10 +1,12 @@
 import { createTRPCRouter } from '../trpc';
-import { authRouter } from './auth';
-import { studentRouter } from './user';
+import authRouter from './auth';
+import studentRouter from './student';
 
-export const appRouter = createTRPCRouter({
+const appRouter = createTRPCRouter({
   auth: authRouter,
   student: studentRouter,
 });
+
+export default appRouter;
 
 export type AppRouter = typeof appRouter;

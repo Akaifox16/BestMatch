@@ -6,7 +6,9 @@
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
       ],
       "files": [
-        "*.ts"
+        "src/**/*.ts",
+        "index.ts",
+        "transformer.ts"
       ],
       "parserOptions": {
         "project": "tsconfig.json"

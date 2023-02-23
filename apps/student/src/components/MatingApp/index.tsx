@@ -2,10 +2,11 @@ import { useForm } from 'react-hook-form';
 import { useMachine } from '@xstate/react';
 
 import mateStepperMachine from '@component/Context/MateStepper/machine';
-import ProfileCard from '@component/MatingCard';
+import MatingCard from '@component/MatingCard';
 import MatingAppWrapper from './Wrapper';
 
 import type { RouterInputs } from '@utility/trpc';
+import { useMemo } from 'react';
 
 // TODO: Use import ***Form from @utils/type
 type StudentForm = RouterInputs['student']['upsertProfile'];
@@ -21,7 +22,9 @@ const DEFAULT_VALUE = {
 };
 
 export default function MatingApp() {
-  const [state, send] = useMachine(mateStepperMachine);
+  const memoizedMachine = useMemo(() => mateStepperMachine, []);
+  const [state, send] = useMachine(memoizedMachine);
+
   const { control: profileForm } = useForm<StudentForm>(DEFAULT_VALUE);
   const { control: roommateForm } = useForm<RoommateForm>(DEFAULT_VALUE);
   const { control: dormForm } = useForm<DormForm>();
@@ -51,15 +54,15 @@ export default function MatingApp() {
       handleNext={handleNext}
     >
       {state.context.currentStep === 0 && (
-        <ProfileCard variant='profile' control={profileForm} />
+        <MatingCard variant='profile' control={profileForm} />
       )}
 
       {state.context.currentStep === 1 && (
-        <ProfileCard variant='matePref' control={roommateForm} />
+        <MatingCard variant='matePref' control={roommateForm} />
       )}
 
       {state.context.currentStep === 2 && (
-        <ProfileCard variant='roomPref' control={dormForm} />
+        <MatingCard variant='roomPref' control={dormForm} />
       )}
     </MatingAppWrapper>
   );

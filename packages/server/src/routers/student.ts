@@ -8,7 +8,7 @@ import {
 
 import { createTRPCRouter } from '../trpc';
 
-export const studentRouter = createTRPCRouter({
+const studentRouter = createTRPCRouter({
   // User
   getProfile: getProfile,
   getRole: getRole,
@@ -16,11 +16,11 @@ export const studentRouter = createTRPCRouter({
   upsertProfile: upsertProfile,
   upsertPreference: upsertPreference,
   upsertDormPreference: upsertDormPreference,
-
   // Room & Dorm
   // addDormPreference: addDormPreference,
   // editDormPreference: editDormPreference,
-
   // Book room
   // bookRoom: bookRoom,
 });
+
+export default studentRouter;

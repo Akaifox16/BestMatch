@@ -1,5 +1,5 @@
 // main router
-export { appRouter, type AppRouter } from './src/routers';
+export { default as appRouter, type AppRouter } from './src/routers';
 
 // misc
-export { createTRPCContext } from './src/trpc';
+export { default as createTRPCContext } from './src/trpc';

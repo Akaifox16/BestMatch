@@ -126,6 +126,7 @@ const mateStepperMachine =
       actions: {
         saveSelfProfileFormData: assign({
           formData: (ctx, evt) => {
+            console.log(evt);
             if (evt.type === 'NEXT' && isProfileForm(evt.formData)) {
               return {
                 ...ctx.formData,
