@@ -1,20 +1,22 @@
-import CardTemplate from '@component/CardTemplate';
 import { Fragment } from 'react';
-import { type ProfileCardProps, type ProfileVariant } from './index.type';
+import type { Control } from 'react-hook-form';
 
-const VariantSelector = ({ variant }: { variant: ProfileVariant }) => {
-  switch (variant) {
-    case 'profile':
-      return <></>;
-    case 'summary':
-      return <></>;
-  }
+import CardTemplate from '@component/CardTemplate';
+import StudentForm from '@component/Form/Student';
+
+import { type ProfileCardProps } from './index.type';
+
+import type { RouterInputs } from '@utility/trpc';
+
+type Props = ProfileCardProps & {
+  control: Control<RouterInputs['student']['upsertProfile']>;
 };
 
-const ProfileCard = ({ variant }: ProfileCardProps) => {
+const ProfileCard = ({ variant, control }: Props) => {
   return (
     <CardTemplate name={variant} control={<Fragment />}>
-      <VariantSelector variant={variant} />
+      {/* <VariantSelector variant={variant} /> */}
+      <StudentForm control={control} disable />
     </CardTemplate>
   );
 };
