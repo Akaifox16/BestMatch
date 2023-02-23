@@ -23,7 +23,6 @@ export default function SummaryPage() {
   return (
     <div>
       <CustomHeader pageName='summary' />
-
       <main>
         <ProfileCard variant='summary' control={control} />
       </main>
