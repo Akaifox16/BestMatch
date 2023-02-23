@@ -12,6 +12,7 @@ type Props = ProfileCardProps & {
   control: Control<RouterInputs['student']['upsertProfile']>;
 };
 
+// TODO: BM-114 | Add Summary Card that will rearrage field by the value
 const ProfileCard = ({ variant, control }: Props) => {
   return (
     <CardTemplate name={variant} control={<Fragment />}>

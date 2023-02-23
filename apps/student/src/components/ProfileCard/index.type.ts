@@ -1,3 +1,4 @@
+// FIX: move all type definition to utils/type
 export type MatchVariant =
   | 'matePref'
   | 'roomPref'

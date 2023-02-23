@@ -1,6 +1,7 @@
 import type { FieldValues, SliderElementProps } from 'react-hook-form-mui';
 import { SliderElement } from 'react-hook-form-mui';
 
+// TODO: remap color when disable
 export default function RangeWithPreview<Control extends FieldValues>({
   control,
   name,

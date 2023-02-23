@@ -13,6 +13,7 @@ type TimeRangeChoicesProps<TFieldValues extends FieldValues> = Pick<
 const BEGIN_DAY = 0 as const;
 const END_DAY = 23 as const;
 
+// TODO: remap color when disable
 const timeOptions = Array.from(Array(END_DAY - BEGIN_DAY + 1).keys()).map(
   (start) => {
     return { id: `${start}`, label: `${start}:00 - ${start + 1}:00` };
