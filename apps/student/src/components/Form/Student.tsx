@@ -1,5 +1,5 @@
 import { Stack } from '@mui/system';
-import { type SubmitHandler, useForm } from 'react-hook-form';
+import { type SubmitHandler, useForm, Control } from 'react-hook-form';
 // import type { MultiSelectElementProps, FieldValues } from 'react-hook-form-mui';
 // import { MultiSelectElement } from 'react-hook-form-mui';
 
@@ -9,43 +9,40 @@ import type { StudentVariant } from '@component/ProfileCard/index.type';
 import { exhaustiveMatchingGuard } from '@utility/util';
 import TimeRangeChoices from '@component/Input/TimeRangeChoices';
 
+type FormInput = RouterInputs['student']['upsertProfile'];
 type StudentFormProps = {
-  variant: StudentVariant;
+  control: Control<FormInput>;
+  // variant: StudentVariant;
   disable?: boolean;
 };
 
-type FormInput = RouterInputs['student']['upsertProfile'];
+export default function StudentForm({
+  // variant,
+  disable,
+  control,
+}: StudentFormProps) {
+  // const addProfile = trpc.student.upsertProfile.useMutation();
+  // const addPreference = trpc.student.upsertPreference.useMutation();
 
-export default function StudentForm({ variant, disable }: StudentFormProps) {
-  const { control, handleSubmit } = useForm<FormInput>({
-    defaultValues: {
-      messiness: 4,
-      loudness: 3,
-      do_not_disturb: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '22', '23'],
-    },
-  });
-  const addProfile = trpc.student.upsertProfile.useMutation();
-  const addPreference = trpc.student.upsertPreference.useMutation();
-
-  const submit: SubmitHandler<FormInput> = async (data) => {
-    try {
-      switch (variant) {
-        case 'profile':
-          await addProfile.mutateAsync(data);
-          break;
-        case 'matePref':
-          await addPreference.mutateAsync(data);
-          break;
-        default:
-          exhaustiveMatchingGuard(variant);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const submit: SubmitHandler<FormInput> = async (data) => {
+  //   try {
+  //     switch (variant) {
+  //       case 'profile':
+  //         await addProfile.mutateAsync(data);
+  //         break;
+  //       case 'matePref':
+  //         await addPreference.mutateAsync(data);
+  //         break;
+  //       default:
+  //         exhaustiveMatchingGuard(variant);
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   return (
-    <form onSubmit={() => handleSubmit(submit)}>
+    <form>
       <Stack direction='column' spacing={4} sx={{ m: 4, width: '50vw' }}>
         <Slider
           control={control}
@@ -59,15 +56,6 @@ export default function StudentForm({ variant, disable }: StudentFormProps) {
           label={'loudness'}
           disabled={disable}
         />
-        {/* <MultiSelectElement */}
-        {/*   control={control} */}
-        {/*   name='do_not_disturb' */}
-        {/*   label='do not disturb' */}
-        {/*   options={timeOptions} */}
-        {/*   disabled={disable} */}
-        {/*   required */}
-        {/*   showChips */}
-        {/* /> */}
         <TimeRangeChoices
           control={control}
           name='do_not_disturb'

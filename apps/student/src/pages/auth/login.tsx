@@ -14,7 +14,7 @@ export default function LoginPage({
       <CustomHeader pageName='login' />
 
       <main>
-        <AuthenticationCard variant='ล็อคอิน' csrfToken={csrfToken} />
+        <AuthenticationCard variant='login' csrfToken={csrfToken} />
       </main>
     </div>
   );

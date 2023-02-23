@@ -89,8 +89,6 @@ const mateStepperMachine =
               actions: ['saveSelfProfileFormData', 'incrementStep'],
             },
           },
-
-          entry: 'loadSelfProfile',
         },
 
         roommatePreference: {
@@ -104,8 +102,6 @@ const mateStepperMachine =
               actions: ['saveRoommatePreferenceFormData', 'incrementStep'],
             },
           },
-
-          entry: 'loadRoommatePreference',
         },
 
         dormPreference: {
@@ -119,8 +115,6 @@ const mateStepperMachine =
               actions: 'saveDormPreferenceFormData',
             },
           },
-
-          entry: 'loadDormPreference',
         },
         submitting: {
           entry: 'submitForm',
@@ -169,9 +163,9 @@ const mateStepperMachine =
         decrementStep: assign({
           currentStep: (ctx) => ctx.currentStep - 1,
         }),
-        submitForm: () => {
+        submitForm: (ctx) => {
           // TODO: add submitForm implementation
-          console.log('TODO');
+          console.log(ctx.formData);
         },
       },
     }

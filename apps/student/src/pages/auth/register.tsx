@@ -14,7 +14,7 @@ export default function RegisterPage({
       <CustomHeader pageName='register' />
 
       <main>
-        <AuthenticationCard variant='ลงทะเบียน' csrfToken={csrfToken} />
+        <AuthenticationCard variant='register' csrfToken={csrfToken} />
       </main>
     </div>
   );
