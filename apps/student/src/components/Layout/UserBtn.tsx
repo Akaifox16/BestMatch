@@ -42,7 +42,6 @@ const LogoutBtn = () => {
       </Grid>
       <Grid item>
         <Link href='/'>
-          {/* // eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <Button color='error' variant='contained' onClick={handleClick}>
             <Logout /> ลงชื่อออก
           </Button>

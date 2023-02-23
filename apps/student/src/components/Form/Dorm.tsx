@@ -1,9 +1,10 @@
 import { Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import { type RouterInputs, trpc } from '@utility/trpc';
-import { type SubmitHandler, type Control, useForm } from 'react-hook-form';
+import { type Control } from 'react-hook-form';
 
 import { RadioGroup } from '@component/Input';
+
+import { type RouterInputs } from '@utility/trpc';
 
 const IGNORE_NUMBER = 99;
 
@@ -42,6 +43,7 @@ const floor_number_options = [
   label: string;
 }>;
 
+// TODO: Use import ***Form from @utils/type
 type FormInput = RouterInputs['student']['upsertDormPreference'];
 type DormFormProps = {
   control: Control<FormInput>;
@@ -49,7 +51,6 @@ type DormFormProps = {
 
 export default function DormForm({ control }: DormFormProps) {
   return (
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form>
       <Stack direction='column'>
         <Stack direction='row'>

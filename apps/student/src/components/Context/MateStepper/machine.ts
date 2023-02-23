@@ -11,6 +11,7 @@ type Context = {
   currentStep: number;
 };
 
+// TODO: Use import ***Form from @utils/type
 type ProfileForm = Context['formData']['selfProfile'];
 type RoommateForm = Context['formData']['roommatePreference'];
 type DormForm = Context['formData']['dormPreference'];
@@ -19,9 +20,9 @@ type Events =
   | { type: 'PREV' }
   | {
       type: 'NEXT';
-      formData: ProfileForm | RoommateForm | DormForm;
+      formData: ProfileForm | RoommateForm;
     }
-  | { type: 'SUBMIT' };
+  | { type: 'SUBMIT'; formData: DormForm };
 
 function isProfileForm(obj: unknown): obj is ProfileForm {
   return (

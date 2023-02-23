@@ -2,12 +2,12 @@ import { useForm } from 'react-hook-form';
 import { useMachine } from '@xstate/react';
 
 import mateStepperMachine from '@component/Context/MateStepper/machine';
-import StudentForm from '@component/Form/Student';
-import DormForm from '@component/Form/Dorm';
+import ProfileCard from '@component/MatingCard';
 import MatingAppWrapper from './Wrapper';
 
 import type { RouterInputs } from '@utility/trpc';
 
+// TODO: Use import ***Form from @utils/type
 type StudentForm = RouterInputs['student']['upsertProfile'];
 type RoommateForm = RouterInputs['student']['upsertPreference'];
 type DormForm = RouterInputs['student']['upsertDormPreference'];
@@ -22,7 +22,6 @@ const DEFAULT_VALUE = {
 
 export default function MatingApp() {
   const [state, send] = useMachine(mateStepperMachine);
-  // TODO: BM-89 | move form control to this stage
   const { control: profileForm } = useForm<StudentForm>(DEFAULT_VALUE);
   const { control: roommateForm } = useForm<RoommateForm>(DEFAULT_VALUE);
   const { control: dormForm } = useForm<DormForm>();
@@ -37,7 +36,7 @@ export default function MatingApp() {
         send('NEXT', roommateForm);
         break;
       case 2:
-        send('SUBMIT');
+        send('SUBMIT', dormForm);
     }
   }
 
@@ -51,13 +50,17 @@ export default function MatingApp() {
       handlePrev={handlePrev}
       handleNext={handleNext}
     >
-      {state.context.currentStep === 0 && <StudentForm control={profileForm} />}
-
-      {state.context.currentStep === 1 && (
-        <StudentForm control={roommateForm} />
+      {state.context.currentStep === 0 && (
+        <ProfileCard variant='profile' control={profileForm} />
       )}
 
-      {state.context.currentStep === 2 && <DormForm control={dormForm} />}
+      {state.context.currentStep === 1 && (
+        <ProfileCard variant='matePref' control={roommateForm} />
+      )}
+
+      {state.context.currentStep === 2 && (
+        <ProfileCard variant='roomPref' control={dormForm} />
+      )}
     </MatingAppWrapper>
   );
 }
