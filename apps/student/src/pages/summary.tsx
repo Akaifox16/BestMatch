@@ -7,7 +7,7 @@ import { authOptions } from '@acme/auth';
 
 import AccessDenied from '@component/AccessDenied';
 import CustomHeader from '@component/CustomHeader';
-import ProfileCard from '@component/ProfileCard';
+import { ProfileCard } from '@component/Card';
 
 import type { RouterInputs } from '@utility/trpc';
 

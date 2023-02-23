@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import { authOptions } from '@acme/auth';
 
 import CustomHeader from '@component/CustomHeader';
-import ProfileCard from '@component/ProfileCard';
+import { ProfileCard } from '@component/Card';
 import AccessDenied from '@component/AccessDenied';
 
 import type { RouterInputs } from '@utility/trpc';
