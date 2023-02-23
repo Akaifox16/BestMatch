@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useMachine } from '@xstate/react';
 
 import mateStepperMachine from '@component/Context/MateStepper/machine';
-import MatingCard from '@component/MatingCard';
+import { MatingCard } from '@component/Card';
 import MatingAppWrapper from './Wrapper';
 
 import type { RouterInputs } from '@utility/trpc';

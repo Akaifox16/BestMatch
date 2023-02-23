@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import type { Control } from 'react-hook-form';
 
-import CardTemplate from '@component/CardTemplate';
+import CardTemplate from '../CardTemplate';
 import StudentForm from '@component/Form/Student';
 
 import { type ProfileCardProps } from './index.type';

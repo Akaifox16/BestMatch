@@ -2,8 +2,8 @@ import { Fragment } from 'react';
 import type { Control } from 'react-hook-form';
 import { Button, Grid, Typography } from '@mui/material';
 
-import CardTemplate from '@component/CardTemplate';
-import type { MatchVariant } from '@component/ProfileCard/index.type';
+import CardTemplate from '../CardTemplate';
+import type { MatchVariant } from '../ProfileCard/index.type';
 
 import StudentCard from './Student';
 import DormCard from './Dorm';
