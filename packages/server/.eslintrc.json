@@ -6,7 +6,7 @@
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
       ],
       "files": [
-        "src/**/*.ts",
+        "src/",
         "index.ts",
         "transformer.ts"
       ],

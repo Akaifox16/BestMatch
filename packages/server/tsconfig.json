@@ -1,6 +1,7 @@
 {
   "extends": "@acme/tsconfig/node18.json",
   "include": [
+    "src/",
     "index.ts",
     "transformer.ts"
   ],

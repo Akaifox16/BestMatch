@@ -3,8 +3,33 @@ import { prisma } from '@acme/database';
 import { protectedProcedure } from '../../trpc';
 import { NotFoundError } from '../../model/errors';
 
-// TODO: implement how to mock up new profile
-//       using calculated profile
+const RANGE_MIN = 1 as const;
+const RANGE_MAX = 9 as const;
+
+// TODO: BM-92 | implement findNewValue when given the old one
+function findNewValue(
+  val: number,
+  picked: boolean,
+  variant: 'messiness' | 'loudness' | 'do_not_disturb'
+): number {
+  switch (variant) {
+    case 'messiness':
+    case 'loudness':
+      if (picked) {
+        return Math.floor((RANGE_MAX - val) / 2);
+      } else {
+        return Math.floor((val - RANGE_MIN) / 2);
+      }
+    // TODO: BM-92 | find new value for do_not_disturb
+    case 'do_not_disturb':
+      return 0;
+    default:
+      return -1;
+  }
+}
+
+// TODO: BM-10 | implement how to mock up new profile
+//               using calculated profile
 const mockProfile = protectedProcedure.query(async ({ ctx }) => {
   const matePref = await prisma.profile.findFirst({
     where: {
