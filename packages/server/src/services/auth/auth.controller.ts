@@ -1,28 +1,30 @@
-import { publicProcedure } from "../../trpc";
+import { publicProcedure } from '../../trpc';
 import * as bcrypt from 'bcrypt';
-import { prisma } from "@acme/database";
-import { authResponseDto, loginDto } from "./auth.dto";
-import { ConflictError, InternalServerError } from "../../model/errors";
-import { createStudentDto } from "../student/student.dto";
+import { prisma } from '@acme/database';
+import { authResponseDto, loginDto } from './auth.dto';
+import { ConflictError, InternalServerError } from '../../utils/type';
+import { createStudentDto } from '../student/student.dto';
 
-export const login = publicProcedure.input(loginDto).mutation(async ({ input }) => {
-  const user = await prisma.user.findFirst({
-    where: {
-      AND: {
-        email: input.email,
-        password: input.password,
+export const login = publicProcedure
+  .input(loginDto)
+  .mutation(async ({ input }) => {
+    const user = await prisma.user.findFirst({
+      where: {
+        AND: {
+          email: input.email,
+          password: input.password,
+        },
       },
-    },
+    });
+
+    if (!user) return null;
+
+    return {
+      email: user.email,
+      name: `${user.first_name} ${user.last_name}`,
+      id: user.id,
+    };
   });
-
-  if (!user) return null;
-
-  return {
-    email: user.email,
-    name: `${user.first_name} ${user.last_name}`,
-    id: user.id,
-  };
-});
 
 export const register = publicProcedure
   .input(createStudentDto)

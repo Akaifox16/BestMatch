@@ -4,7 +4,7 @@ import superjson from 'superjson';
 
 import { prisma } from '@acme/database';
 
-import { UnAutorizedError } from './model/errors';
+import { UnAutorizedError } from './utils/type';
 import { getServerSession, type Session } from '@acme/auth';
 
 type CreateContextOptions = {

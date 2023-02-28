@@ -1,3 +1,5 @@
+import type { ProfileAttributes } from './type';
+
 // CONSTANTS
 const SCALE_MIN = 1 as const;
 const SCALE_MAX = 9 as const;
@@ -21,7 +23,7 @@ export function findNewValue(
 
 // Find New Value for the attribute
 export function findNewValue(
-  variant: 'messiness' | 'loudness' | 'do_not_disturb',
+  variant: ProfileAttributes,
   val: number,
   picked: boolean,
   mid?: number,

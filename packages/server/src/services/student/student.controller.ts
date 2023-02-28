@@ -1,8 +1,13 @@
 import { prisma } from '@acme/database';
-import { InternalServerError, NotFoundError } from '../../model/errors';
+import { InternalServerError, NotFoundError } from '../../utils/type';
 
-import { protectedProcedure } from "../../trpc";
-import { addDormPrefDto, addPrefDto, addProfileDto, bookRoomDto } from "./student.dto";
+import { protectedProcedure } from '../../trpc';
+import {
+  addDormPrefDto,
+  addPrefDto,
+  addProfileDto,
+  bookRoomDto,
+} from './student.dto';
 
 // TODO: impl upsertDormPreference
 export const upsertDormPreference = protectedProcedure
@@ -30,23 +35,22 @@ export const upsertDormPreference = protectedProcedure
     };
   });
 
-export const getProfile = protectedProcedure 
-  .query(async ({ ctx }) => {
-    const user = await prisma.user.findFirst({
-      select: {
-        first_name: true,
-        last_name: true,
-        email: true,
-        personal_id: true,
-        sex: true,
-      },
-      where: {
-        id: ctx.session.user.id,
-      },
-    });
-
-    return user;
+export const getProfile = protectedProcedure.query(async ({ ctx }) => {
+  const user = await prisma.user.findFirst({
+    select: {
+      first_name: true,
+      last_name: true,
+      email: true,
+      personal_id: true,
+      sex: true,
+    },
+    where: {
+      id: ctx.session.user.id,
+    },
   });
+
+  return user;
+});
 
 // TODO: implement get user role
 export const getRole = protectedProcedure.query(async () => {
@@ -59,7 +63,7 @@ export const getRole = protectedProcedure.query(async () => {
 export const upsertPreference = protectedProcedure
   .input(addPrefDto)
   .mutation(async ({ input, ctx }) => {
-    const preference = {}
+    const preference = {};
     // const preference = await prisma.profile.upsert({
     //   where: {
     //     pref_owner_id: ctx.session.user.id,
@@ -141,7 +145,7 @@ export const upsertProfile = protectedProcedure
     };
   });
 
-export const bookRoom = protectedProcedure 
+export const bookRoom = protectedProcedure
   .input(bookRoomDto)
   .mutation(async ({ input }) => {
     const userId = 'this-should-be-user-cuid';

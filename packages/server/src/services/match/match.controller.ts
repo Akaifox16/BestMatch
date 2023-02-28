@@ -1,47 +1,63 @@
 import { prisma } from '@acme/database';
 
 import { protectedProcedure } from '../../trpc';
-import { NotFoundError } from '../../model/errors';
+import { NotFoundError } from '../../utils/type';
+import { profileGeneratorInput, profileGeneratorOutput } from './match.dto';
 
 // TODO: BM-10 | implement how to mock up new profile
 //               using calculated profile
-export const profileGenerator = protectedProcedure.query(async ({ ctx }) => {
-  const matePref = await prisma.profile.findFirst({
-    where: {
-      pref_owner_id: ctx.session.user.id,
-    },
-    select: {
-      messiness: true,
-      loudness: true,
-      do_not_disturb: {
-        select: {
-          start: true,
-          stop: true,
+export const profileGenerator = protectedProcedure
+  .input(profileGeneratorInput)
+  .output(profileGeneratorOutput)
+  .query(async ({ input, ctx }) => {
+    const profile = await prisma.profile.findFirst({
+      where: {
+        pref_owner_id: ctx.session.user.id,
+      },
+      select: {
+        messiness: true,
+        loudness: true,
+        do_not_disturb: {
+          select: {
+            start: true,
+            stop: true,
+          },
         },
       },
-    },
+    });
+
+    if (profile === null)
+      throw NotFoundError('sorry, missing information to generation profile');
+
+    // TODO: change output type
+    function newProfile(oldProfile: NonNullable<typeof profile>): {
+      messiness: number;
+      loudness: number;
+      do_not_disturb: Array<string>;
+    } {
+      const dnd = oldProfile.do_not_disturb.map((t) => `${t.start}`);
+      switch (input.attribute) {
+        case 'messiness':
+          return {
+            ...oldProfile,
+            messiness: input.value,
+            do_not_disturb: dnd,
+          };
+        case 'loudness':
+          return {
+            ...oldProfile,
+            loudness: input.value,
+            do_not_disturb: dnd,
+          };
+        case 'do_not_disturb':
+          return { ...oldProfile, do_not_disturb: input.value };
+      }
+    }
+
+    const generateProfile = newProfile(profile);
+
+    return generateProfile;
   });
-
-  if (!matePref) {
-    throw NotFoundError("sorry, we did't found your roommate preference");
-  }
-
-  const generatedProfile: (typeof matePref)[] = [
-    { ...matePref, messiness: matePref.messiness + 1 },
-    { ...matePref, loudness: matePref.loudness + 1 },
-    {
-      ...matePref,
-      do_not_disturb: matePref.do_not_disturb.map((range) => {
-        return {
-          start: range.start + 1,
-          stop: range.stop - 1,
-        };
-      }),
-    },
-  ];
-
-  return generatedProfile;
-});
 
 // TODO: implement how to find student preference priority
 export const finetuner = protectedProcedure.mutation(() => {

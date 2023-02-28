@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { DormTypePreferEnum, SexEnum, ZoneEnum } from '../../model/enum';
+import { DormTypePreferEnum, SexEnum, ZoneEnum } from '../../utils/type';
 
 // TODO: move requiredMsg to common utils
 function requiredMsg(obj: string) {
@@ -51,13 +51,7 @@ export const addDormPrefDto = z.object({
 export const addPrefDto = z.object({
   messiness: z.number(),
   loudness: z.number(),
-  do_not_disturb: z.array(
-    z.string()
-    // z.object({
-    //   id: z.string(),
-    //   label: z.string(),
-    // })
-  ),
+  do_not_disturb: z.array(z.string()),
 });
 export const addProfileDto = addPrefDto;
 

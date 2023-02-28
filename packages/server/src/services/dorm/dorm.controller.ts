@@ -1,4 +1,4 @@
-import { publicProcedure } from "../../trpc";
+import { publicProcedure } from '../../trpc';
 
 // TODO: impl add residents
 export const addResidents = publicProcedure.mutation(() => {
@@ -8,7 +8,7 @@ export const addResidents = publicProcedure.mutation(() => {
 });
 
 // TODO: impl add dorm
-const addDorm = publicProcedure.mutation(() => {
+export const addDorm = publicProcedure.mutation(() => {
   return {
     message: 'need implementation',
   };
