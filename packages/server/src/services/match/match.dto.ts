@@ -13,7 +13,11 @@ export const profileGeneratorInput = z.union([
   }),
 ]);
 
-export const analysisInput = z.object({
+export const finetuneInput = z.object({
+  selectedProfile: addPrefDto,
+});
+
+export const choicerInput = z.object({
   selectedProfile: addPrefDto,
   comparisonProfile: addPrefDto,
 });
