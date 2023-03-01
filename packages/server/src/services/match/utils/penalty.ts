@@ -1,13 +1,20 @@
-import type { CalculatedPreference, Profile } from '@acme/database';
+import type {
+  CalculatedPreference,
+  DoNotDisturb,
+  Profile,
+} from '@acme/database';
 
 type Weights = Pick<
   CalculatedPreference,
   'messiness_weight' | 'loudness_weight' | 'do_not_disturb_weight'
 >;
+type ProfileWithDoNotDisturb = Profile & {
+  do_not_disturb: DoNotDisturb;
+};
 
 type Input = {
-  profile: Profile;
-  preference: Profile;
+  profile: ProfileWithDoNotDisturb;
+  preference: ProfileWithDoNotDisturb;
   weight: Weights;
 };
 
@@ -19,10 +26,11 @@ function differentiateWithWeigth(
   return weight * Math.abs(self - roommate);
 }
 
+// TODO: Test calculatePenaltyHelper functionality
 export function calculatePenaltyHelper(
   weight: Weights,
-  selfPreference: Profile,
-  roommateProfile: Profile
+  selfPreference: ProfileWithDoNotDisturb,
+  roommateProfile: ProfileWithDoNotDisturb
 ): number {
   const { messiness_weight, loudness_weight, do_not_disturb_weight } = weight;
 
@@ -36,6 +44,16 @@ export function calculatePenaltyHelper(
       loudness_weight,
       selfPreference.loudness,
       roommateProfile.loudness
+    ) +
+    differentiateWithWeigth(
+      do_not_disturb_weight,
+      selfPreference.do_not_disturb.stop,
+      roommateProfile.do_not_disturb.stop
+    ) +
+    differentiateWithWeigth(
+      do_not_disturb_weight,
+      selfPreference.do_not_disturb.start,
+      roommateProfile.do_not_disturb.start
     )
   );
 }

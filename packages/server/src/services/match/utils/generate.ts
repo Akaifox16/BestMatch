@@ -1,6 +1,6 @@
 import { prisma } from '@acme/database';
 
-import { NotFoundError, type ProfileAttributes } from './type';
+import { NotFoundError, type ProfileAttributes } from '../../../utils/type';
 
 type GenerateProfile = {
   messiness: number;

@@ -1,4 +1,4 @@
-import type { ProfileAttributes } from './type';
+import type { ProfileAttributes } from '../../../utils/type';
 
 export function randomAttibute(): [ProfileAttributes, ProfileAttributes] {
   const attribute_selector = (Math.random() * 100) % 3;

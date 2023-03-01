@@ -1,4 +1,4 @@
-import type { ProfileAttributes } from './type';
+import type { ProfileAttributes } from '../../../utils/type';
 
 // CONSTANTS
 const SCALE_MIN = 1 as const;

@@ -1,6 +1,11 @@
 import { protectedProcedure } from '../../trpc';
-import { finetuneInput, generatorInput, generatorOutput } from './match.dto';
-import { generate } from '../../utils/generate';
+import {
+  choicerInput,
+  finetuneInput,
+  generatorInput,
+  generatorOutput,
+} from './match.dto';
+import { generate } from './utils/generate';
 
 // TODO: BM-8 | implement how to find student preference priority
 export const finetuner = protectedProcedure
@@ -12,11 +17,11 @@ export const finetuner = protectedProcedure
   });
 
 // TODO: BM-9 | notify other to which profile the student chooose
-export const choose_A_or_B = protectedProcedure.mutation(() => {
-  return {
-    message: 'need implementation',
-  };
-});
+// export const choose_A_or_B = protectedProcedure.mutation(() => {
+//   return {
+//     message: 'need implementation',
+//   };
+// });
 
 export const generateProfile = protectedProcedure
   .input(generatorInput)
@@ -29,10 +34,12 @@ export const generateProfile = protectedProcedure
       },
     }) => {
       const { attribute_pair, values } = input;
-      // FIX: impl generate function base on profileGenerator proc
+
       const [profile_a, profile_b] = await Promise.all([
         generate(user.id, attribute_pair[0], values[0]),
-        generate(user.id, attribute_pair[1], values[1]),
+        attribute_pair[1] === 'do_not_disturb'
+          ? generate(user.id, attribute_pair[1], values[1] as Array<string>)
+          : generate(user.id, attribute_pair[1], values[1] as number),
       ]);
 
       return {
@@ -42,9 +49,10 @@ export const generateProfile = protectedProcedure
     }
   );
 
-// TODO: impl pickedProfile
-export const pickedProfile = protectedProcedure.mutation(
+// TODO: BM-9 | impl pickedProfile
+export const pickedProfile = protectedProcedure.input(choicerInput).mutation(
   async ({
+    input,
     ctx: {
       session: { user },
     },
