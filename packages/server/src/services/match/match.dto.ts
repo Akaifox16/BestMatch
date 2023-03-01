@@ -1,20 +1,10 @@
 import { z } from 'zod';
 import { addPrefDto } from '../student/student.dto';
 
-// WARN: change when ProfileAttributes
-// export const profileGeneratorInput = z.union([
-//   z.object({
-//     attribute: z.union([z.literal('messiness'), z.literal('loudness')]),
-//     value: z.number().max(9).min(1),
-//   }),
-//   z.object({
-//     attribute: z.literal('do_not_disturb'),
-//     value: z.array(z.string()),
-//   }),
-// ]);
 const scale = z.number().max(9).min(1);
 const timerange = z.array(z.string());
 
+// WARN: change when ProfileAttributes
 export const generatorInput = z.union([
   z.object({
     attribute_pair: z.tuple([z.literal('messiness'), z.literal('loudness')]),
