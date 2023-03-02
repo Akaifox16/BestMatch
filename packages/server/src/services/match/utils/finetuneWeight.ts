@@ -5,15 +5,14 @@ import {
 } from '@acme/database';
 import type { ProfileAttributes } from '../../../utils/type';
 
+type Penalty = number;
 type Input = {
-  penalty: number;
+  penalty: Penalty;
   attr: ProfileAttributes;
 };
-type RenewWeightProfile = Partial<
-  Pick<
-    CalculatedPreference,
-    'do_not_disturb_weight' | 'loudness_weight' | 'messiness_weight'
-  >
+type RenewWeightProfile = Pick<
+  CalculatedPreference,
+  'do_not_disturb_weight' | 'loudness_weight' | 'messiness_weight'
 >;
 type CalculatedPreferenceWithDoNotDisturb = CalculatedPreference & {
   do_not_disturb_tolerant: DoNotDisturbTolerant;
@@ -24,6 +23,7 @@ type Tolerant = {
   min: number;
 };
 type NormalizationInput = {
+  attr: ProfileAttributes;
   weight: number;
   tolerant: Tolerant;
 };
@@ -37,11 +37,15 @@ export async function finetuneWeight(
   const selected_tolerant = getTolerant(select.attr, profile);
   const comparer_tolerant = getTolerant(comparer.attr, profile);
 
+  const newWeight = findNewWeight();
+
   const normalizedNewWeight = weightNormalization(
     selected_tolerant,
-    comparer_tolerant
+    comparer_tolerant,
+    newWeight,
+    profile
   );
-  const newProfile = renewWeight(select.attr, normalizedNewWeight);
+  // const newProfile = renewWeight(normalizedNewWeight);
 
   try {
     await prisma.calculatedPreference.update({
@@ -49,7 +53,7 @@ export async function finetuneWeight(
         id: profile.id,
       },
       data: {
-        ...newProfile,
+        ...normalizedNewWeight,
       },
     });
   } catch (e) {
@@ -57,33 +61,68 @@ export async function finetuneWeight(
   }
 }
 
+type Weight = number;
+type WeightVector = [Weight, Weight, Weight];
+function l2Norm(vector: WeightVector): WeightVector {
+  const [w1, w2, w3] = vector;
+
+  const square = (x: Weight) => Math.pow(x, 2);
+  const divider = Math.sqrt(square(w1) + square(w2) + square(w3));
+
+  return [w1 / divider, w2 / divider, w3 / divider];
+}
+
+type L2NormArgs = Parameters<typeof l2Norm>[0];
+
 // TODO: impl weightNormalization
 function weightNormalization(
   selected: NormalizationInput,
-  comparer: NormalizationInput
-) {
+  comparer: NormalizationInput,
+  newWeight: Weight,
+  profile: CalculatedPreference
+): RenewWeightProfile {
   // const
-  return -1;
+
+  const { messiness_weight, loudness_weight, do_not_disturb_weight } = profile;
+  const weight_to_normalize = renewWeight(selected.attr, newWeight, [
+    messiness_weight,
+    loudness_weight,
+    do_not_disturb_weight,
+  ]);
+  const normWeight = l2Norm(weight_to_normalize);
+
+  return {
+    messiness_weight: normWeight[0],
+    loudness_weight: normWeight[1],
+    do_not_disturb_weight: normWeight[2],
+  } satisfies RenewWeightProfile;
 }
 
-// TODO: impl renewWeight
+// TODO: impl findNewWeight
+function findNewWeight(
+  selected_diff: number,
+  new_selected_diff: number,
+  comparer_penalty: Penalty
+): Weight {
+  const newWeight =
+    (comparer_penalty / selected_diff - comparer_penalty / new_selected_diff) /
+    2;
+  if (newWeight * new_selected_diff > comparer_penalty) return newWeight;
+  else return -1;
+}
+
 function renewWeight(
   attr: ProfileAttributes,
-  normalizedNewWeight: number
-): RenewWeightProfile {
+  newWeight: number,
+  weightVector: WeightVector
+): L2NormArgs {
   switch (attr) {
     case 'messiness':
-      return {
-        messiness_weight: normalizedNewWeight,
-      };
+      return [newWeight, weightVector[1], weightVector[2]];
     case 'loudness':
-      return {
-        loudness_weight: normalizedNewWeight,
-      };
+      return [weightVector[0], newWeight, weightVector[2]];
     case 'do_not_disturb':
-      return {
-        do_not_disturb_weight: normalizedNewWeight,
-      };
+      return [weightVector[0], weightVector[1], newWeight];
     default:
       throw new Error('receive unexpected attribute');
   }
@@ -95,6 +134,7 @@ function getTolerant(
 ): NormalizationInput {
   return attr === 'messiness'
     ? {
+        attr: 'messiness',
         tolerant: {
           min: profile.messiness_tolerant_min,
           max: profile.messiness_tolerant_max,
@@ -103,6 +143,7 @@ function getTolerant(
       }
     : attr === 'loudness'
     ? {
+        attr: 'loudness',
         tolerant: {
           min: profile.loudness_tolerant_min,
           max: profile.loudness_tolerant_max,
@@ -110,6 +151,7 @@ function getTolerant(
         weight: profile.loudness_weight,
       }
     : {
+        attr: 'do_not_disturb',
         tolerant: {
           min: profile.do_not_disturb_tolerant.start_min,
           max: profile.do_not_disturb_tolerant.stop_max,

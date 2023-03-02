@@ -1,27 +1,6 @@
 import { protectedProcedure } from '../../trpc';
-import {
-  choicerInput,
-  finetuneInput,
-  generatorInput,
-  generatorOutput,
-} from './match.dto';
+import { choicerInput, generatorInput, generatorOutput } from './match.dto';
 import { generate } from './utils/generate';
-
-// TODO: BM-8 | implement how to find student preference priority
-export const finetuner = protectedProcedure
-  .input(finetuneInput)
-  .mutation(({ input, ctx }) => {
-    return {
-      message: 'need implementation',
-    };
-  });
-
-// TODO: BM-9 | notify other to which profile the student chooose
-// export const choose_A_or_B = protectedProcedure.mutation(() => {
-//   return {
-//     message: 'need implementation',
-//   };
-// });
 
 export const generateProfile = protectedProcedure
   .input(generatorInput)
@@ -50,6 +29,7 @@ export const generateProfile = protectedProcedure
   );
 
 // TODO: BM-9 | impl pickedProfile
+//            | notify other to which profile the student chooose
 export const pickedProfile = protectedProcedure.input(choicerInput).mutation(
   async ({
     input,
