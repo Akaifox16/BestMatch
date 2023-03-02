@@ -1,6 +1,9 @@
+import { prisma } from '@acme/database';
+
 import { protectedProcedure } from '../../trpc';
+import { NotFoundError } from '../../utils/type';
 import { choicerInput, generatorInput, generatorOutput } from './match.dto';
-import { generate } from './utils/generate';
+import { calculatePenaltyHelper, finetuneWeight, generate } from './utils';
 
 export const generateProfile = protectedProcedure
   .input(generatorInput)
@@ -28,8 +31,7 @@ export const generateProfile = protectedProcedure
     }
   );
 
-// TODO: BM-9 | impl pickedProfile
-//            | notify other to which profile the student chooose
+// TODO: BM-9 | test pickedProfile
 export const pickedProfile = protectedProcedure.input(choicerInput).mutation(
   async ({
     input,
@@ -37,8 +39,62 @@ export const pickedProfile = protectedProcedure.input(choicerInput).mutation(
       session: { user },
     },
   }) => {
+    const getProfile = prisma.profile.findFirst({
+      where: { pref_owner_id: user.id },
+      select: {
+        messiness: true,
+        loudness: true,
+        do_not_disturb: {
+          select: {
+            start: true,
+            stop: true,
+          },
+        },
+      },
+    });
+
+    const getCalcProfile = prisma.calculatedPreference.findFirst({
+      where: { owner_id: user.id },
+      include: { do_not_disturb_tolerant: true },
+    });
+
+    const [preference, calcProfile] = await Promise.all([
+      getProfile,
+      getCalcProfile,
+    ]);
+
+    if (!preference)
+      throw NotFoundError('you have not provide roommate preference yet');
+    if (!calcProfile) throw NotFoundError('missing component to finetuning');
+
+    const pref = {
+      ...preference,
+      do_not_disturb: preference.do_not_disturb[0],
+    };
+
+    // FIX: use the real attribute
+    const pickedProfile = {
+      attr: 'do_not_disturb',
+      penalty: calculatePenaltyHelper(calcProfile, pref, input.selectedProfile),
+    } satisfies Parameters<typeof finetuneWeight>[0];
+
+    const compareProfile = {
+      attr: 'messiness',
+      penalty: calculatePenaltyHelper(
+        calcProfile,
+        pref,
+        input.comparisonProfile
+      ),
+    } satisfies Parameters<typeof finetuneWeight>[1];
+
+    finetuneWeight(pickedProfile, compareProfile, {
+      ...calcProfile,
+      do_not_disturb_tolerant: calcProfile.do_not_disturb_tolerant[0],
+    });
+
     return {
-      msg: 'need implementation',
+      code: 200,
+      msg: 'finetuning successfully',
     };
   }
 );

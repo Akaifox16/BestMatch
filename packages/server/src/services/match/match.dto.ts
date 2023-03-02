@@ -25,13 +25,23 @@ export const generatorInput = z.union([
     values: z.tuple([scale, timerange]),
   }),
 ]);
+
+const profile = addPrefDto.omit({ do_not_disturb: true }).merge(
+  z.object({
+    do_not_disturb: z.object({
+      start: z.number(),
+      stop: z.number(),
+    }),
+  })
+);
+
 export const finetuneInput = z.object({
-  selectedProfile: addPrefDto,
+  selectedProfile: profile,
 });
 
 export const choicerInput = z.object({
-  selectedProfile: addPrefDto,
-  comparisonProfile: addPrefDto,
+  selectedProfile: profile,
+  comparisonProfile: profile,
 });
 
 // WARN: change when update Profile entity

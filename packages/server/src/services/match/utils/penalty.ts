@@ -8,8 +8,8 @@ type Weights = Pick<
   CalculatedPreference,
   'messiness_weight' | 'loudness_weight' | 'do_not_disturb_weight'
 >;
-type ProfileWithDoNotDisturb = Profile & {
-  do_not_disturb: DoNotDisturb;
+type ProfileWithDoNotDisturb = Pick<Profile, 'messiness' | 'loudness'> & {
+  do_not_disturb: Pick<DoNotDisturb, 'start' | 'stop'>;
 };
 
 type Input = {

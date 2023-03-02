@@ -17,6 +17,8 @@ type RenewWeightProfile = Pick<
   CalculatedPreference,
   'do_not_disturb_weight' | 'loudness_weight' | 'messiness_weight'
 >;
+
+// FIX: use array of do not disturb
 type CalculatedPreferenceWithDoNotDisturb = CalculatedPreference & {
   do_not_disturb_tolerant: DoNotDisturbTolerant;
 };
