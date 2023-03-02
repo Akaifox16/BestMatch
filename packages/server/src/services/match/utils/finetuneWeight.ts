@@ -3,7 +3,7 @@ import {
   type CalculatedPreference,
   type DoNotDisturbTolerant,
 } from '@acme/database';
-import type { ProfileAttributes } from '../../../utils/type';
+import { type ProfileAttributes } from '../../../utils/type';
 
 type Penalty = number;
 type Input = {
@@ -35,17 +35,16 @@ export async function finetuneWeight(
   profile: CalculatedPreferenceWithDoNotDisturb
 ) {
   const selected_tolerant = getTolerant(select.attr, profile);
-  const comparer_tolerant = getTolerant(comparer.attr, profile);
 
-  const newWeight = findNewWeight();
+  const old_diff = select.penalty / selected_tolerant.weight;
+  const new_diff = old_diff + newBound(selected_tolerant);
+  const newWeight = findNewWeight(old_diff, new_diff, comparer.penalty);
 
   const normalizedNewWeight = weightNormalization(
     selected_tolerant,
-    comparer_tolerant,
     newWeight,
     profile
   );
-  // const newProfile = renewWeight(normalizedNewWeight);
 
   try {
     await prisma.calculatedPreference.update({
@@ -61,8 +60,26 @@ export async function finetuneWeight(
   }
 }
 
+function newBound(selected: NormalizationInput): number {
+  const SLIDER_MAX = 9 as const;
+  const RANGE_MAX = 23 as const;
+
+  switch (selected.attr) {
+    case 'messiness':
+    case 'loudness':
+      return Math.abs(SLIDER_MAX - selected.tolerant.max) / 2;
+
+    case 'do_not_disturb':
+      return Math.abs(RANGE_MAX - selected.tolerant.max) / 2;
+
+    default:
+      throw new Error('exceed case for switching');
+  }
+}
+
 type Weight = number;
 type WeightVector = [Weight, Weight, Weight];
+
 function l2Norm(vector: WeightVector): WeightVector {
   const [w1, w2, w3] = vector;
 
@@ -74,15 +91,11 @@ function l2Norm(vector: WeightVector): WeightVector {
 
 type L2NormArgs = Parameters<typeof l2Norm>[0];
 
-// TODO: impl weightNormalization
 function weightNormalization(
   selected: NormalizationInput,
-  comparer: NormalizationInput,
   newWeight: Weight,
   profile: CalculatedPreference
 ): RenewWeightProfile {
-  // const
-
   const { messiness_weight, loudness_weight, do_not_disturb_weight } = profile;
   const weight_to_normalize = renewWeight(selected.attr, newWeight, [
     messiness_weight,
@@ -113,7 +126,7 @@ function findNewWeight(
 
 function renewWeight(
   attr: ProfileAttributes,
-  newWeight: number,
+  newWeight: Weight,
   weightVector: WeightVector
 ): L2NormArgs {
   switch (attr) {
