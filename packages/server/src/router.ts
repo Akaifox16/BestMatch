@@ -1,9 +1,10 @@
-import { authRouter, studentRouter } from './services';
+import { authRouter, matchRouter, studentRouter } from './services';
 import { createTRPCRouter } from './trpc';
 
 const appRouter = createTRPCRouter({
   auth: authRouter,
   student: studentRouter,
+  match: matchRouter,
 });
 
 export default appRouter;

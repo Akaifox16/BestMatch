@@ -57,15 +57,16 @@ export default function DormForm({ control }: DormFormProps) {
           <Stack>
             <Typography variant='h5'>Dorm</Typography>
             <Stack>
-              {/* FIX: Add radio group label */}
               <RadioGroup
                 control={control}
                 name='dorm_type'
+                label='dorm type'
                 options={dorm_type_options}
               />
               <RadioGroup
                 control={control}
                 name='residents_limit'
+                label='number of residents'
                 number
                 options={resident_options}
               />
@@ -76,15 +77,16 @@ export default function DormForm({ control }: DormFormProps) {
           <Stack>
             <Typography variant='h5'>Room</Typography>
             <Stack>
-              {/* FIX: Add radio group label */}
               <RadioGroup
                 control={control}
                 name='room_pref.zone'
+                label='room zone'
                 options={zone_options}
               />
               <RadioGroup
                 control={control}
                 name='room_pref.floor_number'
+                label='floor number'
                 number
                 options={floor_number_options}
               />

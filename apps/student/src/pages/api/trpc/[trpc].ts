@@ -12,5 +12,7 @@ export default createNextApiHandler({
     if (error.code === 'CONFLICT') {
       console.log('conflict');
     }
+    if (error.code === 'UNAUTHORIZED') {
+    }
   },
 });
