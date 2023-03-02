@@ -3,7 +3,10 @@ import {
   type CalculatedPreference,
   type DoNotDisturbTolerant,
 } from '@acme/database';
-import { type ProfileAttributes } from '../../../utils/type';
+import {
+  InternalServerError,
+  type ProfileAttributes,
+} from '../../../utils/type';
 
 type Penalty = number;
 type Input = {
@@ -39,6 +42,9 @@ export async function finetuneWeight(
   const old_diff = select.penalty / selected_tolerant.weight;
   const new_diff = old_diff + newBound(selected_tolerant);
   const newWeight = findNewWeight(old_diff, new_diff, comparer.penalty);
+
+  if (newWeight === -1)
+    throw InternalServerError('error in back-end calculation');
 
   const normalizedNewWeight = weightNormalization(
     selected_tolerant,
