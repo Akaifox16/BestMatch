@@ -1,50 +1,114 @@
 import { assign, createMachine } from 'xstate';
-import { finetunerMachine } from '../Finetuner';
-import mateStepperMachine from '../MateStepper/machine';
+// import { finetunerMachine } from '../Finetuner';
+// import mateStepperMachine from '../MateStepper/machine';
 
-const mateAppMachine = createMachine(
-  {
-    /** @xstate-layout N4IgpgJg5mDOIC5QFsCGAXMB9VAHXWaAxgBYCWAdmAHQCuFA1hQPYDuFAxAJIByXAKgG0ADAF1EoXM1hl0ZZhQkgAHogC0AJgDsAZmoAWAIwA2Yzp3HhAVgCcVrcJ0AaEAE9EOrRuo3Dh-cbaABw6QYY6VgC+kS5omDj4hKiklDT0TGycvAKChuJIIFIycgpKqgiaQcLUGsLC+kFWGho2+jbNLu4IVm3UDiH6PeG1QdGxGNh4BMTkVNRxYADKmPhgAE4cEAo0lABuzAw0C8tgq2uL67tkRGAi+ZLSsvKKBeVqJtQ6JhZhjsLaOn0+k6iCsVkMNUMzXBph0I2iMRALAgcCUCwS02SszASiKT1Kr3U+l0Bj8QKsxkMWmMWisQRBCA0QW8QX0nkpQP0wl8o0R6KmSRSc3SLHYuMeJReoDe+g0VlJ-kGlOptPpbg8XmoQRsrKMXwCNi8WjGIH5iRmqWoADNUuh6OtxcVnmVEH5qIZwcJAsI-FpDEFaQzjE0tc0gsZBnDicJjXyJhjBdj5hMTmdHfipSpXcYtf8oVyNIDPFYGZ5qnCWnKKdSNMY7AjIkA */
-    id: 'mate_app_machine',
-    context: { initialized: false },
-    initial: 'unknown',
-    states: {
-      unknown: {
-        on: {
-          INIT: [
-            {
-              target: 'mateStepper',
-              cond: 'isInitialize',
+type Context = {
+  initial: boolean;
+};
+type Events =
+  | { type: 'PICK' }
+  | { type: 'NEXT' }
+  | { type: 'PREV' }
+  | { type: 'SUBMIT' };
+
+const mateAppMachine = createMachine({
+  id: 'mate_app_machine',
+  schema: {
+    context: {} as Context,
+    events: {} as Events,
+  },
+  context: { initial: false },
+  predictableActionArguments: true,
+  preserveActionOrder: true,
+
+  initial: 'unknown',
+  states: {
+    unknown: {
+      always: [
+        {
+          target: 'mateStepper',
+          cond: 'isInitialize',
+        },
+        {
+          target: 'finetuner',
+        },
+      ],
+    },
+
+    mateStepper: {
+      initial: 'selfProfile',
+      states: {
+        selfProfile: {
+          on: {
+            NEXT: {
+              target: 'roommatePreference',
+              actions: ['saveSelfProfileFormData', 'incrementStep'],
             },
-            'finetuner',
-          ],
+          },
+        },
+
+        roommatePreference: {
+          on: {
+            PREV: {
+              target: 'selfProfile',
+              actions: 'decrementStep',
+            },
+            NEXT: {
+              target: 'dormPreference',
+              actions: ['saveRoommatePreferenceFormData', 'incrementStep'],
+            },
+          },
+        },
+
+        dormPreference: {
+          on: {
+            PREV: {
+              target: 'roommatePreference',
+              actions: 'decrementStep',
+            },
+            SUBMIT: {
+              target: 'submitting',
+              actions: 'saveDormPreferenceFormData',
+            },
+          },
+        },
+
+        submitting: {
+          entry: 'submitForm',
+          type: 'final',
         },
       },
-      finetuner: {
-        invoke: {
-          id: 'finetunerService',
-          src: finetunerMachine,
-        },
+      onDone: {
+        target: 'finetuner',
       },
-      mateStepper: {
-        invoke: {
-          id: 'mateStepperService',
-          src: mateStepperMachine,
-          onDone: {
-            target: 'finetuner',
-            actions: assign({
-              initialized: true,
-            }),
+    },
+
+    finetuner: {
+      initial: 'loading',
+      states: {
+        loading: {
+          invoke: {
+            src: 'regenerateProfile',
+            id: 'regenerate_profile',
+            onDone: [
+              {
+                target: 'show',
+              },
+            ],
+          },
+        },
+
+        show: {
+          on: {
+            PICK: {
+              target: 'loading',
+              actions: 'pickProfile',
+            },
           },
         },
       },
     },
   },
-  {
-    guards: {
-      isInitialize: (ctx) => ctx.initialized,
-    },
-  }
-);
+});
 
 export default mateAppMachine;
