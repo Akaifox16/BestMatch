@@ -1,1 +1,1 @@
-export { default as matingAppMachine } from './machine'
+export { default as MatingAppContextProvider, useMatingContext } from './context'

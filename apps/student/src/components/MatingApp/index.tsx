@@ -1,12 +1,10 @@
 import { useForm } from 'react-hook-form';
-import { useMachine } from '@xstate/react';
 
-import mateStepperMachine from '@component/Context/MateStepper/machine';
 import { MatingCard } from '@component/Card';
 import MatingAppWrapper from './Wrapper';
 
-import type { RouterInputs } from '@utility/trpc';
-import { useMemo } from 'react';
+import { RouterInputs } from '@utility/trpc';
+import { useMatingContext } from '@component/Context/MateApp';
 
 // TODO: Use import ***Form from @utils/type
 type StudentForm = RouterInputs['student']['upsertProfile'];
@@ -22,46 +20,52 @@ const DEFAULT_VALUE = {
 };
 
 export default function MatingApp() {
-  const memoizedMachine = useMemo(() => mateStepperMachine, []);
-  const [state, send] = useMachine(memoizedMachine);
+  const { state } = useMatingContext();
 
+  if (state.matches('mateStepper')) return <MateStepperForm />;
+
+  if (state.matches('finetuner')) return <Finetune />;
+}
+
+function Finetune() {
+  const { state } = useMatingContext()
+  return <div>
+    <div>this is fine tuner</div>
+    <div>{JSON.stringify(state.value)}</div>
+  </div>;
+}
+
+function MateStepperForm() {
+  const { state, send, currentStep } = useMatingContext();
   const { control: profileForm } = useForm<StudentForm>(DEFAULT_VALUE);
   const { control: roommateForm } = useForm<RoommateForm>(DEFAULT_VALUE);
   const { control: dormForm } = useForm<DormForm>();
 
   function handleNext() {
-    switch (state.context.currentStep) {
-      // TODO: BM-89 | add form selector to save by state.context.currentStep
-      case 0:
-        send('NEXT', profileForm);
-        break;
-      case 1:
-        send('NEXT', roommateForm);
-        break;
-      case 2:
-        send('SUBMIT', dormForm);
-    }
+    if (state.can('SUBMIT'))
+      send('SUBMIT')
+    else
+      send('NEXT')
   }
 
   function handlePrev() {
     send('PREV');
   }
-
   return (
     <MatingAppWrapper
-      step={state.context.currentStep}
+      step={currentStep}
       handlePrev={handlePrev}
       handleNext={handleNext}
     >
-      {state.context.currentStep === 0 && (
+      {currentStep === 0 && (
         <MatingCard variant='profile' control={profileForm} />
       )}
 
-      {state.context.currentStep === 1 && (
+      {currentStep === 1 && (
         <MatingCard variant='matePref' control={roommateForm} />
       )}
 
-      {state.context.currentStep === 2 && (
+      {currentStep === 2 && (
         <MatingCard variant='roomPref' control={dormForm} />
       )}
     </MatingAppWrapper>
