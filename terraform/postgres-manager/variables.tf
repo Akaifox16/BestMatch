@@ -4,9 +4,11 @@
 variable "connection" {
   description = "Database connetion"
   type = object({
-    host = string
-    port = number
-    secret = string
+    host    = string
+    port    = number
+    user    = string
+    secret  = string
+    sslmode = string
   })
 }
 
@@ -17,9 +19,9 @@ variable "databases" {
   description = "databases to be in host instance"
   type = map(object({
     encoding = string
-    collate = string
-    ctype   = string
-    schemas = list(string)
+    collate  = string
+    ctype    = string
+    schemas  = list(string)
   }))
 }
 
@@ -35,7 +37,7 @@ variable "groups" {
         schema = string
         table_privs = list(object({
           tables = list(string)
-          privs = string
+          privs  = string
         }))
         privs = string
       }))
@@ -56,10 +58,11 @@ variable "users" {
         schema = string
         table_privs = list(object({
           tables = list(string)
-          privs = string
+          privs  = string
         }))
         privs = string
       }))
     }))
   }))
 }
+
