@@ -2,7 +2,6 @@ import { type RouterOutputs, trpc, type RouterInputs } from '@utility/trpc';
 import type { ParentNode } from '@utility/type';
 import { useMachine } from '@xstate/react';
 import { createContext, useContext, useMemo } from 'react';
-import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { assign } from 'xstate';
 import mateAppMachine from './machine';
 
@@ -19,9 +18,7 @@ const MatingAppMachineContext = createContext({
 });
 
 export default function MatingAppContextProvider({ children }: ParentNode) {
-  const { data } = trpc.student.getPreference.useQuery(undefined, {
-    retry: false,
-  });
+  const { data, error: getPrefErr } = trpc.student.getPreference.useQuery();
 
   const memoizedMachine = useMemo(() => mateAppMachine, []);
   const [state, send] = useMachine<typeof mateAppMachine>(memoizedMachine, {
@@ -34,23 +31,6 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
           profileA: profile_a,
           profileB: profile_b,
         };
-      }),
-
-      // Form
-      assignProfileFormToCtx: assign((_ctx, evt) => {
-        return {
-          profile: evt.data
-        }
-      }),
-      assignMatePrefFormToCtx: assign((_ctx, evt) => {
-        return {
-          matePref: evt.data
-        }
-      }),
-      assignDormPrefFormToCtx: assign((_ctx, evt) => {
-        return {
-          dormPref: evt.data
-        }
       }),
 
       // step
@@ -66,7 +46,7 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       }),
 
       // error
-      clearErrorCount: assign(() => {
+      clearErrorCount: assign((_ctx) => {
         return {
           errorCount: DEFAULT_ERROR_COUNT,
         };
@@ -76,44 +56,13 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
           errorCount: ctx.errorCount + 1,
         };
       }),
-    },
-    services: {
-      submitForm: async (ctx, _evt) => {
-        function submit<Input extends FieldValues>(
-          callback: (control: Input) => void
-        ): SubmitHandler<Input> {
-          return (data: Input) => callback(data);
-        }
-
-        handleSubmit()
-
-        trpc.student.upsertProfile
-          .useMutation()
-          .mutateAsync(data)
-          .catch((_) => {
-            throw new Error('cannot submit your profile');
-          })
-        trpc.student.upsertPreference
-          .useMutation()
-          .mutateAsync(ctx.matePref)
-          .catch(() => {
-            throw Error('cannot submit your roommate preference');
-          });
-
-        trpc.student.upsertDormPreference
-          .useMutation()
-          .mutateAsync(ctx.dormPref)
-          .catch(() => {
-            throw Error('cannot submit your dorm preference');
-          });
-      },
-      // TODO: implement pickProfile service
-      pickProfile: async (_ctx, evt) => {
+      // TODO: implement pickProfile
+      pickProfile: (ctx, evt) => {
         const changeRange = (str: string) => {
           const start = Number(str);
           return { start, stop: start + 1 };
         };
-
+  
         if (evt.type === 'PICKED')
           trpc.match.pickedProfile
             .useMutation()
@@ -132,6 +81,8 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
             .catch(console.error);
         else throw new Error('should not been here. something wrong');
       },
+    },
+    services: {
       // TODO: remove assume in generator query input
       regenerateProfile: async (): Promise<
         RouterOutputs['match']['generator']
@@ -156,12 +107,12 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       },
     },
     guards: {
-      isInitialize: () => !data,
+      isInitialize: () => !!data,
       notExceedErrorLimitCount: () => true,
     },
   });
 
-  // if (getPrefErr) return <div>Sorry please re-login</div>;
+  if (getPrefErr) return <div>Sorry please re-login</div>;
 
   return (
     <MatingAppMachineContext.Provider value={{ state, send }}>
