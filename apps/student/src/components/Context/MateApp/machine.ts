@@ -7,7 +7,7 @@ type ProfileForm = RouterInputs['student']['upsertProfile'];
 type DormForm = RouterInputs['student']['upsertDormPreference'];
 
 const mateAppMachine = createMachine({
-  /** @xstate-layout N4IgpgJg5mDOIC5QFsCGAXMB9VAHXWaAxgBYCWAdmAHQCuFA1hQPYDuFAxANoAMAuolC5msMujLMKgkAA9EANgCs1AIwB2eQA5NAZkWKAnDx4AWRWoA0IAJ6I1J6jx0AmNQZ09nOtYpMBfPys0TBx8QlRSShp6JjZOLhUBJBBhUXFJaTkEeQcTHRMtTTVnHk0S5wMrWwRFTWVdFRUTExVjNv9AkGDsPAJicipqADMo9HowACdqABtmVAhKKA4ISRpKADdmBhoJsBgqCYxsXAnmEemwXiShETEJKWSsuoNHFRK1Hz0K9SrEFT0HIoeCpFG9ampPAZNAEgkdQn0IgMaCMqGMDjM5gsKEtJqcprhphghswJshqLt9pM4SczmQLldpKk7hlHogdNpqN55G8ygYTAZ7IpfghGi1HN43vlmvJufIYV04b1wpFBiiwGjJhj5osOLiSdQCUSSWSKWADtTTudLolGbd0g9QFkTBVqBD5E5nM5FO8ocLWoZqM5NPIPrpmkGWvLuvDlUjhqNxlNYCQ2BwAAoASQAwgBpACiABEGckmfbMogDK1qAKyvIdAZDGoVJW-SCHLKtHkvbptFHFWF+lF46jEwayEQGAACPW7CAcGSwdBHaioIaYCYAChBxgAlBxo0rB6qE+jcOOpzPIMWbml7uWRfl5IG+b5tEZWs0-a4eNQ6zp1MC7jyFCcqdAeA6IkOaoavi56TjSVrLKs1AbFsNDgQiKrIiempnhO8GWnSYAIKhRAYPcVzXikdp3qyIqtE+JROI0zgFH+Jh+iYRTUJoPDcnovj5BooGwiEh6QceI6nnBCFEbqEx4gahLoMSpLUBhsZQThsH4bJFwkRQmxkfalH8Lat4so6fzODKqjyN8IINm48h+sCgLMZoLQ6DKnZ9mJEFYcO6qjnhU56WA8mKYaKnGup-aYXG0EhTJhH6aR5GSJRNoljRlmyH8-46NQQLAi4XgfGo9bCtoP7sko-Jce4Zg6H5PQBYl2nUJShyYNOCkkpA86Lsuq7rlubR7hpR7YVJmrdUcfV4leZk5RZDr5dkELFTkwYtJoKg+ZxPDKECDFePWwGKK1MbTXFmAAMqYPgkxIYMw2YHdbUJUO3SPWAz0TFRpa0VZD7uDxighsd7KlPtOjCjKLz6OYQKQ7xwHONd4mBb9T24JqsBgNMQxpqlEUAHJ5gAGgAKkDuXrVkvi1fydaVXUXo6PDNiIN2rpuAYbPunxmgGFj7U-Ucf0A+SzDMMg3Sk2AQyTGaRARWmABKeYAGr02t97M5yrPeOy3qKFzfr2a66is96Lh5L2YHxZpgy4-9+NTKc8uK7sKu7BQ6scJTtP68yjMVp6nK8XU+haF4OTCjZKiBgLHjAcd8fi99btS3jmorKSSv+2rGva3rK03uH94GFHMOx2jCccTzIpKIG6j1pVTT2M22eu+hecewXxrF6rgcRfdACqABCACyGZ05X1EG3Rbx1tQXEaHxPgVTKSdqJoG81uyUJOFyLXO-5OcDw9+dJrQABGyBiOI2KvWshloZ9N0STfYDS57agsBH7P3QK-KABkjIZQoKZa4y9q6r0dqoEojROyeRaMKU2PF+Q8DcMUcwPgvR91uu7GWwCn4vx1DOJSRo1JTV-p9ABBMQGUOxJA5gxkKL8DDmWVe4JOSVXZPYIwXMnDCl8L+UWoJTC+FaEUC+okvr90YXfIBLCwFUP6viZSqkyT0JxoPMh6jwHsM4Zlbh2Uq68NBiCUWjgSjej4ifbklgW7OGKo0bybNmwNl0D4YhDDSGAPIaAxaJIhpLg+qNSY41dz7hdiQwxwT1FhMBkvYGeUshNHUL+UEXMlBaEKEKFuB0ioHRFvtBo5guYBIMbfIeUwZyTmmGQUJYAZDq0GguSJNBombi9HE-RcYgmaiaS0tpHSwDLTgRkiO2R8jVkFloGRhQVDCgALQlEDNoVoFQLpc3UAEToLAIBwGkEMqI5kEE2KfHkAo2hiilHKJUFumzPCcnqhbViOQvSY0vko26MQWDsCudYjaZROSSmBAfbyRRE6vNFDxYM3xgJ6B5LUjqs0JigpBhtfItUNA8gqPyQUwo3DuKMPYb4XhnBNDFv8n+gUkrolmNqbEOLMkKCDL+JstiKi1G8JoP0JVqy0uWZKEMbwMVaSxUAlMrAOVzOeJCyl2SjB3K-F6CGXMwy4I-FdBl2NMXBWkvhS8EBFX3n+PWV4hgE7GAKN5Vs1t-wCmhXbLQ0rJImtwilWkFxLWryedWTyPBa6uG9DSr8+gN6oK4vkGyYavUzR9VMeavVzWBtBiYDQrogy1yMFI1izg-Q6tyf8IouDzBlA6IoxlxqYLUDGa0sQ05JmQEgFm8FnlFm8SBGzUEoJXKQ2KjZAE+g-FEMNRLXO9SAZdqyHoF4tcPjulaA2Ss-wNmtDUK6EMNlmi118HHZNKiGlAKJiTMmC7EAmFwaK1dwIw2GE8fvIqUIc2FEFk0dkp6RlezlgrI4o8A7qxvQgCEy6+JGAtiGRsLzqiuFuZ5fa9z7kuD-Uk4eRc-ZjzA6ta5G110p3cPtLw+hjpkf3ofD9qHOxaAw9O6+Z6jEUI0eygjYKsl3pTnkXwShQyi1KEnC2jhoURllPYDQmG53JLY5gC1nHcXceaDxZs3hjAqE8u6FyLcc2H2BKLeyxQtOCzUDJ-+qiQmtpnOBpophnw+NYjq0ECHEAQsciGLipmSjNAs0wxpWjmktvQG2zpimrHKesrSwM5sig8YKM3aoP4DB8maE4OoXECjqaOX4IAA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QFsCGAXMB9VAHXWaAxgBYCWAdmAHQCuFA1hQPYDuFAxANoAMAuolC5msMujLMKgkAA9EANgCs1AIwB2eQA5NAZkWKAnDx4AWRWoA0IAJ6I1J6jx0AmNQZ09nOtYpMBfPys0TBx8QlRSShp6JjZOLhUBJBBhUXFJaTkEeQcTHRMtTTVnHk0S5wMrWwRFTWVdFRUTExVjNv9AkGDsPAJicipqADMo9HowACdqABtmVAhKKA4ISRpKADdmBhoJsBgqCYxsXAnmEemwXiShETEJKWSsuoNHFRK1Hz0K9SrEFT0HIoeCpFG9ampPAZNAEgkdQn0IgMaCMqGMDjM5gsKEtJqcprhphghswJshqLt9pM4SczmQLldpKk7hlHogdNpqN55G8ygYTAZ7IpfghGi1HN43vlmvJufIYV04b1wpFBiiwGjJhj5osOLiSdQCUSSWSKWADtTTudLolGbd0g9QFkTBVqBD5E5nM5FO8ocLWoZqM5NPIPrpmkGWvLuvDlUjhqNxlNYCQ2BwAAoASQAwgBpACiABEGckmfbMogDK1qAKyvIdAZDGoVJW-SCHLKtHkvbptFHFWF+lF46jEwayEQGAACPW7CAcGSwdBHaioIaYCYAChBxgAlBxo0rB6qE+jcOOpzPIMWbml7uWRfl5IG+b5tEZWs0-a4eNQ6zp1MC7jyFCcqdAeA6IkOaoavi56TjSVrLKs1AbFsNDgQiKrIiempnhO8GWnSYAIKhRAYPcVzXikdp3qyIqtE+JROI0zgFH+Jh+iYRTUJoPDcnovj5BooGwiEh6QceI6nnBCFEbqEx4gahLoMSpLUBhsZQThsH4bJFwkRQmxkfalH8Lat4so6fzODKqjyN8IINm48h+sCgLMZoLQ6DKnZ9mJEFYcO6qjnhU56WA8mKYaKnGup-aYXG0EhTJhH6aR5GSJRNoljRlmyH8-46NQQLAi4XgfGo9bCtoP7sko-Jce4Zg6H5PQBYl2nUJShyYNOCkkpA86Lsuq7rlubR7hpR7YVJmrdUcfV4leZk5RZDr5dkELFTkwYtJoKg+ZxPDKECDFePWwGKK1MbTXFmAAMqYPgkxIYMw2YHdbUJUO3SPWAz0TFRpa0VZD7uDxighsd7KlPtOjCjKLz6OYQKQ7xwHONd4mBb9T24JqsBgNMQxpqlEUAHJ5gAGgAKkDuXrVkvi1fydaVXUXo6PDNiIN2rpuAYbPunxmgGFj7U-Ucf0A+SzDMMg3Sk2AQyTGaRARWmABKeYAGr02t97M5yrPeOy3qKFzfr2a66is96Lh5L2YHxZpgy4-9+NTKc8uK7sKu7BQ6scJTtP68yjMVnynJOftnlcxoHE8wgrjOI4RSuDVTTpy1zv+d9btS3jmorKSSv+2rGva3rK03uH94MT+-yGN5dai-k3PVAdqdNvYHxek3ZjQrnX2u+hhce8Xxpl6rgcRfdACqABCACyGZ0zX1EG3RjSC9QBQ8O49bOpWvpJ2bv5lG4-4GBUgkiQqeej590ue9QsC0AARsgYjiNir1rIZNCn0boSTHg9IuSZP7f3QL-KABkjIZQoKZa4m867b0vnvTw3JgTFBcD4YULRU55DRiUMM-41Di3zmAsAL8CZQJ-jqGcSkjRqSmqA5+EC370JgYseBzBjIUX4GHMs286xPm9M4A6IJRYWxUF+H8x9uTfBcN4LilCn7uxlu-L+DC-5MOiqpMkbCcbjy0dw2BfCBGZSEdlWuIjQYHV3hoVRnw+QCksEnVOoIm66E9FxDwpQKHDxASY8BE9IE6PQItEkQ0lwfVGpMcau59wu1upo1+2joHRMBhvYGeUshNHUL+UEXMlBaEKEKJOB0ioHRFrHf85gubqLSaY1+M5JzTDIFksAMh1aDQXHEmgCTNxemScYuM6TNTtM6d03pYBlooLyRHbI+RqyCy0KYNG+1hQAFoSiBm0K0CoF0ubqACJ0FgEA4DSHGVEcyaCHFPjyAUbQxRSjlEqEnPZnhOT1S0A2TwKhtBD1EiPW6MQWDsHufYjaZROSShwboLQCddmih4sGb4wE9A8maewpKBxoUgw2vkWqGgeQVH5IKYUbhU5GEqp2SqrEc6gpCR1WaUxZjamxIS-JCggy-ibNI2+ug1CaD9CVaskiNmShDG8XFgV8UExTKwHlyznjwrpYUowzyvxeghlzMMPAmybPlWy4K0l8KXggKq+uXMXjAkMF4YWBRvKtmttfCEttBZo1NVpdlY5dJkxtdvd51ZPIH09D4T0Lgvz6D3o0Ha+QbIH19ZJc1c0zRUl6la4NoMTAaFdEGG+RgZGsWcH6A1xT-hFCNeYMoHQWXYzNTBag0yuliGnHMyAkBc2ws8ms3iQI2aglBK5SGxUbIAn0CKr0qbqG0ImL2rIegXg3w+O6VoDZKz-FRUa10IYvTFAMJWEdIKH5gvYZMpMRMSZBtWg8jaJg91ro0MCA+hhGgd15pVMN+bCiCyaOyOdHDwmyx9kcaeAd1ZLrsCGX8Hgh3SKAmKzxBauL+N4t4YwZzglNslmEmWJdkCQYrjBkU5Vo6CvZGUbQZhhQBOrMdZoRhKzOkqsy89rL8M0M4Zk3RUAyO1KKqdfQRq3DAhcp4i2jgcERllPYMowGr1cMiZga196YUFJyMoMwdZTAglYvoDx1R81FUqiCeyZhj35DFrhiWBcCMZO4dkwTT6HDfGPUys2zZqqp0ciGLiQKb6mAbZxvDDmeOgbbbMvp6m7FEoKZ6FQgZzZFCfU0HIwofzHuaE+s26HuTuHOX4IAA */
   id: 'mate_app_machine',
   tsTypes: {} as import('./machine.typegen').Typegen0,
   context: {
@@ -114,7 +114,7 @@ const mateAppMachine = createMachine({
           on: {
             NEXT: {
               target: 'roommatePreference',
-              actions: 'incrementStep',
+              actions: ['incrementStep', "assignProfileFormToCtx"],
             },
           },
         },
@@ -127,7 +127,7 @@ const mateAppMachine = createMachine({
             },
             NEXT: {
               target: 'dormPreference',
-              actions: 'incrementStep',
+              actions: ['incrementStep', "assignMatePrefFormToCtx"],
             },
           },
         },
@@ -138,7 +138,10 @@ const mateAppMachine = createMachine({
               target: 'roommatePreference',
               actions: 'decrementStep',
             },
-            SUBMIT: 'submitting',
+            SUBMIT: {
+              target: 'submitting',
+              actions: "assignDormPrefFormToCtx"
+            },
           },
         },
 
@@ -187,9 +190,9 @@ const mateAppMachine = createMachine({
   schema: {
     events: {} as
       | { type: 'PICKED'; data: { profilePick: Profile; profileComp: Profile } }
-      | { type: 'NEXT' }
+      | { type: 'NEXT'; data: ProfileForm}
       | { type: 'PREV' }
-      | { type: 'SUBMIT' },
+      | { type: 'SUBMIT'; data: DormForm },
   },
   predictableActionArguments: true,
   preserveActionOrder: true,

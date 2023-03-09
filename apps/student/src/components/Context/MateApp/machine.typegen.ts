@@ -23,13 +23,16 @@
 "submitForm": "done.invoke.mate_app_machine.mateStepper.submitting:invocation[0]";
         };
         missingImplementations: {
-          actions: "clearErrorCount" | "decrementStep" | "incrementErrorCount" | "incrementStep" | "returnToSelfProfile" | "updateGeneratedProfile";
+          actions: "assignDormPrefFormToCtx" | "assignMatePrefFormToCtx" | "assignProfileFormToCtx" | "clearErrorCount" | "decrementStep" | "incrementErrorCount" | "incrementStep" | "returnToSelfProfile" | "updateGeneratedProfile";
           delays: never;
           guards: "isInitialize" | "notExceedErrorLimitCount";
           services: "pickProfile" | "regenerateProfile" | "submitForm";
         };
         eventsCausingActions: {
-          "clearErrorCount": "done.invoke.mate_app_machine.finetuner.pick profile:invocation[0]" | "done.invoke.mate_app_machine.mateStepper.submitting:invocation[0]" | "done.invoke.regenerate_profile";
+          "assignDormPrefFormToCtx": "SUBMIT";
+"assignMatePrefFormToCtx": "NEXT";
+"assignProfileFormToCtx": "NEXT";
+"clearErrorCount": "done.invoke.mate_app_machine.finetuner.pick profile:invocation[0]" | "done.invoke.mate_app_machine.mateStepper.submitting:invocation[0]" | "done.invoke.regenerate_profile";
 "decrementStep": "PREV";
 "incrementErrorCount": "error.platform.mate_app_machine.finetuner.pick profile:invocation[0]" | "error.platform.mate_app_machine.mateStepper.submitting:invocation[0]" | "error.platform.regenerate_profile";
 "incrementStep": "NEXT";
