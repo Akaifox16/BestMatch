@@ -11,24 +11,22 @@ const RANGE_UPPER = 23 as const;
 export function findNewValue(
   variant: 'do_not_disturb',
   val: number,
-  picked: boolean,
   mid: number,
   isLowerbound: boolean
 ): number;
 export function findNewValue(
   variant: 'messiness' | 'loudness',
-  val: number,
-  picked: boolean
+  val: number
 ): number;
 
 // Find New Value for the attribute
 export function findNewValue(
   variant: ProfileAttributes,
   val: number,
-  picked: boolean,
   mid?: number,
   isLowerbound?: boolean
 ): number {
+  const picked = Math.random() > 0.5;
   switch (variant) {
     case 'messiness':
     case 'loudness':

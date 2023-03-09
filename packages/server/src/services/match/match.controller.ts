@@ -1,9 +1,68 @@
 import { prisma } from '@acme/database';
 
 import { protectedProcedure } from '../../trpc';
-import { NotFoundError } from '../../utils/type';
+import { NotFoundError, type ProfileAttributes } from '../../utils/type';
 import { choicerInput, generatorInput, generatorOutput } from './match.dto';
-import { calculatePenaltyHelper, finetuneWeight, generate } from './utils';
+import {
+  calculatePenaltyHelper,
+  findNewValue,
+  finetuneWeight,
+  generate,
+  randomAttibute,
+} from './utils';
+
+export const findNewAttribute = protectedProcedure
+  // .input(generatorOutput)
+  // .output(generatorInput)
+  .query(async ({ ctx }) => {
+    const calcProf = await prisma.calculatedPreference.findFirst({
+      where: { id: ctx.session.user.id },
+      include: {
+        do_not_disturb_tolerant: {
+          select: {
+            stop_max: true,
+            stop_min: true,
+            start_max: true,
+            start_min: true,
+          },
+        },
+      },
+    });
+
+    if (!calcProf)
+      throw NotFoundError("user doesn't provide any preference yet");
+
+    const attribute_pair = randomAttibute();
+    const isMin = Math.random() < 0.5;
+    const findValueHelper = (variant: ProfileAttributes) => {
+      switch (variant) {
+        case 'messiness':
+          return findNewValue(
+            variant,
+            isMin
+              ? calcProf.messiness_tolerant_min
+              : calcProf.messiness_tolerant_max
+          );
+        case 'loudness':
+          return findNewValue(
+            variant,
+            isMin
+              ? calcProf.loudness_tolerant_min
+              : calcProf.loudness_tolerant_max
+          );
+        // case 'do_not_disturb':
+        // return findNewValue(variant, )
+      }
+    };
+
+    const val_a = findValueHelper(attribute_pair[0]);
+    const val_b = findValueHelper(attribute_pair[1]);
+
+    return {
+      attribute_pair,
+      values: [val_a, val_b],
+    };
+  });
 
 export const generateProfile = protectedProcedure
   .input(generatorInput)

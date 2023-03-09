@@ -2,17 +2,12 @@
   "name": "@acme/server",
   "version": "0.2.0",
   "license": "UNLICENSED",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**"
-  ],
+  "main": "./index.ts",
+  "types": "./index.ts",
   "config": {
     "prefix": "./"
   },
   "scripts": {
-    "dev": "tsup --watch",
-    "build": "tsup",
     "clean": "rimraf .turbo node_modules dist",
     "lint": "TIMING=1 eslint \"src/**/*.ts\"",
     "type-check": "tsx --noEmit"

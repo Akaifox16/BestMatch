@@ -1,9 +1,22 @@
+import { RouterOutputs } from '@utility/trpc';
 import { createMachine } from 'xstate';
 
 const mateAppMachine = createMachine({
-  /** @xstate-layout N4IgpgJg5mDOIC5QFsCGAXMB9VAHXWaAxgBYCWAdmAHQCuFA1hQPYDuFAxANoAMAuolC5msMujLMKgkAA9EAVgBs1eQGYAjD1UAmbTwAc+1fq0AaEAE9EAdgAs1LdusBOVT22rr82wF8f5tEwcfEJUUkoaeiY2Ti51ASQQYVFxSWk5BEV7W1VbRUNrPX09bWdzKwR5fXlqI3V1W1tNHhaeX38QQOw8AmJyKmoAMwj0ejAAJ2oAG2ZUCEooDghJGkoAN2YGGnGwGCpxjGxcceZhqbBeBKERMQkpRIzm1Wpbb2MjRUUeZ0V5csR6opnNRjNYvvp1IZvNo-AFDsFemF+jRhlRRvtprN5hRFhMTpNcFMMINmONkNQdnsJvDjqcyOdLtJkrc0g9EE0eA48s4eNZVM5tAV1P8EM55DUBRp1OKxaoNO04UEeqFwgNUWB0RNMXMFhw8aTqITiaTyZSwPsaSczhd4kybql7qAMtYXSoIUoxWKnLYRfo+W6eGo9OprLyeOpYZ14cq+hEhiMxpNYCQ2BwAAoASQAwgBpACiABFGYlmQ70gC5dZaoprJDPO48tpFCLmjVNNLjCHXLYfpGugiVcj42jE4ayEQGAACfU7CBLFbUdabGj9mNIuPqzUE8dTmeQBBLogYO6XYvXFJ3csIaU16iaazVGuQ+S8lty+x8gw6eshhp96MhLGaoJhiuA7tO4z4pAHAyLA6CHNQqCDJg4wABTSi0ACUHCroB67ASOoHgXuEBnkk9qXmy161lW0pNG4HhOOo2h-JYiDODkDi-PI6gcdotjVJC-5KnhqooiBWpgROk60ta84DEuWzULhiJicOGqjlJU6yfSYAHhQGxHg6p78HaF6sk6AJKLRvLVPybgPg0Lb8cCgrFCYfK2G0EYdCpg4bhJ27STp5x6pBBpGugJJkspAGqUOm6aeBIV6Yex6SCZVzkeZjqyACQL6NQ-H8uoqiKCx4buCKfLKJ8vLMc4PxAjwijCd0okJYFY7BVaulhfihpElFJqxSJ8UBYRknJb15z6YZ6UUKetolhRFl5deTjAi1cpNuGVTyGUbEIC62gqN8MptO4tltQOQHiZNkxUgcmAQVBc6wfBmCIchEzoa02F+Xd6lbtQT2HK9pKQGRpaUZZmQCkVqhKDkm3yA+1jOXoIJ+oGjQ8mVAk3WualdAAypg+ATPJNBwQhgP4Suhzk2AlPjNDq25Y8bjqNQij1HoLRIw03givIui1IYPavPoPYuDCvlxf5AxkxTuBarAYBTIMaYzWAHAAHJ5gAGgAKuzOVXt4nK5D8njGGLaiqCKLGFS6jWKJ4XwtfozhEx1cYqyzauTCczDIF0OtgIMEzmkQetpgASnmABq5sspzCheSCPYe3y1QsXKLbldQNE52LOg5IYfvjcrTOq1qofh4ckfRzsFBxwbxtm6ZK0W1RAqncYBjikoxQE87fNFS4rgtTyo-y4q7U14zmDM6z1DLGSLcx+38dJ6nPfnunV4D9jw-ivkHhZEXNTaCG-J8g0di8dXSsr2Aa-BxvJrb23HekwAVQAEIAFkMzdyyjDNajwmzPAEmCFqXgXRgmbEdJwhVZZGB9iYSsHs-AdBYBAOA0h6ZiTMsfKihU1CaB0EULB7gMZHQALQ+1qI-XkPFGifFeK-IGUQWDsHIWWKi-pPhZB4u2MWfJGEVCYYPVwCjSjwIfDWeQvCGbA0TEI2G60yqnTaM1PkAohQiiyMCSEdEaytD9AvKMY036aIxDMHUOJtHQMQF8Z4D5nC1m+A0FoPi3y-CKmoA6Yp3IFXUWpRKGJkxsDcRna8cpnjvEDAYQUPj+LOS0NQHxRivjODrNKKJnUHrdV3OFWcCSrx1k5DyUohRjAVVKr6BGgt7a2DctCEpE0NJER6nSc41SqLShDLkhqhQwR6CyE7I6WC7yuDvu4P0PFvg9IIn0rUYMXokWGXDHshV+Q+IMJCOwZV9Atg7CoO2csmyvF0Os+6mzJgzknFMMgyAxDThkHHSAkA9nrXqK8bOJVShoxMGjX0hQuJ6M+HKZwEJ9CPNGh-eu4wAUZCRsCAULoviaE9PUWZFQvCIyMN8LQL4ZZ4IVvYoGgd14ay1jrQZYAMXsl5LkpwCD8UHUJc7f0CLbBgkMD8BoxhkX0q-o3COOxW6x1Zb3ChcNQzYtnoGMqXgfGHQqE4ZQAkBINHyHkIwtjSFDklVqTeyBf7yrZdePxuTOweHFIGCE2h+WFUFRCY1xqdASrrkHdWtAABGnz0DiFcYq4RcNSoy15gdbwPE0ZuAuWg7wITijWTFL8P0SL8FAA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QFsCGAXMB9VAHXWaAxgBYCWAdmAHQCuFA1hQPYDuFAxANoAMAuolC5msMujLMKgkAA9EANgCs1AIwB2eQA5NAZkWKAnDx4AWRWoA0IAJ6I1J6jx0AmNQZ09nOtYpMBfPys0TBx8QlRSShp6JjZOLhUBJBBhUXFJaTkEeQcTHRMtTTVnHk0S5wMrWwRFTWVdFRUTExVjNv9AkGDsPAJicipqADMo9HowACdqABtmVAhKKA4ISRpKADdmBhoJsBgqCYxsXAnmEemwXiShETEJKWSsuoNHFRK1Hz0K9SrEFT0HIoeCpFG9ampPAZNAEgkdQn0IgMaCMqGMDjM5gsKEtJqcprhphghswJshqLt9pM4SczmQLldpKk7hlHogdNpqN55G8ygYTAZ7IpfghGi1HN43vlmvJufIYV04b1wpFBiiwGjJhj5osOLiSdQCUSSWSKWADtTTudLolGbd0g9QFkTBVqBD5E5nM5FO8ocLWoZqM5NPIPrpmkGWvLuvDlUjhqNxlNYCQ2BwAAoASQAwgBpACiABEGckmfbMogDK1qAKyvIdAZDGoVJW-SCHLKtHkvbptFHFWF+lF46jEwayEQGAACPW7CAcGSwdBHaioIaYCYAChBxgAlBxo0rB6qE+jcOOpzPIMWbml7uWRfl5IG+b5tEZWs0-a4eNQ6zp1MC7jyFCcqdAeA6IkOaoavi56TjSVrLKs1AbFsNDgQiKrIiempnhO8GWnSYAIKhRAYPcVzXikdp3qyIqtE+JROI0zgFH+Jh+iYRTUJoPDcnovj5BooGwiEh6QceI6nnBCFEbqEx4gahLoMSpLUBhsZQThsH4bJFwkRQmxkfalH8Lat4so6fzODKqjyBUXgeCCWhCjYFZKNW6iuJWbx5CCfZiRBWHDuqo54VOelgPJimGipxrqf2mFxtBYUyYR+mkeRkiUTaJY0ZZsh-P+OjUECwIuF4HxqPWwraD+7JKPyXHuGYOgBT0QXJdp1CUocmDTgpJKQPOi7Lqu65bm0e4aUe2FSZqvVHANeJXmZeUWQ6hXZBCpU5MGLSaCoMryJxPDKECDGOQYwGKO1MazQlmAAMqYPgkxIYMo2YI9HVJUO3QvWAb0TFRpa0VZD7uDxighmd7KlIdOjCjKLz6OYQIw7xwHOHd4nBQDr24JqsBgNMQxpulUUAHJ5gAGgAKqD+WbVkvj1fydbVXUXo6EjbkIN2rpuNdXLGFoBi451-1HIDwPkswzDIN0FNgEMkxmkQUVpgASnmABqTMbfebOchz3jst6ii8369muuoHPei4eS9mBiWaYMBNA0TUynIryu7GruwUJrHA0wzhvMizFaepyvF1PoWheDkwo2SogbCx4wFnYnkt-R7MuE5qKykirgca1rusG2tN6R-eBgx-D8eY0nHH80dyjOOo9bVU09jNrn7voQXXtF8apfq8HUVPQAqgAQgAshmjPV9RRt0W8dbUFxGh8T4VUyinaiaFvNbslCThcm1ruBXnQ-PYXSa0AARsgYjiNiH1rIZaE-fdEl32AWW3tqCwGfq-dA78oAGSMllCgplrir1ruvZ2qgSiNE7JoZoKhhTmx4vyHgbhijmB8F6AeD1PZy1AS-N+OoZxKSNGpGa-8fpAOJmAmh2JoHMGMhRfgEcyzr3BJyaq7J7BGF5k4YUvhfyaAbB+XwrQihX1Er9QeLCH4gPYegZaJIRpLm+uNSYk1dz7jduQ4elCtE6JBivMGBUshNHUL+UEvMlBaEKK5aoR0SpHT4toFQDRzC8zIcwihwCqHgMgdFfUsVVJkiYfjCx4StGQK4Tw7KfDco1wERDEEsjHAlG9HxM+3JLD82cKVRoOgZQSgMA2XQPgQmJPviPKYM5JzTDIOA6cMhNbDQXPomghjNxehMQkuMYTNTtM6d0sAvSwCrQQXYqO2R8jVmuloUwmNDrCgALQlEDP4yE9Y-zqACJ0FgEA4DSHGVEcySDclPjyAUbQxRSjlEqPzfZnhOSNW5P6EwpgcbX1UQ9GILB2D3JyVtMonJJTAiPtUooycvmih4sGb4wE9A8iaV1eaEwoXgy2vkeqGgeQVH5IKYUbgKlGHsJ4WR7cTBqFxVpfFWosRQEJfYhQQZfxNjyRUWo3hNB+jKtWTumzJQhjeKyySoV0TJjYNylZRgnl1J4OI0E0pPleNYiVTBh1mxVKaPkOVc0FW4TgpeCAKr7z-HrK8QwSdjAFGqa2W2-4BQIodloc1IUYJjl0pTO1693nVkwZqz0JCvDOC-PoLe6CuL5Bspq-1KV0SLX6ja0NENmVPmKLIiopQGysTjW3Xmx8lD-CKAQ8wZQOgqL-sFDNUzBoTA6V0sQPS+lXNtetB5MLMHrN4kCTmoJQR+mzqVGyAJ9ANNISC5tEykmTFzcSgM9cPjulaA2HyfNqi7NaGoV0IYbJenpZqhs-rJlJlJuTENA7oVOgIRK7dwJNWGCqYfEqUJ81vm5M7G9q6fYKyVkcceQdNbrqyBCF4aqjBWxDI2XViBXBPMNU0TsWgXDAZaXLYuyBIPlxg38TVad3CHS8PoM6VHD7Hz-YdF5LzcNLrxiu-DyTqEQMWKRkUgK055F8EoUMsjSgpyto4BFEZZT2A0HhwBGiIlv0gHxpozQeLNm8MYAJBQ+LCmZcfYEsj7LFACddFlbGpb5042w7j1i1OAocN8Op+qLbNlqhUkEFmuLmZKM0BTrC2nts7bM+Zqmn1EocZ6NOXpuz0qw63aoP46nNEBRbLiBQtPnL8EAA */
   id: 'mate_app_machine',
   tsTypes: {} as import('./machine.typegen').Typegen0,
+  context: {
+    currentStep: 0,
+    errorCount: 0,
+
+    profile: {},
+    matePref: {},
+    dormPref: {},
+
+    // Profile
+    profileA: {} as RouterOutputs['match']['generator']['profile_a'],
+    profileB: {} as RouterOutputs['match']['generator']['profile_b'],
+  },
   initial: 'unknown',
   states: {
     unknown: {
@@ -17,6 +30,7 @@ const mateAppMachine = createMachine({
         },
       ],
     },
+
     finetuner: {
       initial: 'loading',
       states: {
@@ -56,17 +70,9 @@ const mateAppMachine = createMachine({
         },
 
         'pick errored': {
-          invoke: {
-            src: 'pickProfile',
-            onDone: {
-              target: 'loading',
-              actions: 'clearErrorCount',
-            },
-          },
-
           after: {
             '1500': 'pick profile',
-          },
+          }
         },
 
         'pick profile': {
@@ -93,9 +99,12 @@ const mateAppMachine = createMachine({
           },
         },
 
-        'error limit exceeded': {},
+        'error limit exceeded': {
+          type: "final"
+        }
       },
     },
+
     mateStepper: {
       initial: 'selfProfile',
       states: {
@@ -107,6 +116,7 @@ const mateAppMachine = createMachine({
             },
           },
         },
+
         roommatePreference: {
           on: {
             PREV: {
@@ -119,6 +129,7 @@ const mateAppMachine = createMachine({
             },
           },
         },
+
         dormPreference: {
           on: {
             PREV: {
@@ -128,22 +139,49 @@ const mateAppMachine = createMachine({
             SUBMIT: 'submitting',
           },
         },
+
         submitting: {
-          entry: 'submitForm',
-          type: 'final',
+          invoke: {
+            src: "submitForm",
+            onDone: {
+              target: "submitted",
+              actions: "clearErrorCount"
+            },
+            onError: [{
+              target: "submit error",
+              actions: "incrementErrorCount",
+              cond: "notExceedErrorLimitCount"
+            }, "error limit exceed"]
+          }
         },
+
+        submitted: {
+          type: "final"
+        },
+
+        "submit error": {
+          after: {
+            "1000": "submitting"
+          }
+        },
+
+        "error limit exceed": {
+          after: {
+            "2500": {
+              target: "selfProfile",
+              actions: "returnToSelfProfile"
+            }
+          }
+        }
       },
       onDone: {
         target: 'finetuner',
       },
-    },
+    }
   },
   schema: {
-    context: {} as {
-      initial: boolean;
-    },
     events: {} as
-      | { type: 'PICKED'; profileA: {}; profileB: {} }
+      | { type: 'PICKED'; profilePick: {}; profileComp: {} }
       | { type: 'NEXT' }
       | { type: 'PREV' }
       | { type: 'SUBMIT' },
