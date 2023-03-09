@@ -45,36 +45,22 @@ export const authOptions: NextAuthOptions = {
           type: 'email',
           placeholder: 'example@gmail.com, john.doe@outlook.com',
         },
-        password: { label: 'Password', type: 'password' },
+        name: {},
+        id: {},
       },
       async authorize(cred, _req) {
         if (!cred) {
           return null;
         }
 
-        // const { data: user } = await fetch(
-        //   `${env.NEXTAUTH_URL}/api/auth.login`,
-        //   {
-        //     method: 'POST',
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(cred),
-        //   }
-        // ).catch(console.error);
-
-        // console.log(user);
+        console.log('signing in');
 
         const user = {
-          email: cred?.email,
+          email: cred.email,
           image: null,
-          name: 'test user',
-          id: 'clda953nf0000qtah0fb2z9cp',
+          name: cred.name,
+          id: cred.id,
         } satisfies Session['user'];
-
-        if (!user) {
-          return null;
-        }
 
         return user;
       },

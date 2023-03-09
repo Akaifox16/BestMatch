@@ -20,10 +20,12 @@ export const loginDto = z.object({
   password,
 });
 
-export const authResponseDto = z.object({
-  email,
-  id: cuid,
-  name: z.string().refine((val) => val.split(' ').length === 2, {
-    message: 'name shoud contains both `first name` and `last name`',
-  }),
-});
+export const authResponseDto = z
+  .object({
+    email,
+    id: cuid,
+    name: z.string().refine((val) => val.split(' ').length === 2, {
+      message: 'name shoud contains both `first name` and `last name`',
+    }),
+  })
+  .nullish();

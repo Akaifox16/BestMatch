@@ -15,11 +15,19 @@ function RegisterForm() {
   const createStudent = trpc.auth.register.useMutation();
 
   const submit: SubmitHandler<RouterInputs['auth']['register']> = (data) => {
-    createStudent.mutateAsync(data).catch(console.error);
-    signIn('credentials', {
-      email: data.email,
-      password: data.password,
-    }).catch(console.error);
+    createStudent
+      .mutateAsync(data, {
+        onSuccess: (data) => {
+          if (data)
+            signIn('credentials', {
+              ...data,
+            }).catch(console.error);
+        },
+      })
+      .catch((err) => {
+        if (err instanceof Error)
+          throw new Error(`Error from createStudent: ${err.message}`);
+      });
   };
 
   return (

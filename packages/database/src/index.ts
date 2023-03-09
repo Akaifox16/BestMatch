@@ -23,11 +23,8 @@ export type {
   Dorm,
   Floor,
   Room,
-  Zone,
-  Sex,
-  Role,
-  DormType,
-  DormTypePrefer,
 } from '@prisma/client';
+
+export { Zone, Sex, Role, DormType, DormTypePrefer } from '@prisma/client';
 
 if (env.NODE_ENV === 'production') global.prisma = prisma;

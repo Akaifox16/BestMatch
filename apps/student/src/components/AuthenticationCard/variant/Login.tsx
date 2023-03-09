@@ -7,7 +7,7 @@ import { Grid, Typography } from '@mui/material';
 
 import SendBtn from '../SendBtn';
 
-import { type RouterInputs } from '@utility/trpc';
+import { trpc, type RouterInputs } from '@utility/trpc';
 import CSRFInput from '@component/Input/CSRFInput';
 import type { ComponentProps } from 'react';
 
@@ -17,9 +17,16 @@ type LoginFormProps = {
 
 function LoginForm({ token }: LoginFormProps) {
   const { control, handleSubmit } = useForm<RouterInputs['auth']['login']>();
+  const studentLogin = trpc.auth.login.useMutation();
 
   const submit: SubmitHandler<RouterInputs['auth']['login']> = (data) => {
-    signIn('credentials', data).catch(console.error);
+    studentLogin
+      .mutateAsync(data, {
+        onSuccess: (data) => {
+          if (data) signIn('credentials', data).catch(console.error);
+        },
+      })
+      .catch(console.error);
   };
 
   return (
