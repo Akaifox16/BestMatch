@@ -1,7 +1,7 @@
-import { type RouterOutputs, trpc, RouterInputs } from '@utility/trpc';
+import { type RouterOutputs, trpc, type RouterInputs } from '@utility/trpc';
 import type { ParentNode } from '@utility/type';
 import { useMachine } from '@xstate/react';
-import { createContext, useContext, useMemo, } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 import { assign } from 'xstate';
 import mateAppMachine from './machine';
 
@@ -24,71 +24,105 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
   const [state, send] = useMachine<typeof mateAppMachine>(memoizedMachine, {
     actions: {
       updateGeneratedProfile: assign((_ctx, evt) => {
-        const { profile_a, profile_b } = evt.data as RouterOutputs['match']['generator']
+        const { profile_a, profile_b } =
+          evt.data as RouterOutputs['match']['generator'];
 
         return {
           profileA: profile_a,
           profileB: profile_b,
-        }
+        };
       }),
 
       // step
-      decrementStep: assign((ctx ) => {
+      decrementStep: assign((ctx) => {
         return {
-          currentStep: ctx.currentStep - 1
-        }
+          currentStep: ctx.currentStep - 1,
+        };
       }),
       incrementStep: assign((ctx) => {
         return {
-          currentStep: ctx.currentStep + 1
-        }
+          currentStep: ctx.currentStep + 1,
+        };
       }),
       returnToSelfProfile: assign((_ctx) => {
         return {
-          currentStep: PROFILE_PAGE
-        }
+          currentStep: PROFILE_PAGE,
+        };
       }),
 
       // error
       clearErrorCount: assign((_ctx) => {
         return {
-          errorCount: DEFAULT_ERROR_COUNT
-        }
+          errorCount: DEFAULT_ERROR_COUNT,
+        };
       }),
       incrementErrorCount: assign((ctx) => {
-        return { 
-          errorCount: ctx.errorCount + 1
-        }
+        return {
+          errorCount: ctx.errorCount + 1,
+        };
       }),
     },
     services: {
       submitForm: async (ctx, _evt) => {
-        const { error: upsertProfileErr } = trpc.student.upsertProfile.useMutation(ctx.profile)
-        if (upsertProfileErr) throw Error('cannot submit your profile')
+        trpc.student.upsertProfile
+          .useMutation()
+          .mutateAsync(ctx.profile)
+          .catch((_) => {
+            throw new Error('cannot submit your profile');
+          });
 
-        const { error: upsertPrefErr } = trpc.student.upsertPreference.useMutation(ctx.matePref)
-        if (upsertPrefErr) throw Error('cannot submit your roommate preference')
+        trpc.student.upsertPreference
+          .useMutation()
+          .mutateAsync(ctx.matePref)
+          .catch((_) => {
+            throw Error('cannot submit your roommate preference');
+          });
 
-        const { error: upsertDormErr } = trpc.student.upsertDormPreference.useMutation(ctx.dormPref)
-        if (upsertDormErr) throw Error('cannot submit your dorm preference')
+        trpc.student.upsertDormPreference
+          .useMutation()
+          .mutateAsync(ctx.dormPref)
+          .catch((_) => {
+            throw Error('cannot submit your dorm preference');
+          });
       },
       // TODO: implement pickProfile service
-      pickProfile: async (ctx, evt ) => {
+      pickProfile: async (ctx, evt) => {
+        const changeRange = (str: string) => {
+          const start = Number(str);
+          return { start, stop: start + 1 };
+        };
+
         if (evt.type === 'PICKED')
-          trpc.match.pickedProfile.useMutation().mutateAsync(evt.profilePick, evt.profileComp).catch(console.error)
-        else 
-          throw new Error('should not been here. something wrong')
+          trpc.match.pickedProfile
+            .useMutation()
+            .mutateAsync({
+              selectedProfile: {
+                ...evt.data.profilePick,
+                do_not_disturb:
+                  evt.data.profilePick.do_not_disturb.map(changeRange)[0],
+              },
+              comparisonProfile: {
+                ...evt.data.profileComp,
+                do_not_disturb:
+                  evt.data.profileComp.do_not_disturb.map(changeRange)[0],
+              },
+            })
+            .catch(console.error);
+        else throw new Error('should not been here. something wrong');
       },
-      // TODO: remove assume in generator query input 
-      regenerateProfile: async (): Promise<RouterOutputs['match']['generator']> => {
+      // TODO: remove assume in generator query input
+      regenerateProfile: async (): Promise<
+        RouterOutputs['match']['generator']
+      > => {
         const { data: findNewAttrData, error: findNewAttrErr } =
           trpc.match.findNewAttribute.useQuery();
 
         if (findNewAttrErr) throw Error(findNewAttrErr.message);
         if (!findNewAttrData) throw new Error('cannot generate new profile');
 
-        const { data: generatorData, error } =
-          trpc.match.generator.useQuery(findNewAttrData as RouterInputs['match']['generator']);
+        const { data: generatorData, error } = trpc.match.generator.useQuery(
+          findNewAttrData as RouterInputs['match']['generator']
+        );
 
         if (error) throw Error(error.message);
         if (!generatorData)
@@ -108,9 +142,7 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
   if (getPrefErr) return <div>Sorry please re-login</div>;
 
   return (
-    <MatingAppMachineContext.Provider
-      value={{ state, send }}
-    >
+    <MatingAppMachineContext.Provider value={{ state, send }}>
       {children}
     </MatingAppMachineContext.Provider>
   );
