@@ -52,26 +52,17 @@ export const getProfile = protectedProcedure.query(async ({ ctx }) => {
   return user;
 });
 
-export const getPreference = protectedProcedure.query(async ({ ctx}) => {
-  try {
-    const pref = await prisma.profile.findFirst({
-      where: {
-        pref_owner_id: ctx.session.user.id,
-      },
-    })
+export const getPreference = protectedProcedure.query(async ({ ctx }) => {
+  const pref = await prisma.profile.findFirst({
+    where: {
+      pref_owner_id: ctx.session.user.id,
+    },
+  });
 
-    if (!pref)
-      throw NotFoundError("user doesn't specify preference yet")
+  if (!pref) throw NotFoundError("user doesn't specify preference yet");
 
-    return pref
-
-  } catch(err) {
-    if (err instanceof Error)
-    console.error(`error to 'getPreference': ${err}`)
-    else
-    console.error(JSON.stringify(err))
-  }
-})
+  return pref;
+});
 
 // TODO: implement get user role
 export const getRole = protectedProcedure.query(async () => {

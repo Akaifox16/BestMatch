@@ -10,7 +10,6 @@ type MatingAppMachineParams = ReturnType<
 >;
 
 const DEFAULT_ERROR_COUNT = 0 as const;
-const PROFILE_PAGE = 0 as const;
 
 const MatingAppMachineContext = createContext({
   state: {} as MatingAppMachineParams[0],
@@ -18,7 +17,10 @@ const MatingAppMachineContext = createContext({
 });
 
 export default function MatingAppContextProvider({ children }: ParentNode) {
-  const { data, error: getPrefErr } = trpc.student.getPreference.useQuery();
+  const { data } = trpc.student.getPreference.useQuery(undefined, {
+    retryOnMount: false,
+    retry: false,
+  });
 
   const memoizedMachine = useMemo(() => mateAppMachine, []);
   const [state, send] = useMachine<typeof mateAppMachine>(memoizedMachine, {
@@ -57,12 +59,12 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
         };
       }),
       // TODO: implement pickProfile
-      pickProfile: (ctx, evt) => {
+      pickProfile: (_ctx, evt) => {
         const changeRange = (str: string) => {
           const start = Number(str);
           return { start, stop: start + 1 };
         };
-  
+
         if (evt.type === 'PICKED')
           trpc.match.pickedProfile
             .useMutation()
@@ -107,12 +109,12 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       },
     },
     guards: {
-      isInitialize: () => !!data,
+      isInitialize: () => !data,
       notExceedErrorLimitCount: () => true,
     },
   });
 
-  if (getPrefErr) return <div>Sorry please re-login</div>;
+  // if (getPrefErr) return <div>Sorry please re-login</div>;
 
   return (
     <MatingAppMachineContext.Provider value={{ state, send }}>
