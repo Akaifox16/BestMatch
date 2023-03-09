@@ -1,39 +1,24 @@
 import { type RouterOutputs, trpc, RouterInputs } from '@utility/trpc';
 import type { ParentNode } from '@utility/type';
 import { useMachine } from '@xstate/react';
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useContext, useMemo, } from 'react';
 import { assign } from 'xstate';
 import mateAppMachine from './machine';
 
 type MatingAppMachineParams = ReturnType<
   typeof useMachine<typeof mateAppMachine>
 >;
-type GeneratorReturnValue = RouterOutputs['match']['generator'];
 
 const DEFAULT_ERROR_COUNT = 0 as const;
 const PROFILE_PAGE = 0 as const;
 
 const MatingAppMachineContext = createContext({
-  // currentStep: 0,
   state: {} as MatingAppMachineParams[0],
   send: {} as MatingAppMachineParams[1],
-
-  // profileA: {} as GeneratorReturnValue['profile_a'],
-  // profileB: {} as GeneratorReturnValue['profile_a'],
 });
 
 export default function MatingAppContextProvider({ children }: ParentNode) {
-  // check for authentication
   const { data, error: getPrefErr } = trpc.student.getPreference.useQuery();
-  // const [step, setStep] = useState(0);
-  // const [profileA, setProfA] = useState<GeneratorReturnValue['profile_a']>(
-  //   {} as GeneratorReturnValue['profile_a']
-  // );
-  // const [profileB, setProfB] = useState<GeneratorReturnValue['profile_b']>(
-  //   {} as GeneratorReturnValue['profile_a']
-  // );
-
-  // const [errorCount, setErrorCount] = useState<number>(DEFAULT_ERROR_COUNT);
 
   const memoizedMachine = useMemo(() => mateAppMachine, []);
   const [state, send] = useMachine<typeof mateAppMachine>(memoizedMachine, {
