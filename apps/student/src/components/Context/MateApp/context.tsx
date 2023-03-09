@@ -72,9 +72,14 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
         const { error: upsertDormErr } = trpc.student.upsertDormPreference.useMutation(ctx.dormPref)
         if (upsertDormErr) throw Error('cannot submit your dorm preference')
       },
-      pickProfile: async (ctx, evt) => {
-        
+      // TODO: implement pickProfile service
+      pickProfile: async (ctx, evt ) => {
+        if (evt.type === 'PICKED')
+          trpc.match.pickedProfile.useMutation().mutateAsync(evt.profilePick, evt.profileComp).catch(console.error)
+        else 
+          throw new Error('should not been here. something wrong')
       },
+      // TODO: remove assume in generator query input 
       regenerateProfile: async (): Promise<RouterOutputs['match']['generator']> => {
         const { data: findNewAttrData, error: findNewAttrErr } =
           trpc.match.findNewAttribute.useQuery();
