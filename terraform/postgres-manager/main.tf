@@ -18,7 +18,7 @@ resource "postgresql_database" "databases" {
   for_each = var.databases
 
   name       = each.key
-  owner      = "postgres"
+  owner      = var.connection.user
   encoding   = each.value.encoding
   lc_collate = each.value.collate
   lc_ctype   = each.value.ctype
@@ -28,7 +28,7 @@ resource "postgresql_schema" "schemas" {
   for_each = local.schema_in_db_map
 
   name         = each.value.schema
-  owner        = "postgres"
+  owner        = var.connection.user
   database     = each.value.database
   drop_cascade = true
 

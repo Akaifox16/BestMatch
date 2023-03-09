@@ -7,8 +7,8 @@ export default function Finetune() {
     <div>
       <div>this is fine tuner</div>
       <div>{JSON.stringify(state.value)}</div>
-      <ProfileCard />
-      <ProfileCard />
+      {/* <ProfileCard /> */}
+      {/* <ProfileCard /> */}
     </div>
   );
 }

@@ -27,7 +27,7 @@ export default function MateStepperForm() {
   const { control: dormForm } = useForm<DormForm>();
 
   function handleNext() {
-    if (state.can('SUBMIT')) send('SUBMIT');
+    if (state.can({type: 'SUBMIT' data:  })) send({type: 'SUBMIT' , data: dormForm});
     else send('NEXT');
   }
 
