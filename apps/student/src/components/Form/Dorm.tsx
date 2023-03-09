@@ -52,7 +52,7 @@ type DormFormProps = {
 
 export default function DormForm({ control, handleSubmit }: DormFormProps) {
   return (
-    <form onSubmit={handleSubmit}>
+    <form id='dorm-form' onSubmit={handleSubmit}>
       <Stack direction='column'>
         <Stack direction='row'>
           <Stack>

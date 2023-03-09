@@ -1,11 +1,11 @@
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { MatingCard } from '@component/Card';
 import { useMatingContext } from '@component/Context/MateApp';
 
 import MatingAppWrapper from './Wrapper';
 
-import type { RouterInputs } from '@utility/trpc';
+import { RouterInputs, trpc } from '@utility/trpc';
 
 // TODO: Use import ***Form from @utils/type
 type StudentForm = RouterInputs['student']['upsertProfile'];
@@ -22,38 +22,42 @@ const DEFAULT_VALUE = {
 
 export default function MateStepperForm() {
   const { state, send } = useMatingContext();
-  const { control: profileForm } = useForm<StudentForm>(DEFAULT_VALUE);
-  const { control: roommateForm } = useForm<RoommateForm>(DEFAULT_VALUE);
-  const { control: dormForm } = useForm<DormForm>();
+  const { control: profileForm, handleSubmit: handleProfile } =
+    useForm<StudentForm>(DEFAULT_VALUE);
+  const { control: roommateForm, handleSubmit: handleMate } =
+    useForm<RoommateForm>(DEFAULT_VALUE);
+  const { control: dormForm, handleSubmit: handleDorm } = useForm<DormForm>();
+  
+  const upsertProfile = trpc.student.upsertProfile.useMutation()
+  const upsertMate = trpc.student.upsertPreference.useMutation()
+  const upsertDorm = trpc.student.upsertDormPreference.useMutation()
 
-  function handleNext() {
-    if (state.can({ type: 'SUBMIT', data: dormForm }))
-      send({ type: 'SUBMIT', data: dormForm });
-    else if (state.matches('mateStepper.selfProfile'))
-      send({ type: 'NEXT', data: profileForm });
-    else send({ type: 'NEXT', data: roommateForm });
+  const submitProfile: SubmitHandler<RouterInputs['student']['upsertProfile']> = (data) => {
+    upsertProfile.mutateAsync(data).catch(console.error)
   }
-
-  function handlePrev() {
-    send('PREV');
+  const submitRoommate: SubmitHandler<RouterInputs['student']['upsertPreference']> = (data) => {
+    upsertMate.mutateAsync(data).catch(console.error)
+  }
+  const submitDorm: SubmitHandler<RouterInputs['student']['upsertDormPreference']> = (data) => {
+    upsertDorm.mutateAsync(data).catch(console.error)
   }
 
   return (
     <MatingAppWrapper
       step={state.context.currentStep}
-      handlePrev={handlePrev}
-      handleNext={handleNext}
+      handlePrev={() => send('PREV')}
+      handleNext={() => send('NEXT')}
     >
       {state.context.currentStep === 0 && (
-        <MatingCard variant='profile' control={profileForm} />
+        <MatingCard variant='profile' control={profileForm} handleSubmit={handleProfile(submitProfile)} />
       )}
 
       {state.context.currentStep === 1 && (
-        <MatingCard variant='matePref' control={roommateForm} />
+        <MatingCard variant='matePref' control={roommateForm} handleSubmit={handleMate(submitRoommate)} />
       )}
 
       {state.context.currentStep === 2 && (
-        <MatingCard variant='roomPref' control={dormForm} />
+        <MatingCard variant='roomPref' control={dormForm} handleSubmit={handleDorm(submitDorm)} />
       )}
     </MatingAppWrapper>
   );

@@ -114,8 +114,6 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
     },
   });
 
-  // if (getPrefErr) return <div>Sorry please re-login</div>;
-
   return (
     <MatingAppMachineContext.Provider value={{ state, send }}>
       {children}

@@ -15,7 +15,7 @@ type StudentFormProps = {
 
 export default function StudentForm({ disable, control, handleSubmit }: StudentFormProps) {
   return (
-    <form onSubmit={handleSubmit}>
+    <form id='student-form' onSubmit={handleSubmit}>
       <Stack direction='column' spacing={4} sx={{ m: 4, width: '50vw' }}>
         <Slider
           control={control}

@@ -43,10 +43,22 @@ export default function MatingAppWrapper({
           back
         </Button>
         <Box sx={{ flex: '1 1 auto' }} />
-        <Button onClick={handleNext}>
-          {step === steps.length - 1 ? "let's get started" : 'next'}
-        </Button>
+        <SubmitBtn step={step} handleNext={handleNext} />
       </Box>
     </Stack>
+  );
+}
+
+function SubmitBtn({
+  step,
+  handleNext,
+}: {
+  step: number;
+  handleNext: () => void;
+}) {
+  return (
+    <Button type='submit' form={step === 2 ? 'dorm-form' : 'student-form'} onClick={handleNext}>
+      {step === steps.length - 1 ? "let's get started" : 'next'}
+    </Button>
   );
 }
