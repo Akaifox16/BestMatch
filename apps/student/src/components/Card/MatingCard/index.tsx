@@ -16,16 +16,16 @@ type RoommateForm = RouterInputs['student']['upsertPreference'];
 type DormForm = RouterInputs['student']['upsertDormPreference'];
 
 type ProfileProps =
-  | { control: Control<ProfileForm>; variant: 'profile' }
-  | { control: Control<RoommateForm>; variant: 'matePref' }
-  | { control: Control<DormForm>; variant: 'roomPref' };
+  | { control: Control<ProfileForm>; variant: 'profile'; handleSubmit: () => Promise<void> }
+  | { control: Control<RoommateForm>; variant: 'matePref'; handleSubmit: () => Promise<void> }
+  | { control: Control<DormForm>; variant: 'roomPref'; handleSubmit: () => Promise<void> };
 
-const ProfileCard = ({ variant, control }: ProfileProps) => {
+const ProfileCard = ({ variant, control, handleSubmit }: ProfileProps) => {
   return (
     <CardTemplate name={variant} control={<GamblerOption variant={variant} />}>
-      {variant === 'profile' && <StudentCard control={control} />}
-      {variant === 'matePref' && <StudentCard control={control} />}
-      {variant === 'roomPref' && <DormCard control={control} />}
+      {variant === 'profile' && <StudentCard control={control} handleSubmit={handleSubmit} />}
+      {variant === 'matePref' && <StudentCard control={control} handleSubmit={handleSubmit} />}
+      {variant === 'roomPref' && <DormCard control={control} handleSubmit={handleSubmit} />}
     </CardTemplate>
   );
 };

@@ -47,11 +47,12 @@ const floor_number_options = [
 type FormInput = RouterInputs['student']['upsertDormPreference'];
 type DormFormProps = {
   control: Control<FormInput>;
+  handleSubmit: () => Promise<void>;
 };
 
-export default function DormForm({ control }: DormFormProps) {
+export default function DormForm({ control, handleSubmit }: DormFormProps) {
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <Stack direction='column'>
         <Stack direction='row'>
           <Stack>

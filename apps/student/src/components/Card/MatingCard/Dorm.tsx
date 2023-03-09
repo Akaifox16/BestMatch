@@ -1,8 +1,8 @@
 import type { ComponentProps } from 'react';
 import DormForm from '@component/Form/Dorm';
 
-type DormCardProps = Pick<ComponentProps<typeof DormForm>, 'control'>;
+type DormCardProps = Pick<ComponentProps<typeof DormForm>, 'control'|'handleSubmit'>;
 
-export default function DormCard({ control }: DormCardProps) {
-  return <DormForm control={control} />;
+export default function DormCard({ control, handleSubmit}: DormCardProps) {
+  return <DormForm control={control} handleSubmit={handleSubmit} />;
 }
