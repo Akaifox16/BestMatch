@@ -5,38 +5,35 @@
         '@@xstate/typegen': true;
         internalEvents: {
           "": { type: "" };
-"done.invoke.mate_app_machine.finetuner.pick profile:invocation[0]": { type: "done.invoke.mate_app_machine.finetuner.pick profile:invocation[0]"; data: unknown; __tip: "See the XState TS docs to learn how to strongly type this." };
-"done.invoke.mate_app_machine.mateStepper.submitting:invocation[0]": { type: "done.invoke.mate_app_machine.mateStepper.submitting:invocation[0]"; data: unknown; __tip: "See the XState TS docs to learn how to strongly type this." };
+"done.invoke.mate_app_machine.mateStepper.dormPreference.Saving Dorm Preference:invocation[0]": { type: "done.invoke.mate_app_machine.mateStepper.dormPreference.Saving Dorm Preference:invocation[0]"; data: unknown; __tip: "See the XState TS docs to learn how to strongly type this." };
+"done.invoke.mate_app_machine.mateStepper.roommatePreference.Saving Roommate Preference:invocation[0]": { type: "done.invoke.mate_app_machine.mateStepper.roommatePreference.Saving Roommate Preference:invocation[0]"; data: unknown; __tip: "See the XState TS docs to learn how to strongly type this." };
+"done.invoke.mate_app_machine.mateStepper.selfProfile.Saving Profile:invocation[0]": { type: "done.invoke.mate_app_machine.mateStepper.selfProfile.Saving Profile:invocation[0]"; data: unknown; __tip: "See the XState TS docs to learn how to strongly type this." };
 "done.invoke.regenerate_profile": { type: "done.invoke.regenerate_profile"; data: unknown; __tip: "See the XState TS docs to learn how to strongly type this." };
-"error.platform.mate_app_machine.finetuner.pick profile:invocation[0]": { type: "error.platform.mate_app_machine.finetuner.pick profile:invocation[0]"; data: unknown };
-"error.platform.mate_app_machine.mateStepper.submitting:invocation[0]": { type: "error.platform.mate_app_machine.mateStepper.submitting:invocation[0]"; data: unknown };
 "error.platform.regenerate_profile": { type: "error.platform.regenerate_profile"; data: unknown };
 "xstate.after(1000)#mate_app_machine.finetuner.generate errored": { type: "xstate.after(1000)#mate_app_machine.finetuner.generate errored" };
-"xstate.after(1000)#mate_app_machine.mateStepper.submit error": { type: "xstate.after(1000)#mate_app_machine.mateStepper.submit error" };
-"xstate.after(1500)#mate_app_machine.finetuner.pick errored": { type: "xstate.after(1500)#mate_app_machine.finetuner.pick errored" };
-"xstate.after(2500)#mate_app_machine.mateStepper.error limit exceed": { type: "xstate.after(2500)#mate_app_machine.mateStepper.error limit exceed" };
 "xstate.init": { type: "xstate.init" };
         };
         invokeSrcNameMap: {
-          "pickProfile": "done.invoke.mate_app_machine.finetuner.pick profile:invocation[0]" | "done.invoke.mate_app_machine.finetuner.show:invocation[0]";
-"regenerateProfile": "done.invoke.regenerate_profile";
-"submitForm": "done.invoke.mate_app_machine.mateStepper.submitting:invocation[0]";
+          "regenerateProfile": "done.invoke.regenerate_profile";
+"saveDormPref": "done.invoke.mate_app_machine.mateStepper.dormPreference.Saving Dorm Preference:invocation[0]";
+"saveMatePref": "done.invoke.mate_app_machine.mateStepper.roommatePreference.Saving Roommate Preference:invocation[0]";
+"saveProfile": "done.invoke.mate_app_machine.mateStepper.selfProfile.Saving Profile:invocation[0]";
         };
         missingImplementations: {
-          actions: "assignDormPrefFormToCtx" | "assignMatePrefFormToCtx" | "assignProfileFormToCtx" | "clearErrorCount" | "decrementStep" | "incrementErrorCount" | "incrementStep" | "returnToSelfProfile" | "updateGeneratedProfile";
+          actions: "assignDormPrefFormInputToCtx" | "assignMatePrefFormInputToCtx" | "assignProfileFormInputToCtx" | "clearErrorCount" | "decrementStep" | "incrementErrorCount" | "incrementStep" | "pickProfile" | "updateGeneratedProfile";
           delays: never;
           guards: "isInitialize" | "notExceedErrorLimitCount";
-          services: "pickProfile" | "regenerateProfile" | "submitForm";
+          services: "regenerateProfile" | "saveDormPref" | "saveMatePref" | "saveProfile";
         };
         eventsCausingActions: {
-          "assignDormPrefFormToCtx": "SUBMIT";
-"assignMatePrefFormToCtx": "NEXT";
-"assignProfileFormToCtx": "NEXT";
-"clearErrorCount": "done.invoke.mate_app_machine.finetuner.pick profile:invocation[0]" | "done.invoke.mate_app_machine.mateStepper.submitting:invocation[0]" | "done.invoke.regenerate_profile";
+          "assignDormPrefFormInputToCtx": "Form Input Changed";
+"assignMatePrefFormInputToCtx": "Form Input Changed";
+"assignProfileFormInputToCtx": "Form Input Changed";
+"clearErrorCount": "done.invoke.regenerate_profile";
 "decrementStep": "PREV";
-"incrementErrorCount": "error.platform.mate_app_machine.finetuner.pick profile:invocation[0]" | "error.platform.mate_app_machine.mateStepper.submitting:invocation[0]" | "error.platform.regenerate_profile";
-"incrementStep": "NEXT";
-"returnToSelfProfile": "xstate.after(2500)#mate_app_machine.mateStepper.error limit exceed";
+"incrementErrorCount": "error.platform.regenerate_profile";
+"incrementStep": "done.invoke.mate_app_machine.mateStepper.roommatePreference.Saving Roommate Preference:invocation[0]" | "done.invoke.mate_app_machine.mateStepper.selfProfile.Saving Profile:invocation[0]";
+"pickProfile": "PICKED";
 "updateGeneratedProfile": "done.invoke.regenerate_profile";
         };
         eventsCausingDelays: {
@@ -44,15 +41,18 @@
         };
         eventsCausingGuards: {
           "isInitialize": "";
-"notExceedErrorLimitCount": "error.platform.mate_app_machine.finetuner.pick profile:invocation[0]" | "error.platform.mate_app_machine.mateStepper.submitting:invocation[0]" | "error.platform.regenerate_profile";
+"notExceedErrorLimitCount": "error.platform.regenerate_profile";
         };
         eventsCausingServices: {
-          "pickProfile": "PICKED" | "done.invoke.regenerate_profile" | "xstate.after(1500)#mate_app_machine.finetuner.pick errored";
-"regenerateProfile": "" | "done.invoke.mate_app_machine.finetuner.pick profile:invocation[0]" | "done.state.mate_app_machine.mateStepper" | "xstate.after(1000)#mate_app_machine.finetuner.generate errored";
-"submitForm": "SUBMIT" | "xstate.after(1000)#mate_app_machine.mateStepper.submit error";
+          "regenerateProfile": "" | "PICKED" | "done.invoke.mate_app_machine.mateStepper.dormPreference.Saving Dorm Preference:invocation[0]" | "xstate.after(1000)#mate_app_machine.finetuner.generate errored";
+"saveDormPref": "SUBMIT";
+"saveMatePref": "SUBMIT";
+"saveProfile": "SUBMIT";
         };
-        matchesStates: "finetuner" | "finetuner.error limit exceeded" | "finetuner.generate errored" | "finetuner.loading" | "finetuner.pick errored" | "finetuner.pick profile" | "finetuner.show" | "mateStepper" | "mateStepper.dormPreference" | "mateStepper.error limit exceed" | "mateStepper.roommatePreference" | "mateStepper.selfProfile" | "mateStepper.submit error" | "mateStepper.submitted" | "mateStepper.submitting" | "unknown" | { "finetuner"?: "error limit exceeded" | "generate errored" | "loading" | "pick errored" | "pick profile" | "show";
-"mateStepper"?: "dormPreference" | "error limit exceed" | "roommatePreference" | "selfProfile" | "submit error" | "submitted" | "submitting"; };
+        matchesStates: "finetuner" | "finetuner.error limit exceeded" | "finetuner.generate errored" | "finetuner.loading" | "finetuner.show" | "mateStepper" | "mateStepper.dormPreference" | "mateStepper.dormPreference.Saving Dorm Preference" | "mateStepper.dormPreference.showing form" | "mateStepper.roommatePreference" | "mateStepper.roommatePreference.Saving Roommate Preference" | "mateStepper.roommatePreference.showing form" | "mateStepper.selfProfile" | "mateStepper.selfProfile.Saving Profile" | "mateStepper.selfProfile.showing form" | "unknown" | { "finetuner"?: "error limit exceeded" | "generate errored" | "loading" | "show";
+"mateStepper"?: "dormPreference" | "roommatePreference" | "selfProfile" | { "dormPreference"?: "Saving Dorm Preference" | "showing form";
+"roommatePreference"?: "Saving Roommate Preference" | "showing form";
+"selfProfile"?: "Saving Profile" | "showing form"; }; };
         tags: never;
       }
   

@@ -27,8 +27,11 @@ export default function MateStepperForm() {
   const { control: dormForm } = useForm<DormForm>();
 
   function handleNext() {
-    if (state.can({type: 'SUBMIT' data:  })) send({type: 'SUBMIT' , data: dormForm});
-    else send('NEXT');
+    if (state.can({ type: 'SUBMIT', data: dormForm }))
+      send({ type: 'SUBMIT', data: dormForm });
+    else if (state.matches('mateStepper.selfProfile'))
+      send({ type: 'NEXT', data: profileForm });
+    else send({ type: 'NEXT', data: roommateForm });
   }
 
   function handlePrev() {

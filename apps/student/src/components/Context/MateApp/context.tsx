@@ -2,6 +2,7 @@ import { type RouterOutputs, trpc, type RouterInputs } from '@utility/trpc';
 import type { ParentNode } from '@utility/type';
 import { useMachine } from '@xstate/react';
 import { createContext, useContext, useMemo } from 'react';
+import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { assign } from 'xstate';
 import mateAppMachine from './machine';
 
@@ -63,11 +64,6 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
           currentStep: ctx.currentStep + 1,
         };
       }),
-      returnToSelfProfile: assign(() => {
-        return {
-          currentStep: PROFILE_PAGE,
-        };
-      }),
 
       // error
       clearErrorCount: assign(() => {
@@ -82,14 +78,21 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       }),
     },
     services: {
-      submitForm: async (ctx) => {
+      submitForm: async (ctx, _evt) => {
+        function submit<Input extends FieldValues>(
+          callback: (control: Input) => void
+        ): SubmitHandler<Input> {
+          return (data: Input) => callback(data);
+        }
+
+        handleSubmit()
+
         trpc.student.upsertProfile
           .useMutation()
-          .mutateAsync(ctx.profile)
-          .catch(() => {
+          .mutateAsync(data)
+          .catch((_) => {
             throw new Error('cannot submit your profile');
-          });
-
+          })
         trpc.student.upsertPreference
           .useMutation()
           .mutateAsync(ctx.matePref)
