@@ -67,6 +67,7 @@ export const generatorOutput = z.object({
 });
 
 export type Profile = z.TypeOf<typeof profile>;
+export type ProfileForm = z.TypeOf<typeof addPrefDto>;
 export type Weights = Pick<
   CalculatedPreference,
   'messiness_weight' | 'loudness_weight' | 'do_not_disturb_weight'
