@@ -5,14 +5,13 @@ import {
   upsertProfile,
   upsertPreference,
   upsertDormPreference,
-  getPreference,
+  // getPreference,
 } from './student.controller';
-
 
 const studentRouter = createTRPCRouter({
   // User
   getProfile: getProfile,
-  getPreference: getPreference,
+  // getPreference: getPreference,
   getRole: getRole,
 
   upsertProfile: upsertProfile,

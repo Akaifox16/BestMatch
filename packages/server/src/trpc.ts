@@ -41,6 +41,7 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 const isAuthed = t.middleware(({ ctx, next }) => {
+  console.log(JSON.stringify(ctx.session), '#FF0000')
   if (!ctx.session || !ctx.session.user)
     throw UnAutorizedError("You don't have permission to make this procedure.");
 

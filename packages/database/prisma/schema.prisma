@@ -48,9 +48,9 @@ model Profile {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
-  owner_id       String @unique
+  owner_id       String? @unique
   belong_to_user User?  @relation("profile_of_user", fields: [owner_id], references: [id], onDelete: Cascade)
-  pref_owner_id  String @unique
+  pref_owner_id  String? @unique
   preference_of  User?  @relation("mate_pref_of_user", fields: [pref_owner_id], references: [id], onDelete: Cascade)
 
   // scale attribute 

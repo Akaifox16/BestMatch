@@ -8,6 +8,7 @@ import {
   addProfileDto,
   bookRoomDto,
 } from './student.dto';
+import { getPreference } from './utils';
 
 // TODO: impl upsertDormPreference
 export const upsertDormPreference = protectedProcedure
@@ -52,17 +53,15 @@ export const getProfile = protectedProcedure.query(async ({ ctx }) => {
   return user;
 });
 
-export const getPreference = protectedProcedure.query(async ({ ctx }) => {
-  const pref = await prisma.profile.findFirst({
-    where: {
-      pref_owner_id: ctx.session.user.id,
-    },
-  });
+export const getPreferenceController = protectedProcedure.query(
+  async ({ ctx }) => {
+    const pref = await getPreference(ctx.session.user.id);
 
-  if (!pref) throw NotFoundError("user doesn't specify preference yet");
+    if (!pref) throw NotFoundError("user doesn't specify preference yet");
 
-  return pref;
-});
+    return pref;
+  }
+);
 
 // TODO: implement get user role
 export const getRole = protectedProcedure.query(async () => {
@@ -75,35 +74,47 @@ export const getRole = protectedProcedure.query(async () => {
 export const upsertPreference = protectedProcedure
   .input(addPrefDto)
   .mutation(async ({ input, ctx }) => {
-    const preference = {};
-    // const preference = await prisma.profile.upsert({
-    //   where: {
-    //     pref_owner_id: ctx.session.user.id,
-    //   },
-    //   select: {
-    //     messiness: true,
-    //     loudness: true,
-    //     do_not_disturb: true,
-    //   },
-    //   create: {
-    //     ...input,
-    //     do_not_disturb: {
-    //       createMany: {
-    //         data: input.do_not_disturb,
-    //         skipDuplicates: true,
-    //       },
-    //     },
-    //   },
-    //   update: {
-    //     ...input,
-    //     do_not_disturb: {
-    //       createMany: {
-    //         data: input.do_not_disturb,
-    //         skipDuplicates: true,
-    //       },
-    //     },
-    //   },
-    // });
+    const preference = await prisma.profile.upsert({
+      where: {
+        pref_owner_id: ctx.session.user.id,
+      },
+      select: {
+        messiness: true,
+        loudness: true,
+        do_not_disturb: true,
+      },
+      create: {
+        ...input,
+        pref_owner_id: ctx.session.user.id,
+        do_not_disturb: {
+          createMany: {
+            data: input.do_not_disturb.map((time) => {
+              const start = Number(time);
+              return {
+                start: start,
+                stop: start + 1,
+              };
+            }),
+            skipDuplicates: true,
+          },
+        },
+      },
+      update: {
+        ...input,
+        do_not_disturb: {
+          createMany: {
+            data: input.do_not_disturb.map((time) => {
+              const start = Number(time);
+              return {
+                start: start,
+                stop: start + 1,
+              };
+            }),
+            skipDuplicates: true,
+          },
+        },
+      },
+    });
 
     if (!preference) {
       throw InternalServerError(
