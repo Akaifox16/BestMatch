@@ -49,9 +49,9 @@ model Profile {
   updatedAt DateTime? @updatedAt
 
   owner_id       String? @unique
-  belong_to_user User?  @relation("profile_of_user", fields: [owner_id], references: [id], onDelete: Cascade)
+  belong_to_user User?   @relation("profile_of_user", fields: [owner_id], references: [id], onDelete: Cascade)
   pref_owner_id  String? @unique
-  preference_of  User?  @relation("mate_pref_of_user", fields: [pref_owner_id], references: [id], onDelete: Cascade)
+  preference_of  User?   @relation("mate_pref_of_user", fields: [pref_owner_id], references: [id], onDelete: Cascade)
 
   // scale attribute 
   messiness Int
@@ -125,9 +125,7 @@ model DormPreference {
   dorm_type       DormTypePrefer
   residents_limit Int            @db.SmallInt
 
-  room_pref_id          String         @unique
-  about_room_preference RoomPreference @relation("belong_to_dorm_preference", fields: [room_pref_id], references: [id])
-  // userId                String
+  about_room_preference RoomPreference? @relation("belong_to_dorm_preference")
 }
 
 // ########################################
@@ -140,7 +138,8 @@ model RoomPreference {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
-  belong_to_dorm_preference DormPreference? @relation("belong_to_dorm_preference")
+  dorm_pref_id              String          @unique
+  belong_to_dorm_preference DormPreference? @relation("belong_to_dorm_preference", fields: [dorm_pref_id], references: [id])
 
   zone         Zone
   floor_number Int
