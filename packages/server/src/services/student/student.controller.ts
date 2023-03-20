@@ -8,33 +8,37 @@ import {
   addProfileDto,
   bookRoomDto,
 } from './student.dto';
-import { getPreference } from './utils';
+import {
+  getPreference,
+  upsertCalculatedProfile,
+  upsertDormPreference,
+  upsertPreference,
+  upsertProfile,
+} from './utils';
+import { TRPCError } from '@trpc/server';
 
 // TODO: impl upsertDormPreference
-export const upsertDormPreference = protectedProcedure
+export const upsertDormPreferenceController = protectedProcedure
   .input(addDormPrefDto)
-  .mutation(async () => {
-    // const preference = await prisma.dormPreference.upsert({
-    //   where: {
-    //     owner_id: ctx.session.user.id,
-    //   },
-    //   select: {
-    //     dorm_type: true,
-    //     residents_limit: true,
-    //     about_room_preference: {
-    //       select: {
-    //         zone: true,
-    //         floor_number: true,
-    //       },
-    //     },
-    //   },
-    //   create: {},
-    //   update: {},
-    // });
-    return {
-      status: 'need implementation',
-    };
-  });
+  .mutation(
+    async ({
+      ctx: {
+        session: { user },
+      },
+      input,
+    }) => {
+      try {
+        const dormPref = await upsertDormPreference(user.id, input);
+
+        return dormPref;
+      } catch (err) {
+        if (err instanceof TRPCError) throw err;
+        throw InternalServerError(
+          'something wrong with create/update dorm preference'
+        );
+      }
+    }
+  );
 
 export const getProfile = protectedProcedure.query(async ({ ctx }) => {
   const user = await prisma.user.findFirst({
@@ -71,101 +75,30 @@ export const getRole = protectedProcedure.query(async () => {
 });
 
 // TODO: impl upsertPreference
-export const upsertPreference = protectedProcedure
+export const upsertPreferenceController = protectedProcedure
   .input(addPrefDto)
   .mutation(async ({ input, ctx }) => {
-    const preference = await prisma.profile.upsert({
-      where: {
-        pref_owner_id: ctx.session.user.id,
-      },
-      select: {
-        messiness: true,
-        loudness: true,
-        do_not_disturb: true,
-      },
-      create: {
-        ...input,
-        pref_owner_id: ctx.session.user.id,
-        do_not_disturb: {
-          createMany: {
-            data: input.do_not_disturb.map((time) => {
-              const start = Number(time);
-              return {
-                start: start,
-                stop: start + 1,
-              };
-            }),
-            skipDuplicates: true,
-          },
-        },
-      },
-      update: {
-        ...input,
-        do_not_disturb: {
-          createMany: {
-            data: input.do_not_disturb.map((time) => {
-              const start = Number(time);
-              return {
-                start: start,
-                stop: start + 1,
-              };
-            }),
-            skipDuplicates: true,
-          },
-        },
-      },
-    });
+    try {
+      const preference = await upsertPreference(ctx.session.user.id, input);
+      await upsertCalculatedProfile(ctx.session.user.id, preference);
 
-    if (!preference) {
-      throw InternalServerError(
-        'Fail to create your roommate preference, please try again'
-      );
+      return preference;
+    } catch (err) {
+      if (err instanceof TRPCError) throw err;
+      throw InternalServerError('Something wrong with preference');
     }
-
-    return preference;
   });
 
-export const upsertProfile = protectedProcedure
+export const upsertProfileController = protectedProcedure
   .input(addProfileDto)
   .mutation(async ({ input, ctx }) => {
-    const profile = await prisma.profile.upsert({
-      where: {
-        owner_id: ctx.session.user.id,
-      },
-      select: {
-        messiness: true,
-        loudness: true,
-      },
-      create: {
-        ...input,
-        do_not_disturb: {
-          createMany: {
-            data: { start: 0, stop: 23 },
-            skipDuplicates: true,
-          },
-        },
-      },
-      update: {
-        ...input,
-        do_not_disturb: {
-          createMany: {
-            data: { start: 0, stop: 23 },
-            skipDuplicates: true,
-          },
-        },
-      },
-    });
+    try {
+      const status = await upsertProfile(ctx.session.user.id, input);
 
-    if (!profile) {
-      throw InternalServerError(
-        'Fail to create your profile. please try again'
-      );
+      return status;
+    } catch (err) {
+      if (err instanceof TRPCError) throw err;
     }
-
-    return {
-      status: 'OK',
-      msg: 'created successfully',
-    };
   });
 
 export const bookRoom = protectedProcedure

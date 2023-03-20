@@ -60,3 +60,7 @@ export const bookRoomDto = z.object({
 });
 
 export const findByIdDto = cuid;
+
+export type AddPrefDto = z.TypeOf<typeof addPrefDto>;
+export type AddDormPrefDto = z.TypeOf<typeof addDormPrefDto>;
+export type AddProfileDto = z.TypeOf<typeof addProfileDto>;
