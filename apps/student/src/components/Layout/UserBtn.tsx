@@ -37,7 +37,7 @@ const LogoutBtn = () => {
       <Grid item>
         <Stack direction='row'>
           <AccountCircle fontSize='large' />
-          <Typography variant='body1'>{sessionData?.user?.email}</Typography>
+          <Typography variant='body1'>{sessionData?.user?.name}</Typography>
         </Stack>
       </Grid>
       <Grid item>

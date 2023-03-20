@@ -15,7 +15,7 @@ type Events =
       // | { type: 'Form Input Changed'}
 
 const mateAppMachine = createMachine({
-  /** @xstate-layout N4IgpgJg5mDOIC5QFsCGAXMB9VAHXWaAxgBYCWAdmAHQCuFA1hQPYDuFAxANoAMAuolC5msMujLMKgkAA9EANgCs1AIwB2eQA5NAZkWKAnDx4AWRWoA0IAJ6I1J6jx0AmNQZ09nOtYpMBfPys0TBx8QlRSShp6JjZOLhUBJBBhUXFJaTkEeQcTHRMtTTVnHk0S5wMrWwRFTWVdFRUTExVjNv9AkGDsPAJicipqADMo9HowACdqABtmVAhKKA4ISRpKADdmBhoJsBgqCYxsXAnmEemwXiShETEJKWSszWbqMvtnFUUtJTVLG0QDF9qDoVF4fM5DMVNPIAkEjqE+hEBjQRlQxgcZnMFhQlpNTlNcNMMENmBNkNRdvtJvCTmcyBcrtJUncMo9EDotKpnioOfYOXV5FU7JoDI4zID3jp8qVYV14b1wpFBqiwOjJpj5osOHjSdRCcTSeTKWADjTTudLokmbd0g9QFkWspFB9vPJnHVmuYTELsvIVI4DBoWjwVPIDLpZd0EYrkcNRuMprASGwOAAFACSAGEANIAUQAIozkszbZlEK13NQTGUIRzQQZ5H6fRXNKodIHHWV9IZI-Kwv0onG0QnqFTDpgAAQ63YQDgyWDoI7UVBDTATAAUrWMAEoOFGFQPlfGMWOjlOJvjIEWbml7mXskCdJpPKUPoonM5m8Y1MDGgYISGXjuJovYhAeSKDt0ADKmD4OqpzMMg3SprsQyTCaRBgGmABKuYAGrXikNp3myNTVtQfp+r4eheMYKjNtCYrFB8JhvkoeigT0-YQYM0Gwbg6orGSKFgGhuwUJhOH4YRJYkfa5ags4VZ5NWWgQv+OQMfITHOCxbGKBxnT7txSo0HxYBwYmYDTEMKF0hcHAAHK5gAGgAKjJxGsvJNTvq8oZhryahNComg+vkrY+MFnggmGmitIonHRoeZlHDBFkCVMCFIUcIliRhWHOe5nm3t5sgKc4Dg5CYpgGA2zRqDwijheRUWlHkeihk+SXgaZ1DmZZ1BCcgeXoRJhWuR5-DWqVdrlQgnytNQ7p5KFvgaI2Og+hU-ryE+tQNoo6jPh0cJgSZsYDZlyyrNQC5LsZiJ9VdkwlSyc1ZJ8NXUBouhOM+XguJU-zZE11ANiCajPM0YY5AEnQsBAcDSI9MZRDN733qGVb5IUxSvp4wPVAAtOUwJKM0pTFO+rhqD1F2DjELDsBjpakWUv60cd-JBj6xONA42hugYobuEd7r009sYqmqEys3J80uDwXItLyeRaF8PrmMrdRlE4dVfCKOiS2jR7Dhisyaji8tlVkfq5NCNNAyU3jNq0SlqC4viuBDjUqCbKVDqqI5JmwNsfYgIrKB8nuen6Kj-t6IN1PU7YaDw+NuK4Ac8Six7qqek7TpA4f3gUSm+KxnuKSKIY+gY33l5VHbPPFzg531MsjtOE7TGQyBiFOMiYZAJfFl5EcIEUOs8u2BSNdo9Eg0orZSsU6heK0wXG0ZfZS5BaX8ZMpekR4SkhvkLT-mvpiCiD4bUIbTV6LoYaNIlu-nfvvGHxl6qwNZWy5p6RgBPj5PQysL7NAToDRqBRtr-nJn6EMzot7PBhJ-Li39UqYHSoNbKyFUJjUwmA+az5-S6Chq0PIIYPQIKUhyZBnwPgZ3QR3S6v9BrDVGuJEh49ZpYylA4WOzwQQ1QaGFEG7pRQiiMDFViBRGynTlF-U2OCwB4MyndWgAAjAe6BMAQFIZ9EwItgRQ1KPIHw8dfg+hqj+Kx8hSjhhKNzHeAQgA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QFsCGAXMB9VAHXWaAxgBYCWAdmAHQCuFA1hQPYDuFAxANoAMAuolC5msMujLMKgkAA9EAZgAsi6gHYeAVlUA2bYp4BGA4o0AaEAE9EAWiMAmatvna7ADg0H5zux4MBfP3M0TBx8QlRSShp6JjZOLgMBJBBhUXFJaTkEVXVqA1V5dQBOZTtFbQ07cysEWwMHJxdVIpKjZtdXAKCMbDwCYnIqOkYWdm47JKERMQkpZKzPOyLqRSNtHiK7VUr5V2qbe0dvIp5nDV1NxS6QYN6wgajh2LGueUmU6fS50Cy9FaVtB1VHYeK4QUt9ggNO5qK55EZlAYeMjkVdAjceqF+hFBjQAGZRdD0MAAJ2oABtmKgIJQoBwIJIaJQAG7MBg0ElgGBUEmY3Ak5gE8lgXjvVIzDLzRCuZSwraKOwGc6uCo5SFFc7UeF2QqVDRFYEq663LHhSJDAlUIk8ilUmkUOmkgVk3DkjB45gk5DUTnc0l8gVCkX8aTir6ZBSAvIyzzaVSKZzubSQ1SuZY8Ewa+M6pSg42Yvpm3HUS1ga2k23U2kcJ2e6iu92e72+sA8gOCsjChJiz6zCMIVYaaiVTw6NwaZRaRSQ3QGagbHSrQzaIpw-MhQsPC2E4lk2AkNgcAAKAEkAMIAaQAogARUWh3uSn6IJFFeQrME+Zz1IqzyGv1w8nkA1BzBDRwKKdc7mxc18R3G0-V5TAAAJa05CAOBkWB0B6ahUDxTASQACiRZEAEoOBNTccUeUtyzJRCelQklnUge9kjDPspQQCptC1VweBBMElVOKpLBfZFVC1IxNg0QwdTfTp0So+4aKGW4AGVMHwUl6UZahsNwlSYOLTTtNwUl2KmNIuOfBAlX0NRAXkU4BJzCFxJ4zRqF-eFU2UcpfzRboN1U2DqDMsAdL3MByTxI9A07MAOAAOSvAANAAVKyPhsp9ZEQCCfJcYxdUTeFIQU4cDANVwauhJYdSg00txoSLop9ZhmGQW4ErAPFSVbIhkqPAAlK8ADUcs4-KsnAqSdAMdZSg6QcUz4gSWkMHgXFcHR9Wa6jwvaiyyQFbres5AbOQoYbUoy7KQw4x9vgK+zPHfVMNRRJc2kq4DqoNJwgcUbY82UgswtMnotKi07qAZL0+uuoaRvGqanusiVXoWTw52hNNnBOMo42TTydFhDYTiRXb9sgiHQpMx4TorRHkGRwbbuStKsuml7+yVGqViWHQVTKEEdH-MEVnklclhcooltUAJ0RYCA4GkYyiyiB88pxl8+ITcogSE8EikhaxwX4lw3y2HRDGCjFGe1oYYlGV6Zv1hBpe1Fz8jhQFFwthFYTFxWV3kDw3EOqHaPg0ldex-t5BBaNVmceNE3OSEtB4WFCnBU58i8emQugl24KtXdK3tKBE-DbjtGMD8KkElPNlOVR-yRBwCh8BVmicdR-AZ8vWpLeO9wPVh69st60yHRUCknJuarKSF3CHOEgZ4YFd82ZXR5atTK7LavGJQtDIFn2bEHKBwJwH7U3Gp9VHPvsoQJlOq7BjpntyrjaNCyFyRkGQGIVCMhhqQGvs9PW-Y9p5zqiXco6gOgGBnNCLUBd8g6iRKoTwf8K4RRhuZBOcCk7cXhHOJUHRFYtBaEYPYnlbB5xXIYYwsZyjgzLsfY6pC4YVlgLFeKiVhQ3y9pHZYtC0w1QYUwqW756h7TqktHUaZD68KOtDTAsMOrnR6j0DmN1hoSIQUiHycI7DrDknGaxzCagGDhHkNwqY1jqINEQ8eLMyRs2MajMx3FPAJlDoJW2xcChSzYU3QENU4Q5GaF4k+JDdFkL3LQAARuA9AmAICBLsiJPOOwNDlWsfqSqq5-h7RXOUYwaZtAqz8EAA */
   id: 'mate_app_machine',
   tsTypes: {} as import('./machine.typegen').Typegen0,
   context: {
@@ -32,15 +32,20 @@ const mateAppMachine = createMachine({
   initial: 'unknown',
   states: {
     unknown: {
-      always: [
-        {
-          target: 'mateStepper',
-          cond: 'isInitialize',
-        },
-        {
-          target: 'finetuner',
-        },
-      ],
+      always: [{
+        target: 'mateStepper',
+        cond: 'isInitialize',
+      }, {
+        target: "mateStepper.roommatePreference",
+        cond: "noRoommatePref",
+        actions: "setMatePrefState"
+      }, {
+        target: "mateStepper.dormPreference",
+        cond: "noDormPref",
+        actions: "setDormPrefState"
+      }, {
+        target: 'finetuner',
+      }],
     },
 
     finetuner: {

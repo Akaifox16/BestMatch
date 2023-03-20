@@ -17,10 +17,12 @@ const MatingAppMachineContext = createContext({
 });
 
 export default function MatingAppContextProvider({ children }: ParentNode) {
-  const { data } = trpc.student.getPreference.useQuery(undefined, {
+  const { data: profResp } = trpc.student.getProfile.useQuery()
+  const { data: prefResp } = trpc.student.getPreference.useQuery(undefined, {
     retryOnMount: false,
     retry: false,
   });
+  const { data: dormResp } = trpc.student.getDormPreference.useQuery()
 
   const memoizedMachine = useMemo(() => mateAppMachine, []);
   const [state, send] = useMachine<typeof mateAppMachine>(memoizedMachine, {
@@ -45,6 +47,16 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
         return {
           currentStep: ctx.currentStep + 1,
         };
+      }),
+      setMatePrefState: assign(() => {
+        return {
+          currentStep: 1
+        }
+      }),
+      setDormPrefState: assign(() => {
+        return {
+          currentStep: 2
+        }
       }),
 
       // error
@@ -71,13 +83,13 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
             .mutateAsync({
               selectedProfile: {
                 ...evt.data.profilePick,
-                do_not_disturb:
-                  evt.data.profilePick.do_not_disturb.map(changeRange)[0],
+                // do_not_disturb:
+                //   evt.data.profilePick.do_not_disturb.map(changeRange),
               },
               comparisonProfile: {
                 ...evt.data.profileComp,
-                do_not_disturb:
-                  evt.data.profileComp.do_not_disturb.map(changeRange)[0],
+                // do_not_disturb:
+                //   evt.data.profileComp.do_not_disturb.map(changeRange),
               },
             })
             .catch(console.error);
@@ -109,7 +121,9 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       },
     },
     guards: {
-      isInitialize: () => !data,
+      isInitialize: () => !profResp,
+      noRoommatePref: () => !prefResp,
+      noDormPref: () => !dormResp,
       notExceedErrorLimitCount: () => true,
     },
   });

@@ -14,9 +14,9 @@
           "regenerateProfile": "done.invoke.regenerate_profile";
         };
         missingImplementations: {
-          actions: "clearErrorCount" | "decrementStep" | "incrementErrorCount" | "incrementStep" | "pickProfile" | "updateGeneratedProfile";
+          actions: "clearErrorCount" | "decrementStep" | "incrementErrorCount" | "incrementStep" | "pickProfile" | "setDormPrefState" | "setMatePrefState" | "updateGeneratedProfile";
           delays: never;
-          guards: "isInitialize" | "notExceedErrorLimitCount";
+          guards: "isInitialize" | "noDormPref" | "noRoommatePref" | "notExceedErrorLimitCount";
           services: "regenerateProfile";
         };
         eventsCausingActions: {
@@ -25,6 +25,8 @@
 "incrementErrorCount": "error.platform.regenerate_profile";
 "incrementStep": "NEXT";
 "pickProfile": "PICKED";
+"setDormPrefState": "";
+"setMatePrefState": "";
 "updateGeneratedProfile": "done.invoke.regenerate_profile";
         };
         eventsCausingDelays: {
@@ -32,6 +34,8 @@
         };
         eventsCausingGuards: {
           "isInitialize": "";
+"noDormPref": "";
+"noRoommatePref": "";
 "notExceedErrorLimitCount": "error.platform.regenerate_profile";
         };
         eventsCausingServices: {

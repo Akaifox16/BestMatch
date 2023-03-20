@@ -1,4 +1,4 @@
-import ProfileCard from '@component/Card/MatingCard';
+import { ChoicerCard } from '@component/Card';
 import { useMatingContext } from '@component/Context/MateApp';
 
 export default function Finetune() {
@@ -7,8 +7,8 @@ export default function Finetune() {
     <div>
       <div>this is fine tuner</div>
       <div>{JSON.stringify(state.value)}</div>
-      {/* <ProfileCard /> */}
-      {/* <ProfileCard /> */}
+
+      <ChoicerCard />
     </div>
   );
 }
