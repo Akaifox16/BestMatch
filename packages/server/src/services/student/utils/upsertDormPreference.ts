@@ -7,12 +7,12 @@ export default async function upsertDormPreference(
   input: AddDormPrefDto
 ) {
   const data = {
-    residents_limit: input.residents_limit,
+    residents_limit: Number(input.residents_limit),
     dorm_type: input.dorm_type,
     about_room_preference: {
       create: {
         zone: input.room_pref.zone,
-        floor_number: input.room_pref.floor_number,
+        floor_number: Number(input.room_pref.floor_number),
       },
     },
   };

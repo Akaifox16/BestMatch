@@ -1,4 +1,5 @@
 export { default as getPreference } from './getPreference';
+export { default as getDormPreference } from './getDormPreference';
 export { default as getCalculatedWeights } from './getCalculatedWeights';
 export { default as getCalculatedTolerant } from './getCalculatedTolerant';
 

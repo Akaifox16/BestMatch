@@ -9,6 +9,7 @@ import {
   bookRoomDto,
 } from './student.dto';
 import {
+  getDormPreference,
   getPreference,
   upsertCalculatedProfile,
   upsertDormPreference,
@@ -17,7 +18,6 @@ import {
 } from './utils';
 import { TRPCError } from '@trpc/server';
 
-// TODO: impl upsertDormPreference
 export const upsertDormPreferenceController = protectedProcedure
   .input(addDormPrefDto)
   .mutation(
@@ -67,6 +67,18 @@ export const getPreferenceController = protectedProcedure.query(
   }
 );
 
+export const getDormPreferenceController = protectedProcedure.query(
+  async ({ ctx }) => {
+    try{
+      return await getDormPreference(ctx.session.user.id)
+    } catch(err) {
+      if (err instanceof TRPCError) throw err
+
+      throw InternalServerError('something wrong when fetching dorm preference')
+    }
+  }
+)
+
 // TODO: implement get user role
 export const getRole = protectedProcedure.query(async () => {
   return {
@@ -74,7 +86,6 @@ export const getRole = protectedProcedure.query(async () => {
   };
 });
 
-// TODO: impl upsertPreference
 export const upsertPreferenceController = protectedProcedure
   .input(addPrefDto)
   .mutation(async ({ input, ctx }) => {

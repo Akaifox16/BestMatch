@@ -5,6 +5,7 @@ import {
   upsertProfileController,
   upsertPreferenceController,
   upsertDormPreferenceController,
+  getDormPreferenceController,
   // getPreference,
 } from './student.controller';
 
@@ -12,6 +13,7 @@ const studentRouter = createTRPCRouter({
   // User
   getProfile: getProfile,
   getPreference: getPreferenceController,
+  getDormPreference: getDormPreferenceController,
   // getRole: getRole,
 
   upsertProfile: upsertProfileController,

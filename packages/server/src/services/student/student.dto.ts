@@ -40,11 +40,11 @@ export const createStudentDto = z
   });
 
 export const addDormPrefDto = z.object({
-  residents_limit: z.number().int().min(2).max(4),
+  residents_limit: z.string(),
   dorm_type: DormTypePreferEnum,
   room_pref: z.object({
     zone: ZoneEnum,
-    floor_number: z.number().int().min(1),
+    floor_number: z.string(),
   }),
 });
 
