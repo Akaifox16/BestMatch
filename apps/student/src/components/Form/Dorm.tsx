@@ -6,7 +6,7 @@ import { RadioGroup } from '@component/Input';
 
 import { type RouterInputs } from '@utility/trpc';
 
-const IGNORE_NUMBER = 99;
+// const IGNORE_NUMBER = 99;
 
 const dorm_type_options = [
   { id: 'BUFFET', label: 'buffet' },
@@ -16,10 +16,10 @@ const dorm_type_options = [
 ] satisfies Array<{ id: FormInput['dorm_type']; label: string }>;
 
 const resident_options = [
-  { id: 2, label: '2' },
-  { id: 3, label: '3' },
-  { id: 4, label: '4' },
-  { id: IGNORE_NUMBER, label: 'ignore' },
+  { id: '2', label: '2' },
+  { id: '3', label: '3' },
+  { id: '4', label: '4' },
+  { id: 'IGNORE', label: 'ignore' },
 ] satisfies Array<{ id: FormInput['residents_limit']; label: string }>;
 
 const zone_options = [
@@ -32,12 +32,12 @@ const zone_options = [
 }>;
 
 const floor_number_options = [
-  { id: 1, label: '1' },
-  { id: 2, label: '2' },
-  { id: 3, label: '3' },
-  { id: 4, label: '4' },
-  { id: 5, label: '5' },
-  { id: IGNORE_NUMBER, label: 'ignore' },
+  { id: '1', label: '1' },
+  { id: '2', label: '2' },
+  { id: '3', label: '3' },
+  { id: '4', label: '4' },
+  { id: '5', label: '5' },
+  { id: 'IGNORE', label: 'ignore' },
 ] satisfies Array<{
   id: FormInput['room_pref']['floor_number'];
   label: string;
@@ -47,11 +47,12 @@ const floor_number_options = [
 type FormInput = RouterInputs['student']['upsertDormPreference'];
 type DormFormProps = {
   control: Control<FormInput>;
-  handleSubmit: () => Promise<void>;
+  handleSubmit?: () => Promise<void>;
 };
 
 export default function DormForm({ control, handleSubmit }: DormFormProps) {
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form id='dorm-form' onSubmit={handleSubmit}>
       <Stack direction='column'>
         <Stack direction='row'>
