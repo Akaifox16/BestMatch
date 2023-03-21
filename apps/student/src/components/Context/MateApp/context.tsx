@@ -17,12 +17,21 @@ const MatingAppMachineContext = createContext({
 });
 
 export default function MatingAppContextProvider({ children }: ParentNode) {
-  const { data: profResp } = trpc.student.getProfile.useQuery()
+  const { data: profResp } = trpc.student.getProfile.useQuery(undefined, {
+    retryOnMount: false,
+    retry: false,
+  });
   const { data: prefResp } = trpc.student.getPreference.useQuery(undefined, {
     retryOnMount: false,
     retry: false,
   });
-  const { data: dormResp } = trpc.student.getDormPreference.useQuery()
+  const { data: dormResp } = trpc.student.getDormPreference.useQuery(
+    undefined,
+    {
+      retryOnMount: false,
+      retry: false,
+    }
+  );
 
   const memoizedMachine = useMemo(() => mateAppMachine, []);
   const [state, send] = useMachine<typeof mateAppMachine>(memoizedMachine, {
@@ -50,13 +59,13 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       }),
       setMatePrefState: assign(() => {
         return {
-          currentStep: 1
-        }
+          currentStep: 1,
+        };
       }),
       setDormPrefState: assign(() => {
         return {
-          currentStep: 2
-        }
+          currentStep: 2,
+        };
       }),
 
       // error
@@ -83,13 +92,13 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
             .mutateAsync({
               selectedProfile: {
                 ...evt.data.profilePick,
-                // do_not_disturb:
-                //   evt.data.profilePick.do_not_disturb.map(changeRange),
+                do_not_disturb:
+                  evt.data.profilePick.do_not_disturb.map(changeRange),
               },
               comparisonProfile: {
                 ...evt.data.profileComp,
-                // do_not_disturb:
-                //   evt.data.profileComp.do_not_disturb.map(changeRange),
+                do_not_disturb:
+                  evt.data.profileComp.do_not_disturb.map(changeRange),
               },
             })
             .catch(console.error);
