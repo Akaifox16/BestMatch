@@ -1,5 +1,5 @@
 import { Fragment, type ReactNode } from 'react';
-import { type AppProps } from 'next/app';
+import { NextWebVitalsMetric, type AppProps } from 'next/app';
 import { CacheProvider, type EmotionCache } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { SessionProvider } from 'next-auth/react';
@@ -65,3 +65,7 @@ const App = ({
 };
 
 export default trpc.withTRPC(App);
+
+export function reportWebVitals(metric: NextWebVitalsMetric) {
+  console.log(metric);
+}
