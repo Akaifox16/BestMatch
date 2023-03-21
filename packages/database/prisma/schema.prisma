@@ -26,10 +26,9 @@ model User {
   sex         Sex
   role        Role   @default(STUDENT)
 
-  has_profile               Profile?              @relation("profile_of_user")
-  has_mate_preference       Profile?              @relation("mate_pref_of_user")
-  has_dorm_preference       DormPreference?
-  has_calculated_preference CalculatedPreference? @relation("has_calculated_preference")
+  has_profile         Profile?        @relation("profile_of_user")
+  has_mate_preference Profile?        @relation("mate_pref_of_user")
+  has_dorm_preference DormPreference?
 
   roomId   String?
   lived_in Room?   @relation("lived_in", fields: [roomId], references: [id], onDelete: SetNull)
@@ -53,6 +52,8 @@ model Profile {
   pref_owner_id  String? @unique
   preference_of  User?   @relation("mate_pref_of_user", fields: [pref_owner_id], references: [id], onDelete: Cascade)
 
+  has_calculated_preference CalculatedPreference? @relation("has_calculated_preference")
+
   // scale attribute 
   messiness Int
   loudness  Int
@@ -71,8 +72,8 @@ model CalculatedPreference {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
-  owner_id       String @unique
-  belong_to_user User?  @relation("has_calculated_preference", fields: [owner_id], references: [id])
+  owner_id       String?  @unique
+  belong_to_user Profile? @relation("has_calculated_preference", fields: [owner_id], references: [id], onDelete: Cascade)
 
   messiness_tolerant_min Int
   messiness_tolerant_max Int
@@ -139,7 +140,7 @@ model RoomPreference {
   updatedAt DateTime? @updatedAt
 
   dorm_pref_id              String          @unique
-  belong_to_dorm_preference DormPreference? @relation("belong_to_dorm_preference", fields: [dorm_pref_id], references: [id])
+  belong_to_dorm_preference DormPreference? @relation("belong_to_dorm_preference", fields: [dorm_pref_id], references: [id], onDelete: Cascade)
 
   zone         Zone
   floor_number Int

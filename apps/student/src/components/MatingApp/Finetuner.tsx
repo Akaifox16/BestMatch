@@ -6,7 +6,7 @@ export default function Finetune() {
   return (
     <div>
       <div>this is fine tuner</div>
-      <div>{JSON.stringify(state.value)}</div>
+      <div>{JSON.stringify(state.context)}</div>
       <ChoicerCard />
     </div>
   );

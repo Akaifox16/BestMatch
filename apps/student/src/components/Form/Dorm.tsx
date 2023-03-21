@@ -69,7 +69,7 @@ export default function DormForm({ control, handleSubmit }: DormFormProps) {
                 control={control}
                 name='residents_limit'
                 label='number of residents'
-                number
+                // number
                 options={resident_options}
               />
             </Stack>
@@ -89,7 +89,7 @@ export default function DormForm({ control, handleSubmit }: DormFormProps) {
                 control={control}
                 name='room_pref.floor_number'
                 label='floor number'
-                number
+                // number
                 options={floor_number_options}
               />
             </Stack>

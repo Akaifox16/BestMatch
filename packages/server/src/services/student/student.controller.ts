@@ -11,7 +11,7 @@ import {
 import {
   getDormPreference,
   getPreference,
-  upsertCalculatedProfile,
+  // upsertCalculatedProfile,
   upsertDormPreference,
   upsertPreference,
   upsertProfile,
@@ -41,20 +41,30 @@ export const upsertDormPreferenceController = protectedProcedure
   );
 
 export const getProfile = protectedProcedure.query(async ({ ctx }) => {
-  const user = await prisma.user.findFirst({
-    select: {
-      first_name: true,
-      last_name: true,
-      email: true,
-      personal_id: true,
-      sex: true,
-    },
-    where: {
-      id: ctx.session.user.id,
-    },
-  });
+  try {
+    const user = await prisma.profile.findFirst({
+      select: {
+        messiness: true,
+        loudness: true,
+        do_not_disturb: {
+          select: {
+            start: true,
+            stop: true,
+          },
+        },
+      },
+      where: {
+        owner_id: ctx.session.user.id,
+      },
+    });
+    if (!user) throw NotFoundError('no user profile');
 
-  return user;
+    return user;
+  } catch (err) {
+    if (err instanceof TRPCError) throw err;
+
+    throw InternalServerError('something wrong with getProfile');
+  }
 });
 
 export const getPreferenceController = protectedProcedure.query(
@@ -69,15 +79,17 @@ export const getPreferenceController = protectedProcedure.query(
 
 export const getDormPreferenceController = protectedProcedure.query(
   async ({ ctx }) => {
-    try{
-      return await getDormPreference(ctx.session.user.id)
-    } catch(err) {
-      if (err instanceof TRPCError) throw err
+    try {
+      return await getDormPreference(ctx.session.user.id);
+    } catch (err) {
+      if (err instanceof TRPCError) throw err;
 
-      throw InternalServerError('something wrong when fetching dorm preference')
+      throw InternalServerError(
+        'something wrong when fetching dorm preference'
+      );
     }
   }
-)
+);
 
 // TODO: implement get user role
 export const getRole = protectedProcedure.query(async () => {
@@ -91,7 +103,6 @@ export const upsertPreferenceController = protectedProcedure
   .mutation(async ({ input, ctx }) => {
     try {
       const preference = await upsertPreference(ctx.session.user.id, input);
-      await upsertCalculatedProfile(ctx.session.user.id, preference);
 
       return preference;
     } catch (err) {

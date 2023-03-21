@@ -2,6 +2,7 @@ import { prisma } from '@acme/database';
 
 import type { AddProfileDto } from '../student.dto';
 import { InternalServerError } from '../../../utils/type';
+import findRange from './findRange';
 
 export default async function upsertProfile(
   userId: string,
@@ -17,9 +18,10 @@ export default async function upsertProfile(
     },
     create: {
       ...input,
+      owner_id: userId,
       do_not_disturb: {
         createMany: {
-          data: { start: 0, stop: 23 },
+          data: findRange(input.do_not_disturb),
           skipDuplicates: true,
         },
       },
@@ -28,7 +30,7 @@ export default async function upsertProfile(
       ...input,
       do_not_disturb: {
         createMany: {
-          data: { start: 0, stop: 23 },
+          data: findRange(input.do_not_disturb),
           skipDuplicates: true,
         },
       },

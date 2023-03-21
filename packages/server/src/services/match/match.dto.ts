@@ -59,6 +59,7 @@ const profileSchema = z.object({
   messiness: z.number(),
   loudness: z.number(),
   do_not_disturb: z.array(z.string()),
+  attribute,
 });
 
 export const generatorOutput = z.object({

@@ -8,4 +8,15 @@ const exhaustiveMatchingGuard = (_: never): never => {
   throw new Error('Should not have reached here, please recheck the case');
 };
 
-export { titleCase, range, exhaustiveMatchingGuard };
+const flattenedTimerange = (
+  timerange: { start: number; stop: number }[]
+): string[] => {
+  return timerange.reduce((acc, { start, stop }) => {
+    for (let i = start; i <= stop; i++) {
+      acc.push(i.toString());
+    }
+    return acc;
+  }, [] as string[]);
+};
+
+export { titleCase, range, exhaustiveMatchingGuard, flattenedTimerange };

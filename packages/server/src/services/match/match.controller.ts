@@ -52,8 +52,8 @@ export const generateProfile = protectedProcedure.output(generatorOutput).query(
       throw InternalServerError('error when mocking new profile');
 
     return {
-      profile_a: profileA,
-      profile_b: profileB,
+      profile_a: { ...profileA, attribute: attrA },
+      profile_b: { ...profileB, attribute: attrB },
     };
   }
 );

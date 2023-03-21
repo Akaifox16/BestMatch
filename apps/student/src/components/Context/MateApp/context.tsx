@@ -17,21 +17,35 @@ const MatingAppMachineContext = createContext({
 });
 
 export default function MatingAppContextProvider({ children }: ParentNode) {
-  const { data: profResp } = trpc.student.getProfile.useQuery(undefined, {
-    retryOnMount: false,
-    retry: false,
-  });
-  const { data: prefResp } = trpc.student.getPreference.useQuery(undefined, {
-    retryOnMount: false,
-    retry: false,
-  });
-  const { data: dormResp } = trpc.student.getDormPreference.useQuery(
-    undefined,
-    {
-      retryOnMount: false,
+  const [profile, roommate, dorm] = trpc.useQueries(({ student }) => [
+    student.getProfile(undefined, {
       retry: false,
-    }
-  );
+      refetchOnWindowFocus: false,
+    }),
+    student.getPreference(undefined, {
+      retry: false,
+      refetchOnWindowFocus: false,
+    }),
+    student.getDormPreference(undefined, {
+      retry: false,
+      refetchOnWindowFocus: false,
+    }),
+  ]);
+  // const { data: profResp } = trpc.student.getProfile.useQuery(undefined, {
+  //   retryOnMount: false,
+  //   retry: false,
+  // });
+  // const { data: prefResp } = trpc.student.getPreference.useQuery(undefined, {
+  //   retryOnMount: false,
+  //   retry: false,
+  // });
+  // const { data: dormResp } = trpc.student.getDormPreference.useQuery(
+  //   undefined,
+  //   {
+  //     retryOnMount: false,
+  //     retry: false,
+  //   }
+  // );
 
   const memoizedMachine = useMemo(() => mateAppMachine, []);
   const [state, send] = useMachine<typeof mateAppMachine>(memoizedMachine, {
@@ -110,29 +124,18 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       regenerateProfile: async (): Promise<
         RouterOutputs['match']['generator']
       > => {
-        const { data: findNewAttrData, error: findNewAttrErr } =
-          trpc.match.findNewAttribute.useQuery();
+        const { data: profileData } = trpc.match.generator.useQuery(undefined, {
+          retry: 10,
+        });
 
-        if (findNewAttrErr) throw Error(findNewAttrErr.message);
-        if (!findNewAttrData) throw new Error('cannot generate new profile');
-
-        const { data: generatorData, error } = trpc.match.generator.useQuery(
-          findNewAttrData as RouterInputs['match']['generator']
-        );
-
-        if (error) throw Error(error.message);
-        if (!generatorData)
-          throw new Error(
-            'can not generate new profile yet, please try again later'
-          );
-
-        return generatorData;
+        if (!profileData) throw new Error('cannot generate profile');
+        return profileData;
       },
     },
     guards: {
-      isInitialize: () => !profResp,
-      noRoommatePref: () => !prefResp,
-      noDormPref: () => !dormResp,
+      isInitialize: () => !profile.data,
+      noRoommatePref: () => !roommate.data,
+      noDormPref: () => !dorm.data,
       notExceedErrorLimitCount: () => true,
     },
   });
