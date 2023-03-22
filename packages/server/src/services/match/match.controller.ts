@@ -30,7 +30,7 @@ export const generateProfile = protectedProcedure.output(generatorOutput).query(
     ]);
     if (!tolerants || !preference)
       throw InternalServerError(
-        'error when trying to get information to generate new profile'
+        `error when trying to get information to generate new profile: ${!tolerants} ${!preference}`
       );
 
     const fixedTolerant = {

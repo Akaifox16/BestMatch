@@ -21,18 +21,29 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
     student.getProfile(undefined, {
       retry: false,
       refetchOnWindowFocus: false,
+      staleTime: 0,
     }),
     student.getPreference(undefined, {
       retry: false,
       refetchOnWindowFocus: false,
+      staleTime: 0,
     }),
     student.getDormPreference(undefined, {
       retry: false,
       refetchOnWindowFocus: false,
+      staleTime: 0,
     }),
   ]);
 
-  const generateProfile = trpc.match.generator; 
+  const {
+    data: profileData,
+    error,
+    refetch,
+  } = trpc.match.generator.useQuery(undefined, {
+    retry: false,
+    refetchOnWindowFocus: false,
+    staleTime: 0,
+  });
 
   const memoizedMachine = useMemo(() => mateAppMachine, []);
   const [state, send] = useMachine<typeof mateAppMachine>(memoizedMachine, {
@@ -110,14 +121,13 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       regenerateProfile: async (): Promise<
         RouterOutputs['match']['generator']
       > => {
-        const { data: profileData, error } = generateProfile.useQuery(undefined, {
-          retry: false,
-        });
+        await refetch();
 
         if (!profileData) {
-          console.error(JSON.stringify(error))
-          throw new Error('cannot generate profile')
-        };
+          console.error(JSON.stringify(error));
+          throw new Error('cannot generate profile');
+        }
+
         return profileData;
       },
     },

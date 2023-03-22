@@ -17,7 +17,7 @@ export const serverSchema = z.object({
  *  @type {{ [k in keyof z.infer<typeof serverSchema>]: z.infer<typeof serverSchema>[k] | undefined }}
  */
 export const serverEnv = {
-  DATABASE_URL: process.env.DATABASE_URL,
+  DATABASE_URL: process.env.APP_DB_URL,
   NODE_ENV: process.env.NODE_ENV,
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.VERCEL_URL ?? process.env.NEXTAUTH_URL,
