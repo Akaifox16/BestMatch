@@ -31,21 +31,8 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       refetchOnWindowFocus: false,
     }),
   ]);
-  // const { data: profResp } = trpc.student.getProfile.useQuery(undefined, {
-  //   retryOnMount: false,
-  //   retry: false,
-  // });
-  // const { data: prefResp } = trpc.student.getPreference.useQuery(undefined, {
-  //   retryOnMount: false,
-  //   retry: false,
-  // });
-  // const { data: dormResp } = trpc.student.getDormPreference.useQuery(
-  //   undefined,
-  //   {
-  //     retryOnMount: false,
-  //     retry: false,
-  //   }
-  // );
+
+  const generateProfile = trpc.match.generator; 
 
   const memoizedMachine = useMemo(() => mateAppMachine, []);
   const [state, send] = useMachine<typeof mateAppMachine>(memoizedMachine, {
@@ -120,15 +107,17 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       },
     },
     services: {
-      // TODO: remove assume in generator query input
       regenerateProfile: async (): Promise<
         RouterOutputs['match']['generator']
       > => {
-        const { data: profileData } = trpc.match.generator.useQuery(undefined, {
-          retry: 10,
+        const { data: profileData, error } = generateProfile.useQuery(undefined, {
+          retry: false,
         });
 
-        if (!profileData) throw new Error('cannot generate profile');
+        if (!profileData) {
+          console.error(JSON.stringify(error))
+          throw new Error('cannot generate profile')
+        };
         return profileData;
       },
     },
@@ -136,7 +125,7 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       isInitialize: () => !profile.data,
       noRoommatePref: () => !roommate.data,
       noDormPref: () => !dorm.data,
-      notExceedErrorLimitCount: () => true,
+      notExceedErrorLimitCount: (ctx) => ctx.errorCount < 10,
     },
   });
 
