@@ -1,4 +1,3 @@
-import { useForm } from 'react-hook-form';
 import type { GetServerSidePropsContext } from 'next';
 import { getServerSession } from 'next-auth';
 import { useSession } from 'next-auth/react';
@@ -8,23 +7,48 @@ import { authOptions } from '@acme/auth';
 import AccessDenied from '@component/AccessDenied';
 import CustomHeader from '@component/CustomHeader';
 import { ProfileCard } from '@component/Card';
+import { trpc } from '@utility/trpc';
+import { Typography } from '@mui/material';
+import { flattenedTimerange } from '@utility/util';
 
-import type { RouterInputs } from '@utility/trpc';
+// import type { RouterInputs } from '@utility/trpc';
 
 export default function SummaryPage() {
   const { data: session } = useSession();
-  // TODO: Add getProfile procedure call to default value
-  const { control } = useForm<RouterInputs['student']['upsertProfile']>();
+  const {
+    data: preference,
+    isFetching,
+    error,
+  } = trpc.student.getPreference.useQuery(undefined, {
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
 
   if (!session) {
     return <AccessDenied />;
   }
 
+  if (isFetching)
+    return <Typography variant='h4'>Loading your summary...</Typography>;
+  if (error || !preference)
+    return (
+      <Typography variant='h4'>
+        There&aposs an error occured during getting your summary
+      </Typography>
+    );
+
   return (
     <div>
       <CustomHeader pageName='summary' />
       <main>
-        <ProfileCard variant='summary' control={control} />
+        <ProfileCard
+          variant='summary'
+          profile={{
+            messiness: preference.messiness,
+            loudness: preference.loudness,
+            do_not_disturb: flattenedTimerange(preference.do_not_disturb),
+          }}
+        />
       </main>
     </div>
   );
