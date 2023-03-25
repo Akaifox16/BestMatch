@@ -2,7 +2,6 @@ import { Stack } from '@mui/system';
 import type { Control } from 'react-hook-form';
 import { SliderElement } from 'react-hook-form-mui';
 
-import { Slider } from '@component/Input';
 import TimeRangeChoices from '@component/Input/TimeRangeChoices';
 
 import { type RouterInputs } from '@utility/trpc';
@@ -42,18 +41,6 @@ export default function StudentForm({
           disabled={disable}
           required={disable ? false : true}
         />
-        {/* <Slider */}
-        {/*   control={control} */}
-        {/*   name='messiness' */}
-        {/*   label={'messiness'} */}
-        {/*   disabled={disable} */}
-        {/* /> */}
-        {/* <Slider */}
-        {/*   control={control} */}
-        {/*   name='loudness' */}
-        {/*   label={'loudness'} */}
-        {/*   disabled={disable} */}
-        {/* /> */}
         <TimeRangeChoices
           control={control}
           name='do_not_disturb'

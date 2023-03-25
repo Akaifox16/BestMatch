@@ -83,7 +83,7 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
         };
       }),
 
-      // error
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       clearErrorCount: assign((_ctx) => {
         return {
           errorCount: DEFAULT_ERROR_COUNT,
