@@ -1,4 +1,5 @@
-import { type RouterOutputs, trpc, type RouterInputs } from '@utility/trpc';
+import { useQueryClient } from '@tanstack/react-query';
+import { type RouterOutputs, trpc } from '@utility/trpc';
 import type { ParentNode } from '@utility/type';
 import { useMachine } from '@xstate/react';
 import { createContext, useContext, useMemo } from 'react';
@@ -44,7 +45,7 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
     refetchOnWindowFocus: false,
     staleTime: 0,
   });
-
+  const pickedProfile = trpc.match.pickedProfile.useMutation();
   const memoizedMachine = useMemo(() => mateAppMachine, []);
   const [state, send] = useMachine<typeof mateAppMachine>(memoizedMachine, {
     actions: {
@@ -99,11 +100,10 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
         };
 
         if (evt.type === 'PICKED')
-          trpc.match.pickedProfile
-            .useMutation()
+          pickedProfile
             .mutateAsync({
-              selectedProfile: {
-                ...evt.data.profilePick,
+            selectedProfile: {
+              ...evt.data.profilePick,
                 do_not_disturb:
                   evt.data.profilePick.do_not_disturb.map(changeRange),
               },

@@ -1,5 +1,5 @@
 import { Fragment, type ReactNode } from 'react';
-import { NextWebVitalsMetric, type AppProps } from 'next/app';
+import type { NextWebVitalsMetric, AppProps } from 'next/app';
 import { CacheProvider, type EmotionCache } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { SessionProvider } from 'next-auth/react';

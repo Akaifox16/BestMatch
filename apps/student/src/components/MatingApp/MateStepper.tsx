@@ -23,10 +23,10 @@ const DEFAULT_VALUE = {
 const DEFAULT_DORM = {
   defaultValues: {
     dorm_type: 'BUFFET' as const,
-    residents_limit: 3,
+    residents_limit: '3',
     room_pref: {
       zone: 'DESERT' as const,
-      floor_number: 2,
+      floor_number: '2',
     },
   },
 };
