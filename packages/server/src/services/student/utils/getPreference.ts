@@ -5,6 +5,7 @@ export default async function getPreference(ownerId: string) {
     const preference = await prisma.profile.findFirst({
       where: { pref_owner_id: ownerId },
       select: {
+        id: true,
         messiness: true,
         loudness: true,
         do_not_disturb: {

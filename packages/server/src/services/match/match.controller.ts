@@ -24,13 +24,20 @@ export const generateProfile = protectedProcedure.output(generatorOutput).query(
     },
   }) => {
     const [attrA, attrB] = randomAttributePair();
-    const [tolerants, preference] = await Promise.all([
-      getCalculatedTolerant(user.id),
-      getPreference(user.id),
-    ]);
-    if (!tolerants || !preference)
+    const preference = await getPreference(user.id);
+    // const [tolerants, preference] = await Promise.all([
+    //   getCalculatedTolerant(user.id),
+    //   getPreference(user.id),
+    // ]);
+    if (!preference)
       throw InternalServerError(
-        `error when trying to get information to generate new profile: ${!tolerants} ${!preference}`
+        `error when trying to get information to generate new profile`
+      );
+
+    const tolerants = await getCalculatedTolerant(preference.id);
+    if (!tolerants)
+      throw InternalServerError(
+        `error when trying to get information to generate new profile`
       );
 
     const fixedTolerant = {
@@ -66,13 +73,19 @@ export const pickedProfile = protectedProcedure.input(choicerInput).mutation(
       session: { user },
     },
   }) => {
-    const [weights, preference] = await Promise.all([
-      getCalculatedWeights(user.id),
-      getPreference(user.id),
-    ]);
-    if (!weights || !preference)
+    const preference = await getPreference(user.id);
+    if (!preference)
       throw NotFoundError(
-        "can't calculated preference due to missing calculation component"
+        `can't calculated preference due to missing calculation component`
+      );
+    const weights = await getCalculatedWeights(preference.id);
+    // const [weights, preference] = await Promise.all([
+    //   getCalculatedWeights(user.id),
+    //   getPreference(user.id),
+    // ]);
+    if (!weights)
+      throw NotFoundError(
+        `can't calculated preference due to missing calculation component`
       );
 
     const selectedDiff = diffCalculator(input.selectedProfile, preference);
@@ -84,13 +97,13 @@ export const pickedProfile = protectedProcedure.input(choicerInput).mutation(
 
     try {
       const updatedCalculatedProfile = await finetuningNewWeight(
-        user.id,
+        preference.id,
         { diff: selectedDiff, attr: input.selectedProfile.attribute },
         comparedPenalty,
         weights
       );
       if (!updatedCalculatedProfile)
-        throw InternalServerError('something wrong when finetuning');
+        throw InternalServerError(`something wrong when finetuning`);
 
       return {
         message: 'profile picked and has been finetuned weights',

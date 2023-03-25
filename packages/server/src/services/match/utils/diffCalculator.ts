@@ -25,8 +25,8 @@ export default function diffCalculator(
       ];
 
       const diff = (first: DoNotDisturb, second: DoNotDisturb) => {
-        const startDiff = first.start - second.start;
-        const stopDiff = first.stop - second.stop;
+        const startDiff = Math.abs(first.start - second.start);
+        const stopDiff = Math.abs(first.stop - second.stop);
 
         return startDiff + stopDiff;
       };

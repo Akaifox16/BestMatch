@@ -8,7 +8,7 @@ type SelectedArgs = {
 };
 
 export default async function finetune(
-  userId: string,
+  prefId: string,
   selectedPenalty: SelectedArgs,
   comparedPenalty: Penalty,
   weights: Weights
@@ -18,8 +18,12 @@ export default async function finetune(
   const data = prepareAssignWeight(newWeight, selectedPenalty.attr);
   const normWeight = l2Norm({ ...weights, ...data });
 
-  const updatedCalculatedProfile = await updateWeights(userId, normWeight);
-  return updatedCalculatedProfile;
+  try {
+    const updatedCalculatedProfile = await updateWeights(prefId, normWeight);
+    return updatedCalculatedProfile;
+  } catch (err) {
+    throw new Error(`weights for update weights: ${JSON.stringify(weights)}`);
+  }
 }
 
 function findWeightHelper(
@@ -27,7 +31,7 @@ function findWeightHelper(
   comparedPenalty: Penalty
 ): Penalty {
   const upper = comparedPenalty / selectedDiff;
-  const lower = comparedPenalty / (selectedDiff - 1);
+  const lower = comparedPenalty / Math.abs(selectedDiff - 1);
 
   return (upper - lower) / 2;
 }
@@ -42,9 +46,9 @@ function l2Norm(weights: Weights): Weights {
   const newWeights = Object.values(weights).map(divideByNorm);
 
   return {
-    messiness_weight: newWeights[0],
-    loudness_weight: newWeights[1],
-    do_not_disturb_weight: newWeights[2],
+    messiness_weight: newWeights.at(0) || weights.messiness_weight,
+    loudness_weight: newWeights.at(1) || weights.loudness_weight,
+    do_not_disturb_weight: newWeights.at(2) || weights.do_not_disturb_weight,
   };
 }
 
