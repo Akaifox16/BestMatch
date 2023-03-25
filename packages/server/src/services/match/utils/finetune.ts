@@ -1,3 +1,4 @@
+import { BadRequestError } from '../../../utils/type';
 import updateWeights from '../../student/utils/updateWeights';
 import type { Attribute, Weights } from '../match.dto';
 
@@ -13,16 +14,23 @@ export default async function finetune(
   comparedPenalty: Penalty,
   weights: Weights
 ) {
-  const newWeight = findWeightHelper(selectedPenalty.diff, comparedPenalty);
+  // const newWeight = ;
 
-  const data = prepareAssignWeight(newWeight, selectedPenalty.attr);
+  const data = prepareAssignWeight(
+    findWeightHelper(selectedPenalty.diff, comparedPenalty),
+    selectedPenalty.attr
+  );
   const normWeight = l2Norm({ ...weights, ...data });
 
   try {
     const updatedCalculatedProfile = await updateWeights(prefId, normWeight);
     return updatedCalculatedProfile;
   } catch (err) {
-    throw new Error(`weights for update weights: ${JSON.stringify(weights)}`);
+    throw BadRequestError(
+      `data: ${JSON.stringify(data)} | selectedPenalty: ${JSON.stringify(
+        selectedPenalty
+      )} | ${JSON.stringify(comparedPenalty)}`
+    );
   }
 }
 
@@ -31,9 +39,9 @@ function findWeightHelper(
   comparedPenalty: Penalty
 ): Penalty {
   const upper = comparedPenalty / selectedDiff;
-  const lower = comparedPenalty / Math.abs(selectedDiff - 1);
+  const lower = comparedPenalty / Math.abs(selectedDiff + 1);
 
-  return (upper - lower) / 2;
+  return Math.abs(upper - lower) / 2;
 }
 
 function l2Norm(weights: Weights): Weights {

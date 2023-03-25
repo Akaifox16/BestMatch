@@ -77,12 +77,12 @@ function newRange(
   tolerant: { begin: Tolerant; end: Tolerant },
   pref: { start: number; stop: number }
 ) {
-  const isBegin = Math.random() < 0.5;
+  const isBegin = Math.floor(Math.random() * 100) < 50;
   if (isBegin) return newScale(isMin, tolerant.begin, pref.start);
   else return newScale(isMin, tolerant.end, pref.stop);
 }
 
 function findNewRange(min: number, max: number) {
-  const range = Math.abs(min - max);
+  const range = max - min;
   return Math.floor(Math.random() * range) + min;
 }

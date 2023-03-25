@@ -1,4 +1,3 @@
-// import { useQueryClient } from '@tanstack/react-query';
 import { type RouterOutputs, trpc } from '@utility/trpc';
 import type { ParentNode } from '@utility/type';
 import { changeRange } from '@utility/util';
@@ -17,6 +16,9 @@ const MatingAppMachineContext = createContext({
   state: {} as MatingAppMachineParams[0],
   send: {} as MatingAppMachineParams[1],
   isLoading: true,
+  generatorError: {} as ReturnType<
+    typeof trpc.match.generator.useQuery
+  >['error'],
 });
 
 export default function MatingAppContextProvider({ children }: ParentNode) {
@@ -39,6 +41,7 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
     data: profileData,
     refetch,
     isFetching,
+    error,
   } = trpc.match.generator.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
@@ -126,16 +129,16 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       },
     },
     guards: {
-      isInitialize: () => profile.isFetched && !profile.data,
-      noRoommatePref: () => roommate.isFetched && !roommate.data,
-      noDormPref: () => dorm.isFetched && !dorm.data,
+      isInitialize: () => !profile.data,
+      noRoommatePref: () => !roommate.data,
+      noDormPref: () => !dorm.data,
       notExceedErrorLimitCount: (ctx) => ctx.errorCount < 10,
     },
   });
 
   return (
     <MatingAppMachineContext.Provider
-      value={{ state, send, isLoading: isFetching }}
+      value={{ state, send, isLoading: isFetching, generatorError: error }}
     >
       {children}
     </MatingAppMachineContext.Provider>

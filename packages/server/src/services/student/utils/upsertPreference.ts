@@ -13,11 +13,11 @@ export default async function upsertPreference(
     loudness_weight: 1,
     do_not_disturb_weight: 1,
 
-    messiness_tolerant_max: input.messiness + 2,
-    messiness_tolerant_min: input.messiness - 1,
+    messiness_tolerant_max: input.messiness + 3,
+    messiness_tolerant_min: input.messiness - 2,
 
     loudness_tolerant_max: input.loudness + 2,
-    loudness_tolerant_min: input.loudness,
+    loudness_tolerant_min: input.loudness - 2,
 
     do_not_disturb_tolerant: {
       createMany: {

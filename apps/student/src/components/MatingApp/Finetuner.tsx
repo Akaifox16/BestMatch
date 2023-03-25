@@ -4,7 +4,7 @@ import { Container, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 
 export default function Finetune() {
-  const { isLoading } = useMatingContext();
+  const { isLoading, generatorError } = useMatingContext();
   const {
     state: {
       context: {
@@ -19,6 +19,14 @@ export default function Finetune() {
     return (
       <Typography variant='h3' sx={{ textAlign: 'center' }}>
         Generating new profiles...
+      </Typography>
+    );
+  }
+  if (generatorError) {
+    return (
+      <Typography variant='h3' sx={{ textAlign: 'center' }}>
+        {' '}
+        An Error occured during generate profiles
       </Typography>
     );
   }

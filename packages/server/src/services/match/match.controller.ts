@@ -45,7 +45,7 @@ export const generateProfile = protectedProcedure.output(generatorOutput).query(
       do_not_disturb: tolerants.do_not_disturb_tolerant[0],
     };
 
-    const isMin = Math.random() < 0.5;
+    const isMin = Math.floor(Math.random() * 100) < 50;
     const [newAttributeA, newAttributeB] = await Promise.all([
       newValue(attrA, isMin, fixedTolerant, preference),
       newValue(attrB, isMin, fixedTolerant, preference),
@@ -97,7 +97,9 @@ export const pickedProfile = protectedProcedure.input(choicerInput).mutation(
       weights
     );
     if (comparedPenalty === 0)
-      throw BadRequestError("you didn't picked your preference profile");
+      throw BadRequestError(
+        `you didn't picked your preference profile: ${comparedPenalty} ${selectedDiff}`
+      );
 
     try {
       const updatedCalculatedProfile = await finetuningNewWeight(
