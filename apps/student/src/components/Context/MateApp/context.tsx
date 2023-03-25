@@ -1,7 +1,7 @@
 // import { useQueryClient } from '@tanstack/react-query';
 import { type RouterOutputs, trpc } from '@utility/trpc';
 import type { ParentNode } from '@utility/type';
-import{ changeRange } from '@utility/util';
+import { changeRange } from '@utility/util';
 import { useMachine } from '@xstate/react';
 import { createContext, useContext, useMemo } from 'react';
 import { assign } from 'xstate';
@@ -24,29 +24,25 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
     student.getProfile(undefined, {
       retry: false,
       refetchOnWindowFocus: false,
-      staleTime: 0,
     }),
     student.getPreference(undefined, {
       retry: false,
       refetchOnWindowFocus: false,
-      staleTime: 0,
     }),
     student.getDormPreference(undefined, {
       retry: false,
       refetchOnWindowFocus: false,
-      staleTime: 0,
     }),
   ]);
 
   const {
     data: profileData,
-    error,
     refetch,
-    isFetching
+    isFetching,
   } = trpc.match.generator.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
-    staleTime: 0,
+    cacheTime: 0,
   });
   const pickedProfile = trpc.match.pickedProfile.useMutation();
   const memoizedMachine = useMemo(() => mateAppMachine, []);
@@ -95,25 +91,21 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
           errorCount: ctx.errorCount + 1,
         };
       }),
-      // TODO: implement pickProfile
       pickProfile: (_ctx, evt) => {
-        // const changeRange = (str: string) => {
-        //   const start = Number(str);
-        //   return { start, stop: start + 1 };
-
-        // };
         if (evt.type === 'PICKED')
           pickedProfile
             .mutateAsync({
-            selectedProfile: {
-              ...evt.data.profilePick,
-                do_not_disturb:
-                changeRange(evt.data.profilePick.do_not_disturb),
+              selectedProfile: {
+                ...evt.data.profilePick,
+                do_not_disturb: changeRange(
+                  evt.data.profilePick.do_not_disturb
+                ),
               },
               comparisonProfile: {
                 ...evt.data.profileComp,
-                do_not_disturb:
-                  changeRange(evt.data.profileComp.do_not_disturb)
+                do_not_disturb: changeRange(
+                  evt.data.profileComp.do_not_disturb
+                ),
               },
             })
             .catch(console.error);
@@ -127,7 +119,6 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
         await refetch();
 
         if (!profileData) {
-          console.error(JSON.stringify(error));
           throw new Error('cannot generate profile');
         }
 
@@ -135,15 +126,17 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       },
     },
     guards: {
-      isInitialize: () => !profile.data,
-      noRoommatePref: () => !roommate.data,
-      noDormPref: () => !dorm.data,
+      isInitialize: () => profile.isFetched && !profile.data,
+      noRoommatePref: () => roommate.isFetched && !roommate.data,
+      noDormPref: () => dorm.isFetched && !dorm.data,
       notExceedErrorLimitCount: (ctx) => ctx.errorCount < 10,
     },
   });
 
   return (
-    <MatingAppMachineContext.Provider value={{ state, send, isLoading: isFetching}}>
+    <MatingAppMachineContext.Provider
+      value={{ state, send, isLoading: isFetching }}
+    >
       {children}
     </MatingAppMachineContext.Provider>
   );

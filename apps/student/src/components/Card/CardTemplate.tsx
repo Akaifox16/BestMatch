@@ -8,8 +8,8 @@ type CardTemplateProps = {
 
 const CardTemplate = ({ name, control, children }: CardTemplateProps) => {
   return (
-    <Paper elevation={1} sx={{ m: 8 }}>
-      <Grid container spacing={2} sx={{ my: 2, p: 4 }}>
+    <Paper elevation={1}>
+      <Grid container spacing={4} sx={{ my: 2, p: 4 }}>
         <CardTitle name={name} control={control} />
         {children}
       </Grid>

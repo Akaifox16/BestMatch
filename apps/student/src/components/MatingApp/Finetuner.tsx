@@ -1,6 +1,6 @@
 import { ChoicerCard } from '@component/Card';
 import { useMatingContext } from '@component/Context/MateApp';
-import { Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 
 export default function Finetune() {
@@ -16,14 +16,20 @@ export default function Finetune() {
   } = useMatingContext();
 
   if (isLoading) {
-    return <div>Generating new Profiles</div>;
+    return (
+      <Typography variant='h3' sx={{ textAlign: 'center' }}>
+        Generating new profiles...
+      </Typography>
+    );
   }
 
   return (
-    <div>
-      <div>this is fine tuner</div>
-      <Stack direction='column' sx={{ mt: 2, width: '100%' }}>
-        <div>{JSON.stringify(profileA)}</div>
+    <Container>
+      <Stack
+        direction='row'
+        spacing={2}
+        sx={{ display: 'flex', alignItems: 'center', pt: 4 }}
+      >
         <ChoicerCard
           profile={profileA}
           handlePick={() =>
@@ -36,8 +42,9 @@ export default function Finetune() {
             })
           }
         />
-        <Typography>VS</Typography>
-        <div>{JSON.stringify(profileB)}</div>
+        <Typography variant='h4' sx={{ alignSelf: 'center', flexGrow: 1 }}>
+          VS
+        </Typography>
         <ChoicerCard
           profile={profileB}
           handlePick={() =>
@@ -51,6 +58,6 @@ export default function Finetune() {
           }
         />
       </Stack>
-    </div>
+    </Container>
   );
 }

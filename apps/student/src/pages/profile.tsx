@@ -10,15 +10,21 @@ import AccessDenied from '@component/AccessDenied';
 
 import { trpc } from '@utility/trpc';
 import { flattenedTimerange } from '@utility/util';
+import { Typography } from '@mui/material';
 
 export default function ProfilePage() {
   const { data: session } = useSession();
-  const { data: profile, error } = trpc.student.getProfile.useQuery(undefined, {
+  const {
+    data: profile,
+    isFetching,
+    error,
+  } = trpc.student.getProfile.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
   });
 
-  if (error || !profile) return <div>cannot read your profile</div>;
+  if (isFetching) return <Typography variant='h4'>Loading your profile...</Typography>;
+  if (error || !profile) return <Typography variant='h4'>cannot read your profile</Typography>;
   if (!session) {
     return <AccessDenied />;
   }
