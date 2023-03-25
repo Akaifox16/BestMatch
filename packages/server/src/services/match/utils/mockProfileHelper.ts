@@ -12,26 +12,34 @@ export default async function mockProfileHelper(
 
     if (!profile) throw NotFoundError('missing component');
 
-    const toString = (range: { start: number; stop: number }) =>
-      `${range.start}`;
+    const flattenedTimerange = (
+      timerange: { start: number; stop: number }[]
+    ): string[] => {
+      return timerange.reduce((acc, { start, stop }) => {
+        for (let i = start; i <= stop; i++) {
+          acc.push(i.toString());
+        }
+        return acc;
+      }, [] as string[]);
+    };
 
     switch (attr) {
       case 'messiness':
         return {
           messiness: value,
           loudness: profile.loudness,
-          do_not_disturb: profile.do_not_disturb.map(toString),
+          do_not_disturb: flattenedTimerange(profile.do_not_disturb),
         };
       case 'loudness':
         return {
           messiness: profile.loudness,
           loudness: value,
-          do_not_disturb: profile.do_not_disturb.map(toString),
+          do_not_disturb: flattenedTimerange(profile.do_not_disturb),
         };
       default:
         return {
           ...profile,
-          do_not_disturb: profile.do_not_disturb.map(toString),
+          do_not_disturb: flattenedTimerange(profile.do_not_disturb),
         };
     }
   } catch (err) {

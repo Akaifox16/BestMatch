@@ -2,9 +2,9 @@ import { ChoicerCard } from '@component/Card';
 import { useMatingContext } from '@component/Context/MateApp';
 import { Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import { useForm } from 'react-hook-form';
 
 export default function Finetune() {
+  const { isLoading } = useMatingContext();
   const {
     state: {
       context: {
@@ -15,21 +15,17 @@ export default function Finetune() {
     send,
   } = useMatingContext();
 
-  console.log(profileA);
-  const { control: profileAControl } = useForm({
-    defaultValues: profileA,
-  });
-  const { control: profileBControl } = useForm({
-    defaultValues: profileB,
-  });
+  if (isLoading) {
+    return <div>Generating new Profiles</div>;
+  }
 
   return (
     <div>
       <div>this is fine tuner</div>
-      {/* <div>{JSON.stringify(state.context)}</div> */}
-      <Stack direction='column' sx={{mt: 2, width: '100%'}}>
+      <Stack direction='column' sx={{ mt: 2, width: '100%' }}>
+        <div>{JSON.stringify(profileA)}</div>
         <ChoicerCard
-          control={profileAControl}
+          profile={profileA}
           handlePick={() =>
             send({
               type: 'PICKED',
@@ -41,8 +37,9 @@ export default function Finetune() {
           }
         />
         <Typography>VS</Typography>
+        <div>{JSON.stringify(profileB)}</div>
         <ChoicerCard
-          control={profileBControl}
+          profile={profileB}
           handlePick={() =>
             send({
               type: 'PICKED',

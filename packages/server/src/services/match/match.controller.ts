@@ -1,5 +1,9 @@
 import { protectedProcedure } from '../../trpc';
-import { InternalServerError, NotFoundError } from '../../utils/type';
+import {
+  BadRequestError,
+  InternalServerError,
+  NotFoundError,
+} from '../../utils/type';
 
 import {
   getCalculatedWeights,
@@ -25,10 +29,6 @@ export const generateProfile = protectedProcedure.output(generatorOutput).query(
   }) => {
     const [attrA, attrB] = randomAttributePair();
     const preference = await getPreference(user.id);
-    // const [tolerants, preference] = await Promise.all([
-    //   getCalculatedTolerant(user.id),
-    //   getPreference(user.id),
-    // ]);
     if (!preference)
       throw InternalServerError(
         `error when trying to get information to generate new profile`
@@ -79,21 +79,25 @@ export const pickedProfile = protectedProcedure.input(choicerInput).mutation(
         `can't calculated preference due to missing calculation component`
       );
     const weights = await getCalculatedWeights(preference.id);
-    // const [weights, preference] = await Promise.all([
-    //   getCalculatedWeights(user.id),
-    //   getPreference(user.id),
-    // ]);
     if (!weights)
       throw NotFoundError(
         `can't calculated preference due to missing calculation component`
       );
 
     const selectedDiff = diffCalculator(input.selectedProfile, preference);
+    // throw NotFoundError(`selectedDiff: ${selectedDiff}`);
+    if (selectedDiff === 0)
+      return {
+        message: 'you selected your preference profile',
+        status: 200,
+      };
     const comparedPenalty = penaltyCalculator(
       input.comparisonProfile,
       preference,
       weights
     );
+    if (comparedPenalty === 0)
+      throw BadRequestError("you didn't picked your preference profile");
 
     try {
       const updatedCalculatedProfile = await finetuningNewWeight(

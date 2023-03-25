@@ -14,7 +14,7 @@ type DormForm = RouterInputs['student']['upsertDormPreference'];
 
 const DEFAULT_VALUE = {
   defaultValues: {
-    do_not_disturb: ['0', '1', '2', '3'],
+    do_not_disturb: ['0', '1', '2', '3', '4', '5', '6', '7'],
     messiness: 3,
     loudness: 4,
   },
@@ -67,7 +67,9 @@ export default function MateStepperForm() {
   return (
     <MatingAppWrapper
       step={state.context.currentStep}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       handlePrev={() => delay(1).then(() => send('PREV'))}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       handleNext={() => delay(1).then(() => send('NEXT'))}
     >
       {state.context.currentStep === 0 && (

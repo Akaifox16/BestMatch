@@ -33,7 +33,8 @@ function scalePenalty(
   preference: number,
   weight: number
 ): number {
-  return weight * Math.abs(preference - profile);
+  const penalty_attr = weight * Math.abs(preference - profile);
+  return penalty_attr;
 }
 
 function dndPenalty(

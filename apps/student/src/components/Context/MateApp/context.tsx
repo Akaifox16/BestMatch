@@ -1,6 +1,7 @@
-import { useQueryClient } from '@tanstack/react-query';
+// import { useQueryClient } from '@tanstack/react-query';
 import { type RouterOutputs, trpc } from '@utility/trpc';
 import type { ParentNode } from '@utility/type';
+import{ changeRange } from '@utility/util';
 import { useMachine } from '@xstate/react';
 import { createContext, useContext, useMemo } from 'react';
 import { assign } from 'xstate';
@@ -15,6 +16,7 @@ const DEFAULT_ERROR_COUNT = 0 as const;
 const MatingAppMachineContext = createContext({
   state: {} as MatingAppMachineParams[0],
   send: {} as MatingAppMachineParams[1],
+  isLoading: true,
 });
 
 export default function MatingAppContextProvider({ children }: ParentNode) {
@@ -40,6 +42,7 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
     data: profileData,
     error,
     refetch,
+    isFetching
   } = trpc.match.generator.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
@@ -94,23 +97,23 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       }),
       // TODO: implement pickProfile
       pickProfile: (_ctx, evt) => {
-        const changeRange = (str: string) => {
-          const start = Number(str);
-          return { start, stop: start + 1 };
-        };
+        // const changeRange = (str: string) => {
+        //   const start = Number(str);
+        //   return { start, stop: start + 1 };
 
+        // };
         if (evt.type === 'PICKED')
           pickedProfile
             .mutateAsync({
             selectedProfile: {
               ...evt.data.profilePick,
                 do_not_disturb:
-                  evt.data.profilePick.do_not_disturb.map(changeRange),
+                changeRange(evt.data.profilePick.do_not_disturb),
               },
               comparisonProfile: {
                 ...evt.data.profileComp,
                 do_not_disturb:
-                  evt.data.profileComp.do_not_disturb.map(changeRange),
+                  changeRange(evt.data.profileComp.do_not_disturb)
               },
             })
             .catch(console.error);
@@ -140,7 +143,7 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
   });
 
   return (
-    <MatingAppMachineContext.Provider value={{ state, send }}>
+    <MatingAppMachineContext.Provider value={{ state, send, isLoading: isFetching}}>
       {children}
     </MatingAppMachineContext.Provider>
   );

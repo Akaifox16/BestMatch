@@ -1,5 +1,6 @@
 import { Stack } from '@mui/system';
 import type { Control } from 'react-hook-form';
+import { SliderElement } from 'react-hook-form-mui';
 
 import { Slider } from '@component/Input';
 import TimeRangeChoices from '@component/Input/TimeRangeChoices';
@@ -22,18 +23,37 @@ export default function StudentForm({
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form id='student-form' onSubmit={handleSubmit}>
       <Stack direction='column' spacing={4} sx={{ m: 4, width: '50vw' }}>
-        <Slider
+        <SliderElement
           control={control}
           name='messiness'
-          label={'messiness'}
+          label='messiness'
+          max={9}
+          min={1}
           disabled={disable}
+          marks
+          required={disable ? false : true}
         />
-        <Slider
+        <SliderElement
           control={control}
           name='loudness'
-          label={'loudness'}
+          label='loudness'
+          max={9}
+          min={1}
           disabled={disable}
+          required={disable ? false : true}
         />
+        {/* <Slider */}
+        {/*   control={control} */}
+        {/*   name='messiness' */}
+        {/*   label={'messiness'} */}
+        {/*   disabled={disable} */}
+        {/* /> */}
+        {/* <Slider */}
+        {/*   control={control} */}
+        {/*   name='loudness' */}
+        {/*   label={'loudness'} */}
+        {/*   disabled={disable} */}
+        {/* /> */}
         <TimeRangeChoices
           control={control}
           name='do_not_disturb'

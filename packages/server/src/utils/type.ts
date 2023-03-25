@@ -33,6 +33,12 @@ export const NotFoundError = (msg: string) =>
     message: msg,
   });
 
+export const BadRequestError = (msg: string) =>
+  new TRPCError({
+    code: 'BAD_REQUEST',
+    message: msg,
+  });
+
 export const UnAutorizedError = (msg: string) =>
   new TRPCError({
     code: 'UNAUTHORIZED',

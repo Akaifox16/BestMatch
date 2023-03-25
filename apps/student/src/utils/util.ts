@@ -19,4 +19,31 @@ const flattenedTimerange = (
   }, [] as string[]);
 };
 
-export { titleCase, range, exhaustiveMatchingGuard, flattenedTimerange };
+const changeRange = (timerange: string[]) => {
+  return (
+    timerange
+      .map((timeStr) => {
+        const start = parseInt(timeStr);
+        // const next = parseInt(arr[idx + 1]);
+        // if (next - start !== 1) return { start, stop: start + 1 };
+        // return null;
+        return { start, stop: start + 1 };
+      })
+      // .filter((range) => range !== null)
+      .reduce((acc, range) => {
+        const prevRange = acc[acc.length - 1];
+        if (prevRange && prevRange.stop === range.start)
+          prevRange.stop = range.stop;
+        else acc.push(range);
+        return acc;
+      }, [] as { start: number; stop: number }[])
+  );
+};
+
+export {
+  titleCase,
+  range,
+  exhaustiveMatchingGuard,
+  flattenedTimerange,
+  changeRange,
+};
