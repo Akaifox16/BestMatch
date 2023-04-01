@@ -33,7 +33,7 @@ setting up database & migration
   --parallelism=1
 ```
 
-get application user & creds
+then get application user & creds
 ```bash
     OUT="../../out/pg-mgmt.out.json"
     terraform output -json user_password | jq . > ${OUT}
