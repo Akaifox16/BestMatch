@@ -7,6 +7,24 @@ package need to be installed before running application
 - [yarn](https://yarnpkg.com/getting-started/install)
 - [terraform](https://developer.hashicorp.com/terraform/downloads)
 
+next change postgres password in `terraform/postgres-manager/configs/host.tfvars`
+```
+connection = {
+  host = "localhost"
+  port = 5433
+  secret = "<your password here>"
+}
+```
+
+then copy `.env.example` and rename to be `.env`
+```
+DATABASE_URL="postgresql://postgres:<PASSWORD>@backend-db:5432/autoroommate?schema=roommate"
+APP_DB_URL="postgres://app:<PSSWORD>@backend-db:5432/autoroommate?schema=roommate"
+
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="4Hl4bM3+OpGafItfZyVCpVkhke/6J3l5fi/ar2kE86U="
+```
+
 ## Installation
 We recommend you to run this application on linux machine
 ```bash
