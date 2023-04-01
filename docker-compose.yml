@@ -21,7 +21,15 @@ services:
       - 3000:3000
     networks:
       - backend-network
+      - proxy-network
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    networks:
+      - proxy-network
 networks:
   backend-network: 
+  proxy-network:
 volumes:
   backend-db:
