@@ -18,10 +18,10 @@ connection = {
 
 then copy `.env.example` and rename to be `.env`
 ```
-DATABASE_URL="postgresql://postgres:<PASSWORD>@backend-db:5432/autoroommate?schema=roommate"
-APP_DB_URL="postgres://app:<PSSWORD>@backend-db:5432/autoroommate?schema=roommate"
+DATABASE_URL=postgresql://postgres:<host.tfvars password>@localhost:5433/autoroommate?schema=roommate
+APP_DB_URL="postgres://app:<out/pg-mgmt.out.json app.password>@backend-db:5432/autoroommate?schema=roommate"
 
-NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_URL="localhost"
 NEXTAUTH_SECRET="4Hl4bM3+OpGafItfZyVCpVkhke/6J3l5fi/ar2kE86U="
 ```
 

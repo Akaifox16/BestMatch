@@ -24,6 +24,9 @@ RUN yarn install
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 COPY .env .env
+RUN cat .env
+RUN yarn workspace @acme/database generate && \
+  sed -i "s/localhost:5433/backend-db:5432/g" .env
 
 # Uncomment and use build args to enable remote caching
 # ARG TURBO_TEAM
@@ -31,8 +34,6 @@ COPY .env .env
 
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
-
-RUN yarn workspace @acme/database run generate
 RUN yarn turbo run build --filter=student...
 
 FROM node:18-alpine AS runner

@@ -56,11 +56,12 @@ resource "random_string" "passwords" {
   for_each = var.users
 
   length  = 16
-  special = true
+  special = false
 
   min_numeric = 3
   min_upper   = 3
   min_lower   = 4
+
 }
 
 resource "postgresql_role" "users" {

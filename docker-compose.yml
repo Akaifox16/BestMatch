@@ -22,6 +22,8 @@ services:
     networks:
       - backend-network
       - proxy-network
+    depends_on:
+      - backend-db
   nginx:
     build: ./nginx
     ports:
