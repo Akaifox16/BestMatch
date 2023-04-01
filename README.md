@@ -2,13 +2,13 @@
 
 ## BootStrap
 package need to be installed before running application
-- docker
 - make
-- yarn
-- terraform
+- [docker](https://www.docker.com/)
+- [yarn](https://yarnpkg.com/getting-started/install)
+- [terraform](https://developer.hashicorp.com/terraform/downloads)
 
 ## Installation
-if you are using linux you can use following command
+We recommend you to run this application on linux machine
 ```bash
   make
 ```
