@@ -9,6 +9,7 @@ import {
   bookRoomDto,
 } from './student.dto';
 import {
+  getCalculatedWeights,
   getDormPreference,
   getPreference,
   // upsertCalculatedProfile,
@@ -74,6 +75,16 @@ export const getPreferenceController = protectedProcedure.query(
     if (!pref) throw NotFoundError("user doesn't specify preference yet");
 
     return pref;
+  }
+);
+
+export const getWeightsController = protectedProcedure.query(
+  async ({ ctx }) => {
+    const weights = await getCalculatedWeights(ctx.session.user.id);
+
+    if (!weights) throw NotFoundError('cannot find your weights');
+
+    return weights;
   }
 );
 

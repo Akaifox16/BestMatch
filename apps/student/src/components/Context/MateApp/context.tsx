@@ -15,6 +15,7 @@ const DEFAULT_ERROR_COUNT = 0 as const;
 const MatingAppMachineContext = createContext({
   state: {} as MatingAppMachineParams[0],
   send: {} as MatingAppMachineParams[1],
+  weights: {} as RouterOutputs['student']['getWeights'] | undefined,
   isLoading: true,
   generatorError: {} as ReturnType<
     typeof trpc.match.generator.useQuery
@@ -43,6 +44,15 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
     isFetching,
     error,
   } = trpc.match.generator.useQuery(undefined, {
+    retry: false,
+    refetchOnWindowFocus: false,
+    cacheTime: 0,
+  });
+  const {
+    data: weights,
+    refetch: refetchWeights,
+    isFetching: isFetchingWeights,
+  } = trpc.student.getWeights.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
     cacheTime: 0,
@@ -119,7 +129,7 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       regenerateProfile: async (): Promise<
         RouterOutputs['match']['generator']
       > => {
-        await refetch();
+        await Promise.all([refetch, refetchWeights]);
 
         if (!profileData) {
           throw new Error('cannot generate profile');
@@ -138,7 +148,13 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
 
   return (
     <MatingAppMachineContext.Provider
-      value={{ state, send, isLoading: isFetching, generatorError: error }}
+      value={{
+        state,
+        send,
+        weights,
+        isLoading: isFetching || isFetchingWeights,
+        generatorError: error,
+      }}
     >
       {children}
     </MatingAppMachineContext.Provider>
