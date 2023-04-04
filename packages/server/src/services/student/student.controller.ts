@@ -80,7 +80,11 @@ export const getPreferenceController = protectedProcedure.query(
 
 export const getWeightsController = protectedProcedure.query(
   async ({ ctx }) => {
-    const weights = await getCalculatedWeights(ctx.session.user.id);
+    const pref = await getPreference(ctx.session.user.id);
+
+    if (!pref) throw NotFoundError("you didn't specify your preference yet");
+
+    const weights = await getCalculatedWeights(pref.id);
 
     if (!weights) throw NotFoundError('cannot find your weights');
 

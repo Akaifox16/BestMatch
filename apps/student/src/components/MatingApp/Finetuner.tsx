@@ -35,7 +35,7 @@ export default function Finetune() {
     <Container>
       <Stack direction='column'>
         <Typography variant='h3'>{`your current weights: ${
-          weights ? JSON.stringify(weights) : 'not found your weights'
+          weights ? JSON.stringify([weights.messiness_weight.toFixed(3), weights.loudness_weight.toFixed(3), weights.do_not_disturb_weight.toFixed(3)]) : 'not found your weights'
         }`}</Typography>
         <Stack
           direction='row'

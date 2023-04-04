@@ -129,7 +129,8 @@ export default function MatingAppContextProvider({ children }: ParentNode) {
       regenerateProfile: async (): Promise<
         RouterOutputs['match']['generator']
       > => {
-        await Promise.all([refetch, refetchWeights]);
+        await refetch();
+        await refetchWeights();
 
         if (!profileData) {
           throw new Error('cannot generate profile');
